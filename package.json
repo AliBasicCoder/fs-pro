@@ -1,0 +1,9 @@
+{
+  "name": "fs-pro",
+  "version": "1.0.0",
+  "description": "working with files easily",
+  "main": "build/index.js",
+  "repository": "https://github.com/AliBasicCoder/fs-pro.git",
+  "author": "ali_ahmed",
+  "license": "MIT"
+}
