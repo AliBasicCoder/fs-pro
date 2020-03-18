@@ -6,17 +6,18 @@ module.exports = {
     filename: "fs-pro.min.js",
     path: path.join(__dirname, "dist"),
     libraryTarget: "commonjs",
+    globalObject: "this"
   },
   mode: "production",
   module: {
     rules: [
       {
         test: /\.ts$/,
-        use: 'ts-loader',
+        use: "ts-loader",
       },
     ],
   },
   resolve: {
-    extensions: ['.ts'],
+    extensions: [".ts"],
   }
 }
