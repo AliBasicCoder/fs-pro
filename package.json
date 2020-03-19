@@ -7,7 +7,7 @@
   "author": "ali_ahmed",
   "license": "MIT",
   "scripts": {
-    "docs": "typedoc --out ../fs-pro-docs/website && cd ../fs-pro-docs && git add . && git commit -a -m \"new version\" && git push heroku master",
+    "docs": "typedoc --out ../fs-pro-docs/website && cd ../fs-pro-docs && node minify && git add . && git commit -a -m \"new version\" && git push heroku master",
     "lint": "ts-lint src/*.ts",
     "build": "tsc"
   },
