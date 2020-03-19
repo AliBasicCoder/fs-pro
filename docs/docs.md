@@ -1,12 +1,4 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-
 - [fs-pro](#fs-pro)
-- [fs-pro](#fs-pro-1)
-  - [Usage](#usage)
-  - [Licence](#licence)
-- [fs-pro](#fs-pro-2)
   - [Index](#index)
     - [Modules](#modules)
 - [Class: Dir](#class-dir)
@@ -112,54 +104,16 @@
     - [WatchOptions](#watchoptions)
     - [obj](#obj)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-
-<a name="readmemd"></a>
-
-[fs-pro](#readmemd) › [Globals](#globalsmd)
-
-# fs-pro
-
-# fs-pro
-
-a library to work with files as objects
-
-see the full docs [here](https://alibasiccoder.github.io/fs-pro/)
-
-## Usage
-
-```js
-import { File } from "fs-pro";
-
-const file = new File("hello_world.txt");
-
-file.write("hello").append("world");
-// ...
-```
-
-## Licence
-
-copyright (c) AliBasicCoder 2020
-
-
-<a name="globalsmd"></a>
-
-[fs-pro](#readmemd) › [Globals](#globalsmd)
-
 # fs-pro
 
 ## Index
 
 ### Modules
 
-* ["dir"](#modules_dir_md)
-* ["file"](#modules_file_md)
-* ["index"](#modules_index_md)
-* ["types"](#modules_types_md)
-
-
-<a name="classes_dir_dirmd"></a>
+- ["dir"](#modules_dir_md)
+- ["file"](#modules_file_md)
+- ["index"](#modules_index_md)
+- ["types"](#modules_types_md)
 
 [fs-pro](#readmemd) › [Globals](#globalsmd) › ["dir"](#modules_dir_md) › [Dir](#classes_dir_dirmd)
 
@@ -167,194 +121,196 @@ copyright (c) AliBasicCoder 2020
 
 ## Hierarchy
 
-* **Dir**
+- **Dir**
 
 ## Index
 
 ### Constructors
 
-* [constructor](#constructor)
+- [constructor](#constructor)
 
 ### Properties
 
-* [name](#name)
-* [parentDirectory](#parentdirectory)
-* [path](#path)
-* [root](#root)
-* [watcher](#private-optional-watcher)
+- [name](#name)
+- [parentDirectory](#parentdirectory)
+- [path](#path)
+- [root](#root)
+- [watcher](#private-optional-watcher)
 
 ### Accessors
 
-* [createdAt](#createdat)
-* [lastAccessed](#lastaccessed)
-* [lastChanged](#lastchanged)
-* [lastModified](#lastmodified)
-* [size](#size)
+- [createdAt](#createdat)
+- [lastAccessed](#lastaccessed)
+- [lastChanged](#lastchanged)
+- [lastModified](#lastmodified)
+- [size](#size)
 
 ### Methods
 
-* [create](#create)
-* [createDir](#createdir)
-* [createFile](#createfile)
-* [delete](#delete)
-* [read](#read)
-* [stats](#stats)
-* [unwatch](#unwatch)
-* [watch](#watch)
+- [create](#create)
+- [createDir](#createdir)
+- [createFile](#createfile)
+- [delete](#delete)
+- [read](#read)
+- [stats](#stats)
+- [unwatch](#unwatch)
+- [watch](#watch)
 
 ## Constructors
 
-###  constructor
+### constructor
 
-\+ **new Dir**(...`args`: string[]): *[Dir](#classes_dir_dirmd)*
+\+ **new Dir**(...`args`: string[]): _[Dir](#classes_dir_dirmd)_
 
-*Defined in [src/dir.ts:45](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L45)*
+_Defined in [src/dir.ts:45](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L45)_
 
 the Dir constructor
 NOTE: the path you pass will passed to path.join
 
 **Parameters:**
 
-Name | Type | Description |
------- | ------ | ------ |
-`...args` | string[] | the path  |
+| Name      | Type     | Description |
+| --------- | -------- | ----------- |
+| `...args` | string[] | the path    |
 
-**Returns:** *[Dir](#classes_dir_dirmd)*
+**Returns:** _[Dir](#classes_dir_dirmd)_
 
 ## Properties
 
-###  name
+### name
 
-• **name**: *string*
+• **name**: _string_
 
-*Defined in [src/dir.ts:17](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L17)*
+_Defined in [src/dir.ts:17](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L17)_
 
 the name of the directory
 
-___
+---
 
-###  parentDirectory
+### parentDirectory
 
-• **parentDirectory**: *string*
+• **parentDirectory**: _string_
 
-*Defined in [src/dir.ts:23](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L23)*
+_Defined in [src/dir.ts:23](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L23)_
 
 the directory of the file
 
-___
+---
 
-###  path
+### path
 
-• **path**: *string*
+• **path**: _string_
 
-*Defined in [src/dir.ts:21](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L21)*
+_Defined in [src/dir.ts:21](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L21)_
 
 the path of the file
 
-___
+---
 
-###  root
+### root
 
-• **root**: *string*
+• **root**: _string_
 
-*Defined in [src/dir.ts:19](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L19)*
+_Defined in [src/dir.ts:19](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L19)_
 
 the root of the file
 
-___
+---
 
 ### `Private` `Optional` watcher
 
-• **watcher**? : *[ImprovedFSWatcher](#interfaces_types_improvedfswatchermd)*
+• **watcher**? : _[ImprovedFSWatcher](#interfaces_types_improvedfswatchermd)_
 
-*Defined in [src/dir.ts:25](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L25)*
+_Defined in [src/dir.ts:25](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L25)_
 
 ## Accessors
 
-###  createdAt
+### createdAt
 
-• **get createdAt**(): *Date*
+• **get createdAt**(): _Date_
 
-*Defined in [src/dir.ts:43](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L43)*
+_Defined in [src/dir.ts:43](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L43)_
 
 The timestamp indicating when the file have been created
 
-**Returns:** *Date*
+**Returns:** _Date_
 
-___
+---
 
-###  lastAccessed
+### lastAccessed
 
-• **get lastAccessed**(): *Date*
+• **get lastAccessed**(): _Date_
 
-*Defined in [src/dir.ts:31](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L31)*
+_Defined in [src/dir.ts:31](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L31)_
 
 The timestamp indicating the last time this file was accessed.
 
-**Returns:** *Date*
+**Returns:** _Date_
 
-___
+---
 
-###  lastChanged
+### lastChanged
 
-• **get lastChanged**(): *Date*
+• **get lastChanged**(): _Date_
 
-*Defined in [src/dir.ts:39](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L39)*
+_Defined in [src/dir.ts:39](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L39)_
 
 The timestamp indicating the last time this file status was changed.
 
-**Returns:** *Date*
+**Returns:** _Date_
 
-___
+---
 
-###  lastModified
+### lastModified
 
-• **get lastModified**(): *Date*
+• **get lastModified**(): _Date_
 
-*Defined in [src/dir.ts:35](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L35)*
+_Defined in [src/dir.ts:35](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L35)_
 
 The timestamp indicating the last time this file was modified.
 
-**Returns:** *Date*
+**Returns:** _Date_
 
-___
+---
 
-###  size
+### size
 
-• **get size**(): *number*
+• **get size**(): _number_
 
-*Defined in [src/dir.ts:27](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L27)*
+_Defined in [src/dir.ts:27](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L27)_
 
 the size of the file
 
-**Returns:** *number*
+**Returns:** _number_
 
 ## Methods
 
-###  create
+### create
 
-▸ **create**(): *this*
+▸ **create**(): _this_
 
-*Defined in [src/dir.ts:77](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L77)*
+_Defined in [src/dir.ts:77](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L77)_
 
 creates the directory
 example:
+
 ```js
 dir.create();
 ```
 
-**Returns:** *this*
+**Returns:** _this_
 
-___
+---
 
-###  createDir
+### createDir
 
-▸ **createDir**(`dirname`: string): *[Dir](#classes_dir_dirmd)‹›*
+▸ **createDir**(`dirname`: string): _[Dir](#classes_dir_dirmd)‹›_
 
-*Defined in [src/dir.ts:104](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L104)*
+_Defined in [src/dir.ts:104](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L104)_
 
 create a directory inside the directory
 example:
+
 ```js
 const subDir = dir.createDir("hello");
 subDir.createFile("hello_world.txt");
@@ -363,22 +319,23 @@ subDir.createFile("hello_world.txt");
 
 **Parameters:**
 
-Name | Type | Description |
------- | ------ | ------ |
-`dirname` | string | the name of the directory  |
+| Name      | Type   | Description               |
+| --------- | ------ | ------------------------- |
+| `dirname` | string | the name of the directory |
 
-**Returns:** *[Dir](#classes_dir_dirmd)‹›*
+**Returns:** _[Dir](#classes_dir_dirmd)‹›_
 
-___
+---
 
-###  createFile
+### createFile
 
-▸ **createFile**(`filename`: string): *[File](#classes_file_filemd)‹›*
+▸ **createFile**(`filename`: string): _[File](#classes_file_filemd)‹›_
 
-*Defined in [src/dir.ts:91](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L91)*
+_Defined in [src/dir.ts:91](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L91)_
 
 create a file inside the directory
 example:
+
 ```js
 const file = dir.createFile("hello_world.txt");
 file.write("hello world");
@@ -387,106 +344,103 @@ file.write("hello world");
 
 **Parameters:**
 
-Name | Type | Description |
------- | ------ | ------ |
-`filename` | string | the file you want to create  |
+| Name       | Type   | Description                 |
+| ---------- | ------ | --------------------------- |
+| `filename` | string | the file you want to create |
 
-**Returns:** *[File](#classes_file_filemd)‹›*
+**Returns:** _[File](#classes_file_filemd)‹›_
 
-___
+---
 
-###  delete
+### delete
 
-▸ **delete**(): *void*
+▸ **delete**(): _void_
 
-*Defined in [src/dir.ts:138](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L138)*
+_Defined in [src/dir.ts:138](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L138)_
 
 deletes the directory even if it's not empty
 
-**Returns:** *void*
+**Returns:** _void_
 
-___
+---
 
-###  read
+### read
 
-▸ **read**(): *string[]*
+▸ **read**(): _string[]_
 
-*Defined in [src/dir.ts:67](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L67)*
+_Defined in [src/dir.ts:67](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L67)_
 
 reads the directory
 example:
+
 ```js
-console.log(dir.read()) // => ["hello_world.txt", "file2.txt"]
+console.log(dir.read()); // => ["hello_world.txt", "file2.txt"]
 ```
 
-**Returns:** *string[]*
+**Returns:** _string[]_
 
-___
+---
 
-###  stats
+### stats
 
-▸ **stats**(): *Stats‹›*
+▸ **stats**(): _Stats‹›_
 
-*Defined in [src/dir.ts:147](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L147)*
+_Defined in [src/dir.ts:147](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L147)_
 
 get the stats of the directory @see https://nodejs.org/api/fs.html#fs_class_fs_stats
 
-**Returns:** *Stats‹›*
+**Returns:** _Stats‹›_
 
-___
+---
 
-###  unwatch
+### unwatch
 
-▸ **unwatch**(): *this*
+▸ **unwatch**(): _this_
 
-*Defined in [src/dir.ts:133](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L133)*
+_Defined in [src/dir.ts:133](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L133)_
 
 stops watching the directory
 
-**Returns:** *this*
+**Returns:** _this_
 
-___
+---
 
-###  watch
+### watch
 
-▸ **watch**(`listener`: function, `options?`: [WatchOptions](#watchoptions)): *[ImprovedFSWatcher](#interfaces_types_improvedfswatchermd)‹›*
+▸ **watch**(`listener`: function, `options?`: [WatchOptions](#watchoptions)): _[ImprovedFSWatcher](#interfaces_types_improvedfswatchermd)‹›_
 
-*Defined in [src/dir.ts:123](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L123)*
+_Defined in [src/dir.ts:123](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/dir.ts#L123)_
 
 watches the directory
 example:
+
 ```js
-dir.watch(
- (e, file) => {
-   if(e === "update")
-     console.log(`file ${file.base} have been updated`);
-   else
-     console.log(`file ${file.base} have been removed`);
- }
-)
+dir.watch((e, file) => {
+  if (e === "update") console.log(`file ${file.base} have been updated`);
+  else console.log(`file ${file.base} have been removed`);
+});
 ```
 
 **Parameters:**
 
-▪ **listener**: *function*
+▪ **listener**: _function_
 
 the function will be called when a file changes
 
-▸ (`e`: "update" | "remove", `file`: [File](#classes_file_filemd)): *any*
+▸ (`e`: "update" | "remove", `file`: [File](#classes_file_filemd)): _any_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`e` | "update" &#124; "remove" |
-`file` | [File](#classes_file_filemd) |
+| Name   | Type                         |
+| ------ | ---------------------------- |
+| `e`    | "update" &#124; "remove"     |
+| `file` | [File](#classes_file_filemd) |
 
-▪`Optional`  **options**: *[WatchOptions](#watchoptions)*
+▪`Optional` **options**: _[WatchOptions](#watchoptions)_
 
 options
 
-**Returns:** *[ImprovedFSWatcher](#interfaces_types_improvedfswatchermd)‹›*
-
+**Returns:** _[ImprovedFSWatcher](#interfaces_types_improvedfswatchermd)‹›_
 
 <a name="classes_file_filemd"></a>
 
@@ -496,218 +450,223 @@ options
 
 ## Hierarchy
 
-* **File**
+- **File**
 
 ## Index
 
 ### Constructors
 
-* [constructor](#constructor)
+- [constructor](#constructor)
 
 ### Properties
 
-* [base](#base)
-* [directory](#directory)
-* [extension](#extension)
-* [name](#name)
-* [path](#path)
-* [root](#root)
+- [base](#base)
+- [directory](#directory)
+- [extension](#extension)
+- [name](#name)
+- [path](#path)
+- [root](#root)
 
 ### Accessors
 
-* [createdAt](#createdat)
-* [lastAccessed](#lastaccessed)
-* [lastChanged](#lastchanged)
-* [lastModified](#lastmodified)
-* [size](#size)
+- [createdAt](#createdat)
+- [lastAccessed](#lastaccessed)
+- [lastChanged](#lastchanged)
+- [lastModified](#lastmodified)
+- [size](#size)
 
 ### Methods
 
-* [append](#append)
-* [copyTo](#copyto)
-* [create](#create)
-* [createReadStream](#createreadstream)
-* [createWriteStream](#createwritestream)
-* [delete](#delete)
-* [json](#json)
-* [moveTo](#moveto)
-* [read](#read)
-* [stats](#stats)
-* [unwatch](#unwatch)
-* [watch](#watch)
-* [write](#write)
+- [append](#append)
+- [copyTo](#copyto)
+- [create](#create)
+- [createReadStream](#createreadstream)
+- [createWriteStream](#createwritestream)
+- [delete](#delete)
+- [json](#json)
+- [moveTo](#moveto)
+- [read](#read)
+- [stats](#stats)
+- [unwatch](#unwatch)
+- [watch](#watch)
+- [write](#write)
 
 ## Constructors
 
-###  constructor
+### constructor
 
-\+ **new File**(...`args`: string[]): *[File](#classes_file_filemd)*
+\+ **new File**(...`args`: string[]): _[File](#classes_file_filemd)_
 
-*Defined in [src/file.ts:50](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L50)*
+_Defined in [src/file.ts:50](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L50)_
 
 the File constructor
 NOTE: the path you pass will passed to path.join
 
 **Parameters:**
 
-Name | Type | Description |
------- | ------ | ------ |
-`...args` | string[] | the path  |
+| Name      | Type     | Description |
+| --------- | -------- | ----------- |
+| `...args` | string[] | the path    |
 
-**Returns:** *[File](#classes_file_filemd)*
+**Returns:** _[File](#classes_file_filemd)_
 
 ## Properties
 
-###  base
+### base
 
-• **base**: *string*
+• **base**: _string_
 
-*Defined in [src/file.ts:24](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L24)*
+_Defined in [src/file.ts:24](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L24)_
 
 the name with the extension
 
-___
+---
 
-###  directory
+### directory
 
-• **directory**: *string*
+• **directory**: _string_
 
-*Defined in [src/file.ts:30](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L30)*
+_Defined in [src/file.ts:30](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L30)_
 
 the directory of the file
 
-___
+---
 
-###  extension
+### extension
 
-• **extension**: *string*
+• **extension**: _string_
 
-*Defined in [src/file.ts:22](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L22)*
+_Defined in [src/file.ts:22](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L22)_
 
 the extension of the file
 
-___
+---
 
-###  name
+### name
 
-• **name**: *string*
+• **name**: _string_
 
-*Defined in [src/file.ts:20](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L20)*
+_Defined in [src/file.ts:20](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L20)_
 
 the name of the file without the extension
 
-___
+---
 
-###  path
+### path
 
-• **path**: *string*
+• **path**: _string_
 
-*Defined in [src/file.ts:28](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L28)*
+_Defined in [src/file.ts:28](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L28)_
 
 the path of the file
 
-___
+---
 
-###  root
+### root
 
-• **root**: *string*
+• **root**: _string_
 
-*Defined in [src/file.ts:26](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L26)*
+_Defined in [src/file.ts:26](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L26)_
 
 the root of the file
 
 ## Accessors
 
-###  createdAt
+### createdAt
 
-• **get createdAt**(): *Date*
+• **get createdAt**(): _Date_
 
-*Defined in [src/file.ts:48](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L48)*
+_Defined in [src/file.ts:48](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L48)_
 
 The timestamp indicating when the file have been created
 
-**Returns:** *Date*
+**Returns:** _Date_
 
-___
+---
 
-###  lastAccessed
+### lastAccessed
 
-• **get lastAccessed**(): *Date*
+• **get lastAccessed**(): _Date_
 
-*Defined in [src/file.ts:36](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L36)*
+_Defined in [src/file.ts:36](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L36)_
 
 The timestamp indicating the last time this file was accessed.
 
-**Returns:** *Date*
+**Returns:** _Date_
 
-___
+---
 
-###  lastChanged
+### lastChanged
 
-• **get lastChanged**(): *Date*
+• **get lastChanged**(): _Date_
 
-*Defined in [src/file.ts:44](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L44)*
+_Defined in [src/file.ts:44](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L44)_
 
 The timestamp indicating the last time this file status was changed.
 
-**Returns:** *Date*
+**Returns:** _Date_
 
-___
+---
 
-###  lastModified
+### lastModified
 
-• **get lastModified**(): *Date*
+• **get lastModified**(): _Date_
 
-*Defined in [src/file.ts:40](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L40)*
+_Defined in [src/file.ts:40](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L40)_
 
 The timestamp indicating the last time this file was modified.
 
-**Returns:** *Date*
+**Returns:** _Date_
 
-___
+---
 
-###  size
+### size
 
-• **get size**(): *number*
+• **get size**(): _number_
 
-*Defined in [src/file.ts:32](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L32)*
+_Defined in [src/file.ts:32](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L32)_
 
 the size of the file
 
-**Returns:** *number*
+**Returns:** _number_
 
 ## Methods
 
-###  append
+### append
 
-▸ **append**(`data`: string | Buffer): *this*
+▸ **append**(`data`: string | Buffer): _this_
 
-*Defined in [src/file.ts:102](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L102)*
+_Defined in [src/file.ts:102](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L102)_
 
 append some data to the file
 example:
+
 ```js
-file.append("hello").append("world").read() // => hello world
+file
+  .append("hello")
+  .append("world")
+  .read(); // => hello world
 ```
 
 **Parameters:**
 
-Name | Type | Description |
------- | ------ | ------ |
-`data` | string &#124; Buffer | data to append  |
+| Name   | Type                 | Description    |
+| ------ | -------------------- | -------------- |
+| `data` | string &#124; Buffer | data to append |
 
-**Returns:** *this*
+**Returns:** _this_
 
-___
+---
 
-###  copyTo
+### copyTo
 
-▸ **copyTo**(`destination`: string, `isRelative`: boolean): *[File](#classes_file_filemd)‹›*
+▸ **copyTo**(`destination`: string, `isRelative`: boolean): _[File](#classes_file_filemd)‹›_
 
-*Defined in [src/file.ts:183](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L183)*
+_Defined in [src/file.ts:183](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L183)_
 
 copy the file to the destination
 example:
+
 ```js
 const newFile = file.copyTo("./some_dir");
 newFile.write("hello world");
@@ -716,99 +675,104 @@ newFile.write("hello world");
 
 **Parameters:**
 
-Name | Type | Default | Description |
------- | ------ | ------ | ------ |
-`destination` | string | - | the destination to copy the file to |
-`isRelative` | boolean | true | tells the function if the path is relative or not  |
+| Name          | Type    | Default | Description                                       |
+| ------------- | ------- | ------- | ------------------------------------------------- |
+| `destination` | string  | -       | the destination to copy the file to               |
+| `isRelative`  | boolean | true    | tells the function if the path is relative or not |
 
-**Returns:** *[File](#classes_file_filemd)‹›*
+**Returns:** _[File](#classes_file_filemd)‹›_
 
-___
+---
 
-###  create
+### create
 
-▸ **create**(): *this*
+▸ **create**(): _this_
 
-*Defined in [src/file.ts:137](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L137)*
+_Defined in [src/file.ts:137](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L137)_
 
 creates the file
 
-**Returns:** *this*
+**Returns:** _this_
 
-___
+---
 
-###  createReadStream
+### createReadStream
 
-▸ **createReadStream**(): *ReadStream‹›*
+▸ **createReadStream**(): _ReadStream‹›_
 
-*Defined in [src/file.ts:113](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L113)*
+_Defined in [src/file.ts:113](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L113)_
 
 creates a read stream for the file
 example of copying file content via streams:
+
 ```js
 fileX.createReadStream().pipe(fileY.createWriteStream());
 ```
 
-**Returns:** *ReadStream‹›*
+**Returns:** _ReadStream‹›_
 
-___
+---
 
-###  createWriteStream
+### createWriteStream
 
-▸ **createWriteStream**(): *WriteStream‹›*
+▸ **createWriteStream**(): _WriteStream‹›_
 
-*Defined in [src/file.ts:123](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L123)*
+_Defined in [src/file.ts:123](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L123)_
 
 creates a write stream for the file
 example of copying file content via streams:
+
 ```js
 fileX.createReadStream().pipe(fileY.createWriteStream());
 ```
 
-**Returns:** *WriteStream‹›*
+**Returns:** _WriteStream‹›_
 
-___
+---
 
-###  delete
+### delete
 
-▸ **delete**(): *void*
+▸ **delete**(): _void_
 
-*Defined in [src/file.ts:169](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L169)*
+_Defined in [src/file.ts:169](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L169)_
 
 delete the file
+
 ```js
 file.delete();
-fs.existsSync(file.path) // => false
+fs.existsSync(file.path); // => false
 ```
 
-**Returns:** *void*
+**Returns:** _void_
 
-___
+---
 
-###  json
+### json
 
-▸ **json**(): *any*
+▸ **json**(): _any_
 
-*Defined in [src/file.ts:133](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L133)*
+_Defined in [src/file.ts:133](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L133)_
 
 reads the file as json
 example:
+
 ```js
-JsonFile.json() // => { hello: "world" }
+JsonFile.json(); // => { hello: "world" }
 ```
 
-**Returns:** *any*
+**Returns:** _any_
 
-___
+---
 
-###  moveTo
+### moveTo
 
-▸ **moveTo**(`destination`: string, `isRelative`: boolean): *this*
+▸ **moveTo**(`destination`: string, `isRelative`: boolean): _this_
 
-*Defined in [src/file.ts:199](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L199)*
+_Defined in [src/file.ts:199](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L199)_
 
 moves the file to destination
 example:
+
 ```js
 file.moveTo("./newFile.txt");
 file.write("hello world");
@@ -817,97 +781,100 @@ file.write("hello world");
 
 **Parameters:**
 
-Name | Type | Default | Description |
------- | ------ | ------ | ------ |
-`destination` | string | - | the destination to copy the file to |
-`isRelative` | boolean | true | tells the function if the path is relative or not  |
+| Name          | Type    | Default | Description                                       |
+| ------------- | ------- | ------- | ------------------------------------------------- |
+| `destination` | string  | -       | the destination to copy the file to               |
+| `isRelative`  | boolean | true    | tells the function if the path is relative or not |
 
-**Returns:** *this*
+**Returns:** _this_
 
-___
+---
 
-###  read
+### read
 
-▸ **read**(): *Buffer‹›*
+▸ **read**(): _Buffer‹›_
 
-*Defined in [src/file.ts:91](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L91)*
+_Defined in [src/file.ts:91](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L91)_
 
 reads the file
 example:
+
 ```js
-file.read().toString() // => "hello world"
+file.read().toString(); // => "hello world"
 ```
 
-**Returns:** *Buffer‹›*
+**Returns:** _Buffer‹›_
 
-___
+---
 
-###  stats
+### stats
 
-▸ **stats**(): *Stats‹›*
+▸ **stats**(): _Stats‹›_
 
-*Defined in [src/file.ts:159](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L159)*
+_Defined in [src/file.ts:159](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L159)_
 
 gets the stats of the file @see https://nodejs.org/api/fs.html#fs_class_fs_stats
 
-**Returns:** *Stats‹›*
+**Returns:** _Stats‹›_
 
-___
+---
 
-###  unwatch
+### unwatch
 
-▸ **unwatch**(): *this*
+▸ **unwatch**(): _this_
 
-*Defined in [src/file.ts:154](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L154)*
+_Defined in [src/file.ts:154](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L154)_
 
 stops watching the file
 
-**Returns:** *this*
+**Returns:** _this_
 
-___
+---
 
-###  watch
+### watch
 
-▸ **watch**(`listener`: function): *this*
+▸ **watch**(`listener`: function): _this_
 
-*Defined in [src/file.ts:149](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L149)*
+_Defined in [src/file.ts:149](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L149)_
 
 watches the file
+
 ```js
-file.watch(function (e, filename) {
-   console.log(`the file size is: ${this.size}`);
-})
+file.watch(function(e, filename) {
+  console.log(`the file size is: ${this.size}`);
+});
 ```
 
 **Parameters:**
 
-▪ **listener**: *function*
+▪ **listener**: _function_
 
 the function the will be called when the file changes
 
-▸ (`this`: [File](#classes_file_filemd), `curr`: Stats, `prev`: Stats): *any*
+▸ (`this`: [File](#classes_file_filemd), `curr`: Stats, `prev`: Stats): _any_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`this` | [File](#classes_file_filemd) |
-`curr` | Stats |
-`prev` | Stats |
+| Name   | Type                         |
+| ------ | ---------------------------- |
+| `this` | [File](#classes_file_filemd) |
+| `curr` | Stats                        |
+| `prev` | Stats                        |
 
-**Returns:** *this*
+**Returns:** _this_
 
-___
+---
 
-###  write
+### write
 
-▸ **write**(`data`: Buffer | string | [obj](#obj)‹any›): *this*
+▸ **write**(`data`: Buffer | string | [obj](#obj)‹any›): _this_
 
-*Defined in [src/file.ts:78](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L78)*
+_Defined in [src/file.ts:78](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/file.ts#L78)_
 
 write some data into the file
 NOTE: if you pass an object it will be automatically
 convert to json
+
 ```js
 file.write("hello world");
 file.write(Buffer.from("hello world"));
@@ -916,12 +883,11 @@ file.write({ hello: "world" });
 
 **Parameters:**
 
-Name | Type | Description |
------- | ------ | ------ |
-`data` | Buffer &#124; string &#124; [obj](#obj)‹any› | the data to write  |
+| Name   | Type                                         | Description       |
+| ------ | -------------------------------------------- | ----------------- |
+| `data` | Buffer &#124; string &#124; [obj](#obj)‹any› | the data to write |
 
-**Returns:** *this*
-
+**Returns:** _this_
 
 <a name="interfaces_types_improvedfswatchermd"></a>
 
@@ -931,7 +897,7 @@ Name | Type | Description |
 
 ## Hierarchy
 
-* FSWatcher
+- FSWatcher
 
   ↳ **ImprovedFSWatcher**
 
@@ -939,712 +905,712 @@ Name | Type | Description |
 
 ### Methods
 
-* [addListener](#addlistener)
-* [close](#close)
-* [emit](#emit)
-* [eventNames](#eventnames)
-* [getMaxListeners](#getmaxlisteners)
-* [isClosed](#isclosed)
-* [listenerCount](#listenercount)
-* [listeners](#listeners)
-* [off](#off)
-* [on](#on)
-* [once](#once)
-* [prependListener](#prependlistener)
-* [prependOnceListener](#prependoncelistener)
-* [rawListeners](#rawlisteners)
-* [removeAllListeners](#removealllisteners)
-* [removeListener](#removelistener)
-* [setMaxListeners](#setmaxlisteners)
+- [addListener](#addlistener)
+- [close](#close)
+- [emit](#emit)
+- [eventNames](#eventnames)
+- [getMaxListeners](#getmaxlisteners)
+- [isClosed](#isclosed)
+- [listenerCount](#listenercount)
+- [listeners](#listeners)
+- [off](#off)
+- [on](#on)
+- [once](#once)
+- [prependListener](#prependlistener)
+- [prependOnceListener](#prependoncelistener)
+- [rawListeners](#rawlisteners)
+- [removeAllListeners](#removealllisteners)
+- [removeListener](#removelistener)
+- [setMaxListeners](#setmaxlisteners)
 
 ## Methods
 
-###  addListener
+### addListener
 
-▸ **addListener**(`event`: string, `listener`: function): *this*
+▸ **addListener**(`event`: string, `listener`: function): _this_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[addListener](#addlistener)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[addListener](#addlistener)_
 
-*Overrides void*
+_Overrides void_
 
 Defined in node_modules/@types/node/fs.d.ts:107
 
 events.EventEmitter
-  1. change
-  2. error
+
+1. change
+2. error
 
 **Parameters:**
 
-▪ **event**: *string*
+▪ **event**: _string_
 
-▪ **listener**: *function*
+▪ **listener**: _function_
 
-▸ (...`args`: any[]): *void*
+▸ (...`args`: any[]): _void_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`...args` | any[] |
+| Name      | Type  |
+| --------- | ----- |
+| `...args` | any[] |
 
-**Returns:** *this*
+**Returns:** _this_
 
-▸ **addListener**(`event`: "change", `listener`: function): *this*
+▸ **addListener**(`event`: "change", `listener`: function): _this_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[addListener](#addlistener)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[addListener](#addlistener)_
 
-*Overrides void*
+_Overrides void_
 
 Defined in node_modules/@types/node/fs.d.ts:108
 
 **Parameters:**
 
-▪ **event**: *"change"*
+▪ **event**: _"change"_
 
-▪ **listener**: *function*
+▪ **listener**: _function_
 
-▸ (`eventType`: string, `filename`: string | Buffer): *void*
+▸ (`eventType`: string, `filename`: string | Buffer): _void_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`eventType` | string |
-`filename` | string &#124; Buffer |
+| Name        | Type                 |
+| ----------- | -------------------- |
+| `eventType` | string               |
+| `filename`  | string &#124; Buffer |
 
-**Returns:** *this*
+**Returns:** _this_
 
-▸ **addListener**(`event`: "error", `listener`: function): *this*
+▸ **addListener**(`event`: "error", `listener`: function): _this_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[addListener](#addlistener)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[addListener](#addlistener)_
 
-*Overrides void*
+_Overrides void_
 
 Defined in node_modules/@types/node/fs.d.ts:109
 
 **Parameters:**
 
-▪ **event**: *"error"*
+▪ **event**: _"error"_
 
-▪ **listener**: *function*
+▪ **listener**: _function_
 
-▸ (`error`: Error): *void*
+▸ (`error`: Error): _void_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`error` | Error |
+| Name    | Type  |
+| ------- | ----- |
+| `error` | Error |
 
-**Returns:** *this*
+**Returns:** _this_
 
-▸ **addListener**(`event`: "close", `listener`: function): *this*
+▸ **addListener**(`event`: "close", `listener`: function): _this_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[addListener](#addlistener)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[addListener](#addlistener)_
 
-*Overrides void*
+_Overrides void_
 
 Defined in node_modules/@types/node/fs.d.ts:110
 
 **Parameters:**
 
-▪ **event**: *"close"*
+▪ **event**: _"close"_
 
-▪ **listener**: *function*
+▪ **listener**: _function_
 
-▸ (): *void*
+▸ (): _void_
 
-**Returns:** *this*
+**Returns:** _this_
 
-___
+---
 
-###  close
+### close
 
-▸ **close**(): *void*
+▸ **close**(): _void_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[close](#close)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[close](#close)_
 
 Defined in node_modules/@types/node/fs.d.ts:100
 
-**Returns:** *void*
+**Returns:** _void_
 
-___
+---
 
-###  emit
+### emit
 
-▸ **emit**(`event`: string | symbol, ...`args`: any[]): *boolean*
+▸ **emit**(`event`: string | symbol, ...`args`: any[]): _boolean_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[emit](#emit)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[emit](#emit)_
 
 Defined in node_modules/@types/node/globals.d.ts:557
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`event` | string &#124; symbol |
-`...args` | any[] |
+| Name      | Type                 |
+| --------- | -------------------- |
+| `event`   | string &#124; symbol |
+| `...args` | any[]                |
 
-**Returns:** *boolean*
+**Returns:** _boolean_
 
-___
+---
 
-###  eventNames
+### eventNames
 
-▸ **eventNames**(): *Array‹string | symbol›*
+▸ **eventNames**(): _Array‹string | symbol›_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[eventNames](#eventnames)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[eventNames](#eventnames)_
 
 Defined in node_modules/@types/node/globals.d.ts:562
 
-**Returns:** *Array‹string | symbol›*
+**Returns:** _Array‹string | symbol›_
 
-___
+---
 
-###  getMaxListeners
+### getMaxListeners
 
-▸ **getMaxListeners**(): *number*
+▸ **getMaxListeners**(): _number_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[getMaxListeners](#getmaxlisteners)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[getMaxListeners](#getmaxlisteners)_
 
 Defined in node_modules/@types/node/globals.d.ts:554
 
-**Returns:** *number*
+**Returns:** _number_
 
-___
+---
 
-###  isClosed
+### isClosed
 
-▸ **isClosed**(): *boolean*
+▸ **isClosed**(): _boolean_
 
-*Defined in [src/types.ts:46](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/types.ts#L46)*
+_Defined in [src/types.ts:46](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/types.ts#L46)_
 
 Returns `true` if the watcher has been closed.
 
-**Returns:** *boolean*
+**Returns:** _boolean_
 
-___
+---
 
-###  listenerCount
+### listenerCount
 
-▸ **listenerCount**(`type`: string | symbol): *number*
+▸ **listenerCount**(`type`: string | symbol): _number_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[listenerCount](#listenercount)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[listenerCount](#listenercount)_
 
 Defined in node_modules/@types/node/globals.d.ts:558
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`type` | string &#124; symbol |
+| Name   | Type                 |
+| ------ | -------------------- |
+| `type` | string &#124; symbol |
 
-**Returns:** *number*
+**Returns:** _number_
 
-___
+---
 
-###  listeners
+### listeners
 
-▸ **listeners**(`event`: string | symbol): *Function[]*
+▸ **listeners**(`event`: string | symbol): _Function[]_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[listeners](#listeners)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[listeners](#listeners)_
 
 Defined in node_modules/@types/node/globals.d.ts:555
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`event` | string &#124; symbol |
+| Name    | Type                 |
+| ------- | -------------------- |
+| `event` | string &#124; symbol |
 
-**Returns:** *Function[]*
+**Returns:** _Function[]_
 
-___
+---
 
-###  off
+### off
 
-▸ **off**(`event`: string | symbol, `listener`: function): *this*
+▸ **off**(`event`: string | symbol, `listener`: function): _this_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[off](#off)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[off](#off)_
 
 Defined in node_modules/@types/node/globals.d.ts:551
 
 **Parameters:**
 
-▪ **event**: *string | symbol*
+▪ **event**: _string | symbol_
 
-▪ **listener**: *function*
+▪ **listener**: _function_
 
-▸ (...`args`: any[]): *void*
+▸ (...`args`: any[]): _void_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`...args` | any[] |
+| Name      | Type  |
+| --------- | ----- |
+| `...args` | any[] |
 
-**Returns:** *this*
+**Returns:** _this_
 
-___
+---
 
-###  on
+### on
 
-▸ **on**(`event`: string, `listener`: function): *this*
+▸ **on**(`event`: string, `listener`: function): _this_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[on](#on)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[on](#on)_
 
-*Overrides void*
+_Overrides void_
 
 Defined in node_modules/@types/node/fs.d.ts:112
 
 **Parameters:**
 
-▪ **event**: *string*
+▪ **event**: _string_
 
-▪ **listener**: *function*
+▪ **listener**: _function_
 
-▸ (...`args`: any[]): *void*
+▸ (...`args`: any[]): _void_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`...args` | any[] |
+| Name      | Type  |
+| --------- | ----- |
+| `...args` | any[] |
 
-**Returns:** *this*
+**Returns:** _this_
 
-▸ **on**(`event`: "change", `listener`: function): *this*
+▸ **on**(`event`: "change", `listener`: function): _this_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[on](#on)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[on](#on)_
 
-*Overrides void*
+_Overrides void_
 
 Defined in node_modules/@types/node/fs.d.ts:113
 
 **Parameters:**
 
-▪ **event**: *"change"*
+▪ **event**: _"change"_
 
-▪ **listener**: *function*
+▪ **listener**: _function_
 
-▸ (`eventType`: string, `filename`: string | Buffer): *void*
+▸ (`eventType`: string, `filename`: string | Buffer): _void_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`eventType` | string |
-`filename` | string &#124; Buffer |
+| Name        | Type                 |
+| ----------- | -------------------- |
+| `eventType` | string               |
+| `filename`  | string &#124; Buffer |
 
-**Returns:** *this*
+**Returns:** _this_
 
-▸ **on**(`event`: "error", `listener`: function): *this*
+▸ **on**(`event`: "error", `listener`: function): _this_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[on](#on)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[on](#on)_
 
-*Overrides void*
+_Overrides void_
 
 Defined in node_modules/@types/node/fs.d.ts:114
 
 **Parameters:**
 
-▪ **event**: *"error"*
+▪ **event**: _"error"_
 
-▪ **listener**: *function*
+▪ **listener**: _function_
 
-▸ (`error`: Error): *void*
+▸ (`error`: Error): _void_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`error` | Error |
+| Name    | Type  |
+| ------- | ----- |
+| `error` | Error |
 
-**Returns:** *this*
+**Returns:** _this_
 
-▸ **on**(`event`: "close", `listener`: function): *this*
+▸ **on**(`event`: "close", `listener`: function): _this_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[on](#on)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[on](#on)_
 
-*Overrides void*
+_Overrides void_
 
 Defined in node_modules/@types/node/fs.d.ts:115
 
 **Parameters:**
 
-▪ **event**: *"close"*
+▪ **event**: _"close"_
 
-▪ **listener**: *function*
+▪ **listener**: _function_
 
-▸ (): *void*
+▸ (): _void_
 
-**Returns:** *this*
+**Returns:** _this_
 
-___
+---
 
-###  once
+### once
 
-▸ **once**(`event`: string, `listener`: function): *this*
+▸ **once**(`event`: string, `listener`: function): _this_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[once](#once)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[once](#once)_
 
-*Overrides void*
+_Overrides void_
 
 Defined in node_modules/@types/node/fs.d.ts:117
 
 **Parameters:**
 
-▪ **event**: *string*
+▪ **event**: _string_
 
-▪ **listener**: *function*
+▪ **listener**: _function_
 
-▸ (...`args`: any[]): *void*
+▸ (...`args`: any[]): _void_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`...args` | any[] |
+| Name      | Type  |
+| --------- | ----- |
+| `...args` | any[] |
 
-**Returns:** *this*
+**Returns:** _this_
 
-▸ **once**(`event`: "change", `listener`: function): *this*
+▸ **once**(`event`: "change", `listener`: function): _this_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[once](#once)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[once](#once)_
 
-*Overrides void*
+_Overrides void_
 
 Defined in node_modules/@types/node/fs.d.ts:118
 
 **Parameters:**
 
-▪ **event**: *"change"*
+▪ **event**: _"change"_
 
-▪ **listener**: *function*
+▪ **listener**: _function_
 
-▸ (`eventType`: string, `filename`: string | Buffer): *void*
+▸ (`eventType`: string, `filename`: string | Buffer): _void_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`eventType` | string |
-`filename` | string &#124; Buffer |
+| Name        | Type                 |
+| ----------- | -------------------- |
+| `eventType` | string               |
+| `filename`  | string &#124; Buffer |
 
-**Returns:** *this*
+**Returns:** _this_
 
-▸ **once**(`event`: "error", `listener`: function): *this*
+▸ **once**(`event`: "error", `listener`: function): _this_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[once](#once)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[once](#once)_
 
-*Overrides void*
+_Overrides void_
 
 Defined in node_modules/@types/node/fs.d.ts:119
 
 **Parameters:**
 
-▪ **event**: *"error"*
+▪ **event**: _"error"_
 
-▪ **listener**: *function*
+▪ **listener**: _function_
 
-▸ (`error`: Error): *void*
+▸ (`error`: Error): _void_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`error` | Error |
+| Name    | Type  |
+| ------- | ----- |
+| `error` | Error |
 
-**Returns:** *this*
+**Returns:** _this_
 
-▸ **once**(`event`: "close", `listener`: function): *this*
+▸ **once**(`event`: "close", `listener`: function): _this_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[once](#once)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[once](#once)_
 
-*Overrides void*
+_Overrides void_
 
 Defined in node_modules/@types/node/fs.d.ts:120
 
 **Parameters:**
 
-▪ **event**: *"close"*
+▪ **event**: _"close"_
 
-▪ **listener**: *function*
+▪ **listener**: _function_
 
-▸ (): *void*
+▸ (): _void_
 
-**Returns:** *this*
+**Returns:** _this_
 
-___
+---
 
-###  prependListener
+### prependListener
 
-▸ **prependListener**(`event`: string, `listener`: function): *this*
+▸ **prependListener**(`event`: string, `listener`: function): _this_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[prependListener](#prependlistener)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[prependListener](#prependlistener)_
 
-*Overrides void*
+_Overrides void_
 
 Defined in node_modules/@types/node/fs.d.ts:122
 
 **Parameters:**
 
-▪ **event**: *string*
+▪ **event**: _string_
 
-▪ **listener**: *function*
+▪ **listener**: _function_
 
-▸ (...`args`: any[]): *void*
+▸ (...`args`: any[]): _void_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`...args` | any[] |
+| Name      | Type  |
+| --------- | ----- |
+| `...args` | any[] |
 
-**Returns:** *this*
+**Returns:** _this_
 
-▸ **prependListener**(`event`: "change", `listener`: function): *this*
+▸ **prependListener**(`event`: "change", `listener`: function): _this_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[prependListener](#prependlistener)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[prependListener](#prependlistener)_
 
-*Overrides void*
+_Overrides void_
 
 Defined in node_modules/@types/node/fs.d.ts:123
 
 **Parameters:**
 
-▪ **event**: *"change"*
+▪ **event**: _"change"_
 
-▪ **listener**: *function*
+▪ **listener**: _function_
 
-▸ (`eventType`: string, `filename`: string | Buffer): *void*
+▸ (`eventType`: string, `filename`: string | Buffer): _void_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`eventType` | string |
-`filename` | string &#124; Buffer |
+| Name        | Type                 |
+| ----------- | -------------------- |
+| `eventType` | string               |
+| `filename`  | string &#124; Buffer |
 
-**Returns:** *this*
+**Returns:** _this_
 
-▸ **prependListener**(`event`: "error", `listener`: function): *this*
+▸ **prependListener**(`event`: "error", `listener`: function): _this_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[prependListener](#prependlistener)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[prependListener](#prependlistener)_
 
-*Overrides void*
+_Overrides void_
 
 Defined in node_modules/@types/node/fs.d.ts:124
 
 **Parameters:**
 
-▪ **event**: *"error"*
+▪ **event**: _"error"_
 
-▪ **listener**: *function*
+▪ **listener**: _function_
 
-▸ (`error`: Error): *void*
+▸ (`error`: Error): _void_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`error` | Error |
+| Name    | Type  |
+| ------- | ----- |
+| `error` | Error |
 
-**Returns:** *this*
+**Returns:** _this_
 
-▸ **prependListener**(`event`: "close", `listener`: function): *this*
+▸ **prependListener**(`event`: "close", `listener`: function): _this_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[prependListener](#prependlistener)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[prependListener](#prependlistener)_
 
-*Overrides void*
+_Overrides void_
 
 Defined in node_modules/@types/node/fs.d.ts:125
 
 **Parameters:**
 
-▪ **event**: *"close"*
+▪ **event**: _"close"_
 
-▪ **listener**: *function*
+▪ **listener**: _function_
 
-▸ (): *void*
+▸ (): _void_
 
-**Returns:** *this*
+**Returns:** _this_
 
-___
+---
 
-###  prependOnceListener
+### prependOnceListener
 
-▸ **prependOnceListener**(`event`: string, `listener`: function): *this*
+▸ **prependOnceListener**(`event`: string, `listener`: function): _this_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[prependOnceListener](#prependoncelistener)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[prependOnceListener](#prependoncelistener)_
 
-*Overrides void*
+_Overrides void_
 
 Defined in node_modules/@types/node/fs.d.ts:127
 
 **Parameters:**
 
-▪ **event**: *string*
+▪ **event**: _string_
 
-▪ **listener**: *function*
+▪ **listener**: _function_
 
-▸ (...`args`: any[]): *void*
+▸ (...`args`: any[]): _void_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`...args` | any[] |
+| Name      | Type  |
+| --------- | ----- |
+| `...args` | any[] |
 
-**Returns:** *this*
+**Returns:** _this_
 
-▸ **prependOnceListener**(`event`: "change", `listener`: function): *this*
+▸ **prependOnceListener**(`event`: "change", `listener`: function): _this_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[prependOnceListener](#prependoncelistener)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[prependOnceListener](#prependoncelistener)_
 
-*Overrides void*
+_Overrides void_
 
 Defined in node_modules/@types/node/fs.d.ts:128
 
 **Parameters:**
 
-▪ **event**: *"change"*
+▪ **event**: _"change"_
 
-▪ **listener**: *function*
+▪ **listener**: _function_
 
-▸ (`eventType`: string, `filename`: string | Buffer): *void*
+▸ (`eventType`: string, `filename`: string | Buffer): _void_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`eventType` | string |
-`filename` | string &#124; Buffer |
+| Name        | Type                 |
+| ----------- | -------------------- |
+| `eventType` | string               |
+| `filename`  | string &#124; Buffer |
 
-**Returns:** *this*
+**Returns:** _this_
 
-▸ **prependOnceListener**(`event`: "error", `listener`: function): *this*
+▸ **prependOnceListener**(`event`: "error", `listener`: function): _this_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[prependOnceListener](#prependoncelistener)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[prependOnceListener](#prependoncelistener)_
 
-*Overrides void*
+_Overrides void_
 
 Defined in node_modules/@types/node/fs.d.ts:129
 
 **Parameters:**
 
-▪ **event**: *"error"*
+▪ **event**: _"error"_
 
-▪ **listener**: *function*
+▪ **listener**: _function_
 
-▸ (`error`: Error): *void*
+▸ (`error`: Error): _void_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`error` | Error |
+| Name    | Type  |
+| ------- | ----- |
+| `error` | Error |
 
-**Returns:** *this*
+**Returns:** _this_
 
-▸ **prependOnceListener**(`event`: "close", `listener`: function): *this*
+▸ **prependOnceListener**(`event`: "close", `listener`: function): _this_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[prependOnceListener](#prependoncelistener)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[prependOnceListener](#prependoncelistener)_
 
-*Overrides void*
+_Overrides void_
 
 Defined in node_modules/@types/node/fs.d.ts:130
 
 **Parameters:**
 
-▪ **event**: *"close"*
+▪ **event**: _"close"_
 
-▪ **listener**: *function*
+▪ **listener**: _function_
 
-▸ (): *void*
+▸ (): _void_
 
-**Returns:** *this*
+**Returns:** _this_
 
-___
+---
 
-###  rawListeners
+### rawListeners
 
-▸ **rawListeners**(`event`: string | symbol): *Function[]*
+▸ **rawListeners**(`event`: string | symbol): _Function[]_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[rawListeners](#rawlisteners)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[rawListeners](#rawlisteners)_
 
 Defined in node_modules/@types/node/globals.d.ts:556
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`event` | string &#124; symbol |
+| Name    | Type                 |
+| ------- | -------------------- |
+| `event` | string &#124; symbol |
 
-**Returns:** *Function[]*
+**Returns:** _Function[]_
 
-___
+---
 
-###  removeAllListeners
+### removeAllListeners
 
-▸ **removeAllListeners**(`event?`: string | symbol): *this*
+▸ **removeAllListeners**(`event?`: string | symbol): _this_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[removeAllListeners](#removealllisteners)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[removeAllListeners](#removealllisteners)_
 
 Defined in node_modules/@types/node/globals.d.ts:552
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`event?` | string &#124; symbol |
+| Name     | Type                 |
+| -------- | -------------------- |
+| `event?` | string &#124; symbol |
 
-**Returns:** *this*
+**Returns:** _this_
 
-___
+---
 
-###  removeListener
+### removeListener
 
-▸ **removeListener**(`event`: string | symbol, `listener`: function): *this*
+▸ **removeListener**(`event`: string | symbol, `listener`: function): _this_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[removeListener](#removelistener)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[removeListener](#removelistener)_
 
 Defined in node_modules/@types/node/globals.d.ts:550
 
 **Parameters:**
 
-▪ **event**: *string | symbol*
+▪ **event**: _string | symbol_
 
-▪ **listener**: *function*
+▪ **listener**: _function_
 
-▸ (...`args`: any[]): *void*
+▸ (...`args`: any[]): _void_
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`...args` | any[] |
+| Name      | Type  |
+| --------- | ----- |
+| `...args` | any[] |
 
-**Returns:** *this*
+**Returns:** _this_
 
-___
+---
 
-###  setMaxListeners
+### setMaxListeners
 
-▸ **setMaxListeners**(`n`: number): *this*
+▸ **setMaxListeners**(`n`: number): _this_
 
-*Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[setMaxListeners](#setmaxlisteners)*
+_Inherited from [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd).[setMaxListeners](#setmaxlisteners)_
 
 Defined in node_modules/@types/node/globals.d.ts:553
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`n` | number |
+| Name | Type   |
+| ---- | ------ |
+| `n`  | number |
 
-**Returns:** *this*
-
+**Returns:** _this_
 
 <a name="modules_dir_md"></a>
 
@@ -1656,8 +1622,7 @@ Name | Type |
 
 ### Classes
 
-* [Dir](#classes_dir_dirmd)
-
+- [Dir](#classes_dir_dirmd)
 
 <a name="modules_file_md"></a>
 
@@ -1669,17 +1634,13 @@ Name | Type |
 
 ### Classes
 
-* [File](#classes_file_filemd)
-
+- [File](#classes_file_filemd)
 
 <a name="modules_index_md"></a>
 
 [fs-pro](#readmemd) › [Globals](#globalsmd) › ["index"](#modules_index_md)
 
 # Module: "index"
-
-
-
 
 <a name="modules_types_md"></a>
 
@@ -1691,41 +1652,41 @@ Name | Type |
 
 ### Interfaces
 
-* [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd)
+- [ImprovedFSWatcher](#interfaces_types_improvedfswatchermd)
 
 ### Type aliases
 
-* [WatchOptions](#watchoptions)
-* [obj](#obj)
+- [WatchOptions](#watchoptions)
+- [obj](#obj)
 
 ## Type aliases
 
-###  WatchOptions
+### WatchOptions
 
-Ƭ **WatchOptions**: *object*
+Ƭ **WatchOptions**: _object_
 
-*Defined in [src/types.ts:9](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/types.ts#L9)*
-
-#### Type declaration:
-
-* **delay**? : *undefined | number*
-
-* **encoding**? : *undefined | string*
-
-* **filter**? : *RegExp | function*
-
-* **persistent**? : *undefined | false | true*
-
-* **recursive**? : *undefined | false | true*
-
-___
-
-###  obj
-
-Ƭ **obj**: *object*
-
-*Defined in [src/types.ts:3](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/types.ts#L3)*
+_Defined in [src/types.ts:9](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/types.ts#L9)_
 
 #### Type declaration:
 
-* \[ **key**: *string*\]: T
+- **delay**? : _undefined | number_
+
+- **encoding**? : _undefined | string_
+
+- **filter**? : _RegExp | function_
+
+- **persistent**? : _undefined | false | true_
+
+- **recursive**? : _undefined | false | true_
+
+---
+
+### obj
+
+Ƭ **obj**: _object_
+
+_Defined in [src/types.ts:3](https://github.com/AliBasicCoder/fs-pro/blob/9030265/src/types.ts#L3)_
+
+#### Type declaration:
+
+- \[ **key**: _string_\]: T
