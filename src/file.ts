@@ -51,6 +51,11 @@ export class File {
   /**
    * the File constructor
    * NOTE: the path you pass will passed to path.join
+   * ```js
+   * const file = new File(__dirname, "./some.txt");
+   * file.write("hello world");
+   * // ...
+   * ```
    * @param args the path
    */
   constructor(...args: string[]) {
@@ -102,6 +107,19 @@ export class File {
   append(data: string | Buffer) {
     appendFileSync(this.path, data);
     return this;
+  }
+  /**
+   * split the file content into an array
+   * example of getting the lines of a file
+   * ```js
+   * file.splitBy("\n").forEach(console.log);
+   * ```
+   * @param splitter the string to split by
+   */
+  splitBy(splitter: string) {
+    return this.read()
+      .toString()
+      .split(splitter);
   }
   /**
    * creates a read stream for the file
