@@ -1,5 +1,17 @@
 import { join, parse } from "path";
-import { writeFileSync, readFileSync, createReadStream, createWriteStream, statSync, watchFile, Stats, unwatchFile, unlinkSync, existsSync, copyFileSync } from "fs";
+import {
+  writeFileSync,
+  readFileSync,
+  createReadStream,
+  createWriteStream,
+  statSync,
+  watchFile,
+  Stats,
+  unwatchFile,
+  unlinkSync,
+  existsSync,
+  copyFileSync
+} from "fs";
 import { obj } from "./types";
 
 export class File {
@@ -60,47 +72,46 @@ export class File {
   write(data: Buffer | string | obj<any>) {
     if (Buffer.isBuffer(data) || typeof data === "string")
       writeFileSync(this.path, data);
-    else
-      writeFileSync(this.path, JSON.stringify(data));
+    else writeFileSync(this.path, JSON.stringify(data));
     return this;
   }
-  /** 
+  /**
    * reads the file
    * example:
    * ```js
    * file.read().toString() // => "hello world"
    * ```
-  */
+   */
   read() {
     return readFileSync(this.path);
   }
-  /** 
+  /**
    * creates a read stream for the file
    * example of copying file content via streams:
    * ```js
    * fileX.createReadStream().pipe(fileY.createWriteStream());
    * ```
-  */
+   */
   createReadStream() {
     return createReadStream(this.path);
   }
-  /** 
+  /**
    * creates a write stream for the file
    * example of copying file content via streams:
    * ```js
    * fileX.createReadStream().pipe(fileY.createWriteStream());
    * ```
-  */
+   */
   createWriteStream() {
     return createWriteStream(this.path);
   }
-  /** 
+  /**
    * reads the file as json
    * example:
    * ```js
    * JsonFile.json() // => { hello: "world" }
    * ```
-  */
+   */
   json() {
     return JSON.parse(this.read().toString());
   }
@@ -130,13 +141,13 @@ export class File {
   stats() {
     return statSync(this.path);
   }
-  /** 
+  /**
    * delete the file
    * ```js
    * file.delete();
    * fs.existsSync(file.path) // => false
    * ```
-  */
+   */
   delete() {
     unlinkSync(this.path);
   }

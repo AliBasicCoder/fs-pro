@@ -1,12 +1,19 @@
 import { File } from "./file";
-import { statSync, mkdirSync, readdirSync, unlinkSync, rmdirSync, existsSync } from "fs";
+import {
+  statSync,
+  mkdirSync,
+  readdirSync,
+  unlinkSync,
+  rmdirSync,
+  existsSync
+} from "fs";
 import watch from "node-watch";
 import { parse, join } from "path";
 // will be replaced with an import from node-watch
 import { ImprovedFSWatcher, WatchOptions } from "./types";
 
 export class Dir {
-  /** the name of the directory*/
+  /** the name of the directory */
   name: string;
   /** the root of the file */
   root: string;
@@ -45,23 +52,23 @@ export class Dir {
     if (existsSync(this.path) && !this.stats().isDirectory())
       throw new Error("Err: path is not directory");
   }
-  /** 
+  /**
    * reads the directory
-   * example: 
+   * example:
    * ```js
    * console.log(dir.read()) // => ["hello_world.txt", "file2.txt"]
-   * ``` 
-  */
+   * ```
+   */
   read() {
     return readdirSync(this.path);
   }
-  /** 
+  /**
    * creates the directory
    * example:
    * ```js
    * dir.create();
    * ```
-  */
+   */
   create() {
     mkdirSync(this.path);
     return this;
@@ -77,7 +84,7 @@ export class Dir {
    * @param filename the file you want to create
    */
   createFile(filename: string) {
-    return (new File(join(this.path, filename), false)).create();
+    return new File(join(this.path, filename), false).create();
   }
   /**
    * create a directory inside the directory
@@ -90,7 +97,7 @@ export class Dir {
    * @param dirname the name of the directory
    */
   createDir(dirname: string) {
-    return (new Dir(join(this.path, dirname), false)).create();
+    return new Dir(join(this.path, dirname), false).create();
   }
   /**
    * watches the directory
@@ -108,12 +115,12 @@ export class Dir {
    * @param listener the function will be called when a file changes
    * @param options options
    */
-  watch(listener: (e: "update" | "remove", file: File) => any, options?: WatchOptions) {
-    this.watcher = watch(
-      this.path,
-      options || {},
-      (e, filename) =>
-        listener(e, new File(join(this.path, filename), false))
+  watch(
+    listener: (e: "update" | "remove", file: File) => any,
+    options?: WatchOptions
+  ) {
+    this.watcher = watch(this.path, options || {}, (e, filename) =>
+      listener(e, new File(join(this.path, filename), false))
     );
     return this.watcher;
   }
@@ -124,15 +131,11 @@ export class Dir {
   }
   /** deletes the directory even if it's not empty */
   delete() {
-    this.read().forEach(
-      fileOrDir => {
-        const pathOfIt = join(this.path, fileOrDir);
-        if (statSync(pathOfIt).isDirectory())
-          (new Dir(pathOfIt, false)).delete();
-        else
-          unlinkSync(pathOfIt);
-      }
-    );
+    this.read().forEach(fileOrDir => {
+      const pathOfIt = join(this.path, fileOrDir);
+      if (statSync(pathOfIt).isDirectory()) new Dir(pathOfIt, false).delete();
+      else unlinkSync(pathOfIt);
+    });
     rmdirSync(this.path);
   }
   /** get the stats of the directory @see https://nodejs.org/api/fs.html#fs_class_fs_stats */
