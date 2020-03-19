@@ -48,8 +48,13 @@ export class File {
   get createdAt() {
     return this.stats().birthtime;
   }
-  constructor(path: string, isRelative: boolean = true) {
-    this.path = isRelative ? join(__dirname, path) : path;
+  /**
+   * the File constructor
+   * NOTE: the path you pass will passed to path.join
+   * @param args the path
+   */
+  constructor(...args: string[]) {
+    this.path = join(...args);
     const { name, ext, dir, base, root } = parse(this.path);
     this.name = name;
     this.base = base;

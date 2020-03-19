@@ -43,8 +43,13 @@ export class Dir {
   get createdAt() {
     return this.stats().birthtime;
   }
-  constructor(path: string, isRelative: boolean = true) {
-    this.path = isRelative ? join(__dirname, path) : path;
+  /**
+   * the Dir constructor
+   * NOTE: the path you pass will passed to path.join
+   * @param args the path
+   */
+  constructor(...args: string[]) {
+    this.path = join(...args);
     const { dir, base, root } = parse(this.path);
     this.name = base;
     this.parentDirectory = dir;
@@ -84,7 +89,7 @@ export class Dir {
    * @param filename the file you want to create
    */
   createFile(filename: string) {
-    return new File(join(this.path, filename), false).create();
+    return new File(join(this.path, filename)).create();
   }
   /**
    * create a directory inside the directory
@@ -97,7 +102,7 @@ export class Dir {
    * @param dirname the name of the directory
    */
   createDir(dirname: string) {
-    return new Dir(join(this.path, dirname), false).create();
+    return new Dir(join(this.path, dirname)).create();
   }
   /**
    * watches the directory
@@ -120,7 +125,7 @@ export class Dir {
     options?: WatchOptions
   ) {
     this.watcher = watch(this.path, options || {}, (e, filename) =>
-      listener(e, new File(join(this.path, filename), false))
+      listener(e, new File(join(this.path, filename)))
     );
     return this.watcher;
   }
@@ -133,7 +138,7 @@ export class Dir {
   delete() {
     this.read().forEach(fileOrDir => {
       const pathOfIt = join(this.path, fileOrDir);
-      if (statSync(pathOfIt).isDirectory()) new Dir(pathOfIt, false).delete();
+      if (statSync(pathOfIt).isDirectory()) new Dir(pathOfIt).delete();
       else unlinkSync(pathOfIt);
     });
     rmdirSync(this.path);
