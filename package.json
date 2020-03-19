@@ -7,7 +7,7 @@
   "author": "ali_ahmed",
   "license": "MIT",
   "scripts": {
-    "docs": "typedoc --plugin typedoc-plugin-markdown && concat-md --toc --decrease-title-levels docs > docs.md &&  rimraf docs",
+    "docs": "typedoc --plugin typedoc-plugin-markdown && concat-md --toc --decrease-title-levels docs > docs/docs.md &&  rimraf docs",
     "lint": "ts-lint src/*.ts",
     "build": "tsc"
   },
