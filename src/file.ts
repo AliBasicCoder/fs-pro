@@ -10,7 +10,8 @@ import {
   unwatchFile,
   unlinkSync,
   existsSync,
-  copyFileSync
+  copyFileSync,
+  appendFileSync
 } from "fs";
 import { obj } from "./types";
 
@@ -84,6 +85,18 @@ export class File {
    */
   read() {
     return readFileSync(this.path);
+  }
+  /**
+   * append some data to the file
+   * example:
+   * ```js
+   * file.append("hello").append("world").read() // => hello world
+   * ```
+   * @param data data to append
+   */
+  append(data: string | Buffer) {
+    appendFileSync(this.path, data);
+    return this;
   }
   /**
    * creates a read stream for the file
