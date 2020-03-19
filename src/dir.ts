@@ -20,6 +20,22 @@ export class Dir {
   get size() {
     return this.stats().size;
   }
+  /** The timestamp indicating the last time this file was accessed. */
+  get lastAccessed() {
+    return this.stats().atime;
+  }
+  /** The timestamp indicating the last time this file was modified. */
+  get lastModified() {
+    return this.stats().mtime;
+  }
+  /** The timestamp indicating the last time this file status was changed. */
+  get lastChanged() {
+    return this.stats().ctime;
+  }
+  /** The timestamp indicating when the file have been created */
+  get createdAt() {
+    return this.stats().birthtime;
+  }
   constructor(path: string, isRelative: boolean = true) {
     this.path = isRelative ? join(__dirname, path) : path;
     const { dir, base, root } = parse(this.path);
@@ -29,17 +45,30 @@ export class Dir {
     if (existsSync(this.path) && !this.stats().isDirectory())
       throw new Error("Err: path is not directory");
   }
-  /** reads the directory */
+  /** 
+   * reads the directory
+   * example: 
+   * ```js
+   * console.log(dir.read()) // => ["hello_world.txt", "file2.txt"]
+   * ``` 
+  */
   read() {
     return readdirSync(this.path);
   }
-  /** creates the directory */
+  /** 
+   * creates the directory
+   * example:
+   * ```js
+   * dir.create();
+   * ```
+  */
   create() {
     mkdirSync(this.path);
     return this;
   }
   /**
    * create a file inside the directory
+   * example:
    * ```js
    * const file = dir.createFile("hello_world.txt");
    * file.write("hello world");
@@ -52,6 +81,7 @@ export class Dir {
   }
   /**
    * create a directory inside the directory
+   * example:
    * ```js
    * const subDir = dir.createDir("hello");
    * subDir.createFile("hello_world.txt");
@@ -64,6 +94,7 @@ export class Dir {
   }
   /**
    * watches the directory
+   * example:
    * ```js
    * dir.watch(
    *  (e, file) => {
@@ -104,7 +135,7 @@ export class Dir {
     );
     rmdirSync(this.path);
   }
-  /** get the stats of the directory */
+  /** get the stats of the directory @see https://nodejs.org/api/fs.html#fs_class_fs_stats */
   stats() {
     return statSync(this.path);
   }

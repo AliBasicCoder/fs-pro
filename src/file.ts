@@ -1,5 +1,5 @@
 import { join, parse } from "path";
-import { writeFileSync, readFileSync, createReadStream, createWriteStream, statSync, watchFile, Stats, unwatchFile, unlinkSync, existsSync } from "fs";
+import { writeFileSync, readFileSync, createReadStream, createWriteStream, statSync, watchFile, Stats, unwatchFile, unlinkSync, existsSync, copyFileSync } from "fs";
 import { obj } from "./types";
 
 export class File {
@@ -18,6 +18,22 @@ export class File {
   /** the size of the file */
   get size() {
     return this.stats().size;
+  }
+  /** The timestamp indicating the last time this file was accessed. */
+  get lastAccessed() {
+    return this.stats().atime;
+  }
+  /** The timestamp indicating the last time this file was modified. */
+  get lastModified() {
+    return this.stats().mtime;
+  }
+  /** The timestamp indicating the last time this file status was changed. */
+  get lastChanged() {
+    return this.stats().ctime;
+  }
+  /** The timestamp indicating when the file have been created */
+  get createdAt() {
+    return this.stats().birthtime;
   }
   constructor(path: string, isRelative: boolean = true) {
     this.path = isRelative ? join(__dirname, path) : path;
@@ -48,23 +64,47 @@ export class File {
       writeFileSync(this.path, JSON.stringify(data));
     return this;
   }
-  /** read the file */
+  /** 
+   * reads the file
+   * example:
+   * ```js
+   * file.read().toString() // => "hello world"
+   * ```
+  */
   read() {
     return readFileSync(this.path);
   }
-  /** create a read stream for the file */
+  /** 
+   * creates a read stream for the file
+   * example of copying file content via streams:
+   * ```js
+   * fileX.createReadStream().pipe(fileY.createWriteStream());
+   * ```
+  */
   createReadStream() {
     return createReadStream(this.path);
   }
-  /** create a write stream for the file */
+  /** 
+   * creates a write stream for the file
+   * example of copying file content via streams:
+   * ```js
+   * fileX.createReadStream().pipe(fileY.createWriteStream());
+   * ```
+  */
   createWriteStream() {
     return createWriteStream(this.path);
   }
-  /** read the file as json */
+  /** 
+   * reads the file as json
+   * example:
+   * ```js
+   * JsonFile.json() // => { hello: "world" }
+   * ```
+  */
   json() {
     return JSON.parse(this.read().toString());
   }
-  /** create the file */
+  /** creates the file */
   create() {
     return this.write("");
   }
@@ -86,12 +126,57 @@ export class File {
     unwatchFile(this.path);
     return this;
   }
-  /** gets the stats of the file */
+  /** gets the stats of the file @see https://nodejs.org/api/fs.html#fs_class_fs_stats */
   stats() {
     return statSync(this.path);
   }
-  /** delete the file */
+  /** 
+   * delete the file
+   * ```js
+   * file.delete();
+   * fs.existsSync(file.path) // => false
+   * ```
+  */
   delete() {
     unlinkSync(this.path);
+  }
+  /**
+   * copy the file to the destination
+   * example:
+   * ```js
+   * const newFile = file.copyTo("./some_dir");
+   * newFile.write("hello world");
+   * // ...
+   * ```
+   * @param destination the destination to copy the file to
+   * @param isRelative tells the function if the path is relative or not
+   */
+  copyTo(destination: string, isRelative: boolean = true) {
+    const dest = isRelative ? join(__dirname, destination) : destination;
+    copyFileSync(this.path, dest);
+    return new File(dest);
+  }
+  /**
+   * moves the file to destination
+   * example:
+   * ```js
+   * file.moveTo("./newFile.txt");
+   * file.write("hello world");
+   * // ...
+   * ```
+   * @param destination the destination to copy the file to
+   * @param isRelative tells the function if the path is relative or not
+   */
+  moveTo(destination: string, isRelative: boolean = true) {
+    const dest = isRelative ? join(__dirname, destination) : destination;
+    const newFile = this.copyTo(dest, false);
+    this.delete();
+    this.path = newFile.path;
+    this.base = newFile.base;
+    this.extension = newFile.extension;
+    this.name = newFile.name;
+    this.root = newFile.root;
+    this.directory = newFile.directory;
+    return this;
   }
 }
