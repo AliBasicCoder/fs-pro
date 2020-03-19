@@ -2,7 +2,7 @@
 
 a library to work with files as objects
 
-see the full docs [here](https://https://github.com/AliBasicCoder/fs-pro.git/blob/master/docs.md)
+see the full docs [here](https://github.com/AliBasicCoder/fs-pro.git/blob/master/docs/docs.md)
 
 ## Usage
 
