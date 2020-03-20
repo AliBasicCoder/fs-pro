@@ -1,15 +1,15 @@
-import { File } from "./file";
 import {
-  statSync,
+  existsSync,
   mkdirSync,
   readdirSync,
-  unlinkSync,
+  renameSync,
   rmdirSync,
-  existsSync,
-  renameSync
+  statSync,
+  unlinkSync,
 } from "fs";
 import watch from "node-watch";
-import { parse, join } from "path";
+import { join, parse } from "path";
+import { File } from "./file";
 // will be replaced with an import from node-watch
 import { ImprovedFSWatcher, WatchOptions } from "./types";
 
@@ -123,10 +123,10 @@ export class Dir {
    */
   watch(
     listener: (e: "update" | "remove", file: File) => any,
-    options?: WatchOptions
+    options?: WatchOptions,
   ) {
     this.watcher = watch(this.path, options || {}, (e, filename) =>
-      listener(e, new File(join(this.path, filename)))
+      listener(e, new File(join(this.path, filename))),
     );
     return this.watcher;
   }
@@ -210,7 +210,7 @@ export class Dir {
   rename(newName: string) {
     const newPath = join(this.path, newName);
     renameSync(this.path, newPath);
-    const { base, name, ext, dir, root } = parse(newPath);
+    const { base, dir, root } = parse(newPath);
     this.path = newPath;
     this.name = base;
     this.parentDirectory = dir;

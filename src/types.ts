@@ -2,7 +2,7 @@ import { FSWatcher } from "fs";
 
 export type obj<T> = {
   [key: string]: T;
-}
+};
 
 // copied from node-watch https://npmjs.com/package/delete
 

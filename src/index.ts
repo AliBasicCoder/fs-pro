@@ -1,5 +1,5 @@
-import { File } from "./file";
 import { Dir } from "./dir";
+import { File } from "./file";
 
 export {
   File,

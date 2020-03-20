@@ -1,19 +1,19 @@
-import { join, parse } from "path";
 import {
-  writeFileSync,
-  readFileSync,
+  appendFileSync,
+  copyFileSync,
   createReadStream,
   createWriteStream,
-  statSync,
-  watchFile,
-  Stats,
-  unwatchFile,
-  unlinkSync,
   existsSync,
-  copyFileSync,
-  appendFileSync,
-  renameSync
+  readFileSync,
+  renameSync,
+  Stats,
+  statSync,
+  unlinkSync,
+  unwatchFile,
+  watchFile,
+  writeFileSync,
 } from "fs";
+import { join, parse } from "path";
 import { obj } from "./types";
 
 export class File {
