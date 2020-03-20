@@ -1,5 +1,8 @@
 import { writeFileSync, mkdirSync } from "fs";
 import { join } from "path";
+import { File } from "./file";
+import { Dir } from "./dir";
+import { obj } from "./types";
 
 interface modelObjBase<T extends string> {
   type: T;
@@ -15,6 +18,16 @@ interface modelData {
   __any_dir?: modelDirObj;
   [key: string]: modelDirObj | modelFileObj | modelData;
 }
+
+type sw<T extends modelData> = {
+  [K in keyof T]: T[K] extends modelFileObj
+    ? File
+    : T[K] extends modelDirObj
+    ? Dir
+    : T[K] extends modelData
+    ? sw<T[K]>
+    : any;
+};
 
 const isModelFileObj = (obj: any): obj is modelFileObj => obj.type === "file";
 const isModelDirObj = (obj: any): obj is modelDirObj => obj.type === "dir";
@@ -33,6 +46,22 @@ function createAt(data: modelData, path: string) {
   }
 }
 
+function model<T extends modelData>(data: modelData, path: string): sw<T> {
+  const obj: obj<any> = {};
+  for (const key in data) {
+    const element = data[key];
+    if (key === "__any" || key === "__any_dir") continue;
+    if (isModelFileObj(element))
+      obj[key] = new File(path, `${key}${element.ext}`);
+    else if (isModelDirObj(element)) obj[key] = new Dir(path, key);
+    else {
+      obj[key] = model(element, join(path, key));
+    }
+  }
+  // @ts-ignore
+  return obj;
+}
+
 export class Model {
   public static File(ext: string): modelFileObj {
     return { type: "file", ext };
@@ -43,6 +72,10 @@ export class Model {
   }
 
   constructor(public data: modelData) {}
+
+  model<T extends modelData>(path: string): sw<T> {
+    return model<T>(this.data, path);
+  }
 
   createAt(path: string) {
     createAt(this.data, path);
