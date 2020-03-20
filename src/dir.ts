@@ -143,6 +143,58 @@ export class Dir {
     });
     rmdirSync(this.path);
   }
+  /**
+   * delete every thing (where it's a file or a folder) the matches the regex passed in
+   * ```js
+   * dir.deleteMatch(/some/); // delete every thing called some
+   * ```
+   * @param regex the regex
+   */
+  deleteMath(regex: RegExp) {
+    this.read().forEach(fileOrDir => {
+      const pathOfIt = join(this.path, fileOrDir);
+      const isDir = statSync(pathOfIt).isDirectory();
+      if (regex.test(fileOrDir)) {
+        if (isDir) new Dir(pathOfIt).delete();
+        else unlinkSync(pathOfIt);
+      } else if (isDir) {
+        new Dir(pathOfIt).deleteMath(regex);
+      }
+    });
+  }
+  /**
+   * delete every file the matches the regex passed in
+   * ```js
+   * dir.deleteMatchFile(/.*\.js$/); // delete every js file
+   * ```
+   * @param regex the regex
+   */
+  deleteMatchFile(regex: RegExp) {
+    this.read().forEach(fileOrDir => {
+      const pathOfIt = join(this.path, fileOrDir);
+      if (!regex.test(fileOrDir)) return;
+      if (statSync(pathOfIt).isDirectory())
+        new Dir(pathOfIt).deleteMatchFile(regex);
+      else unlinkSync(pathOfIt);
+    });
+  }
+  /**
+   * deletes every directory the matches the regex in the dir
+   * and sub dir
+   * ```js
+   * dir.deleteMatchDir(/node_modules/) // delete every node_modules in the dir
+   * ```
+   * @param regex the regex
+   */
+  deleteMatchDir(regex: RegExp) {
+    this.read().forEach(fileOrDir => {
+      const pathOfIt = join(this.path, fileOrDir);
+      const isDir = statSync(pathOfIt).isDirectory();
+      if (!isDir) return;
+      if (regex.test(fileOrDir)) new Dir(pathOfIt).deleteMatchDir(regex);
+      else new Dir(pathOfIt).delete();
+    });
+  }
   /** get the stats of the directory @see https://nodejs.org/api/fs.html#fs_class_fs_stats */
   stats() {
     return statSync(this.path);

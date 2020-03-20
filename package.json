@@ -6,6 +6,7 @@
   "repository": "https://github.com/AliBasicCoder/fs-pro.git",
   "author": "ali_ahmed",
   "license": "MIT",
+  "homepage": "https://fs-pro-docs.herokuapp.com",
   "scripts": {
     "docs": "typedoc --out ../fs-pro-docs/website && cd ../fs-pro-docs && node minify && git add . && git commit -a -m \"new version\" && git push heroku master",
     "lint": "ts-lint src/*.ts",
