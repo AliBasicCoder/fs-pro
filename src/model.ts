@@ -1,4 +1,3 @@
-import { writeFileSync, mkdirSync } from "fs";
 import { join } from "path";
 import { File } from "./file";
 import { Dir } from "./dir";
