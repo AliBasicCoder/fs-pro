@@ -15,10 +15,8 @@ export type modelFileObj = modelObjBase<"file"> & { ext: string };
 export type modelDirObj = modelObjBase<"dir"> & { fileType: modelFileObj };
 
 export interface modelData {
-  // @ts-ignore
-  __any?: modelFileObj;
-  // @ts-ignore
-  __any_dir?: modelDirObj;
+  // __any?: modelFileObj;
+  // __any_dir?: modelDirObj;
   [key: string]: modelDirObj | modelFileObj | modelData;
 }
 

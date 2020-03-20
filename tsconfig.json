@@ -5,6 +5,7 @@
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "types"
+    "outDir": "types",
+    "declaration": true
   }
 }

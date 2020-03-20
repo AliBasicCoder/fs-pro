@@ -1,0 +1,5 @@
+{
+  "name": "fs-pro",
+  "main": "types/index.d.ts",
+  "out": "../dist/fs-pro.d.ts"
+}
