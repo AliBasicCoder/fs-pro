@@ -11,7 +11,8 @@
     "docs": "typedoc --out ../fs-pro-docs/website && cd ../fs-pro-docs && node minify && git add . && git commit -a -m \"new version\" && git push heroku master",
     "lint": "tslint src/*.ts",
     "build": "tsc",
-    "prepublish": "yarn lint --fix && yarn docs && yarn build && git add . && git commit -a -m \"new version\" && git push origin master"
+    "git": "git add . && git commit -a -m \"new version\" && git push origin master",
+    "prepublish": "yarn lint --fix && yarn docs && yarn build"
   },
   "devDependencies": {
     "@types/node": "^13.9.1",
