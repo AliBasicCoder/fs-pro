@@ -1,8 +1,41 @@
 import { FSWatcher } from "fs";
+import { File, Dir } from "./index";
 
 export type obj<T> = {
   [key: string]: T;
 };
+
+export type objAny = obj<any>;
+
+export interface modelObjBase<T extends string> {
+  type: T;
+}
+
+export type modelFileObj = modelObjBase<"file"> & { ext: string };
+export type modelDirObj = modelObjBase<"dir"> & { fileType: modelFileObj };
+
+export interface modelData {
+  // @ts-ignore
+  __any?: modelFileObj;
+  // @ts-ignore
+  __any_dir?: modelDirObj;
+  [key: string]: modelDirObj | modelFileObj | modelData;
+}
+
+export type sw<T extends modelData> = {
+  [K in keyof T]: T[K] extends modelFileObj
+    ? File
+    : T[K] extends modelDirObj
+    ? Dir
+    : T[K] extends modelData
+    ? sw<T[K]>
+    : any;
+};
+
+export const isModelFileObj = (obj: any): obj is modelFileObj =>
+  obj.type === "file";
+export const isModelDirObj = (obj: any): obj is modelDirObj =>
+  obj.type === "dir";
 
 // copied from node-watch https://npmjs.com/package/delete
 

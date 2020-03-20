@@ -9,14 +9,15 @@
   "homepage": "https://fs-pro-docs.herokuapp.com",
   "scripts": {
     "docs": "typedoc --out ../fs-pro-docs/website && cd ../fs-pro-docs && node minify && git add . && git commit -a -m \"new version\" && git push heroku master",
-    "lint": "tslint src/*.ts",
+    "lint": "eslint src/*.ts",
     "build": "tsc",
-    "git": "git add . && git commit -a -m \"new version\" && git push origin master",
-    "prepublish": "yarn lint --fix && yarn docs && yarn build"
+    "git": "git add . && git commit -a -m \"new version\" && git push origin master"
   },
   "devDependencies": {
     "@types/node": "^13.9.1",
-    "ts-lint": "^4.5.1",
+    "@typescript-eslint/eslint-plugin": "^2.24.0",
+    "@typescript-eslint/parser": "^2.24.0",
+    "eslint": "^6.8.0",
     "typedoc": "^0.17.1",
     "typescript": "^3.8.3"
   },

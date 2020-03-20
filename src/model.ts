@@ -1,38 +1,18 @@
 import { join } from "path";
 import { File } from "./file";
 import { Dir } from "./dir";
-import { obj } from "./types";
-
-interface modelObjBase<T extends string> {
-  type: T;
-}
-
-type modelFileObj = modelObjBase<"file"> & { ext: string };
-type modelDirObj = modelObjBase<"dir"> & { fileType: modelFileObj };
-
-interface modelData {
-  // @ts-ignore
-  __any?: modelFileObj;
-  // @ts-ignore
-  __any_dir?: modelDirObj;
-  [key: string]: modelDirObj | modelFileObj | modelData;
-}
-
-type sw<T extends modelData> = {
-  [K in keyof T]: T[K] extends modelFileObj
-    ? File
-    : T[K] extends modelDirObj
-    ? Dir
-    : T[K] extends modelData
-    ? sw<T[K]>
-    : any;
-};
-
-const isModelFileObj = (obj: any): obj is modelFileObj => obj.type === "file";
-const isModelDirObj = (obj: any): obj is modelDirObj => obj.type === "dir";
+import {
+  objAny,
+  modelData,
+  sw,
+  isModelDirObj,
+  isModelFileObj,
+  modelFileObj,
+  modelDirObj
+} from "./types";
 
 function createAt<T extends modelData>(data: modelData, path: string): sw<T> {
-  const obj: obj<any> = {};
+  const obj: objAny = {};
   for (const key in data) {
     const element = data[key];
     if (key === "__any" || key === "__any_dir") continue;
@@ -48,7 +28,7 @@ function createAt<T extends modelData>(data: modelData, path: string): sw<T> {
 }
 
 function structure<T extends modelData>(data: modelData, path: string): sw<T> {
-  const obj: obj<any> = {};
+  const obj: objAny = {};
   for (const key in data) {
     const element = data[key];
     if (key === "__any" || key === "__any_dir") continue;
