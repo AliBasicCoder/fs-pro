@@ -11,7 +11,8 @@ import {
   unlinkSync,
   existsSync,
   copyFileSync,
-  appendFileSync
+  appendFileSync,
+  renameSync
 } from "fs";
 import { obj } from "./types";
 
@@ -225,5 +226,23 @@ export class File {
     this.root = newFile.root;
     this.directory = newFile.directory;
     return this;
+  }
+  /**
+   * rename the file
+   * ```js
+   * file.rename("newName.txt");
+   * ```
+   * @param newName the newName
+   */
+  rename(newName: string) {
+    const newPath = join(this.path, newName);
+    renameSync(this.path, newPath);
+    const { base, name, ext, dir, root } = parse(newPath);
+    this.path = newPath;
+    this.base = base;
+    this.name = name;
+    this.directory = dir;
+    this.extension = ext;
+    this.root = root;
   }
 }

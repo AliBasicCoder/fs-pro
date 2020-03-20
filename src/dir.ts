@@ -5,7 +5,8 @@ import {
   readdirSync,
   unlinkSync,
   rmdirSync,
-  existsSync
+  existsSync,
+  renameSync
 } from "fs";
 import watch from "node-watch";
 import { parse, join } from "path";
@@ -198,5 +199,21 @@ export class Dir {
   /** get the stats of the directory @see https://nodejs.org/api/fs.html#fs_class_fs_stats */
   stats() {
     return statSync(this.path);
+  }
+  /**
+   * rename the directory
+   * ```js
+   * dir.rename("newName.txt");
+   * ```
+   * @param newName the newName
+   */
+  rename(newName: string) {
+    const newPath = join(this.path, newName);
+    renameSync(this.path, newPath);
+    const { base, name, ext, dir, root } = parse(newPath);
+    this.path = newPath;
+    this.name = base;
+    this.parentDirectory = dir;
+    this.root = root;
   }
 }
