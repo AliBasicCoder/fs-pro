@@ -1,5 +1,6 @@
 import { FSWatcher } from "fs";
-import { File, Dir } from "./index";
+import { File } from "./file";
+import { Dir } from "./dir";
 
 export type obj<T> = {
   [key: string]: T;
