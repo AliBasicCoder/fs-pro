@@ -11,7 +11,7 @@ import {
   unlinkSync,
   unwatchFile,
   watchFile,
-  writeFileSync,
+  writeFileSync
 } from "fs";
 import { join, parse } from "path";
 import { obj } from "./types";
@@ -115,12 +115,13 @@ export class File {
    * ```js
    * file.splitBy("\n").forEach(console.log);
    * ```
-   * @param splitter the string to split by
+   * @param separator the string to split by
+   * @param limit A value used to limit the number of elements returned in the array
    */
-  splitBy(splitter: string) {
+  splitBy(separator: string | RegExp, limit?: number) {
     return this.read()
       .toString()
-      .split(splitter);
+      .split(separator, limit);
   }
   /**
    * creates a read stream for the file
