@@ -158,7 +158,7 @@ export class File {
    * NOTE: it won't modify the file content if the file exits
    */
   create() {
-    if (existsSync(this.path)) return this.write("");
+    if (!existsSync(this.path)) return this.write("");
     else return this;
   }
   /**
