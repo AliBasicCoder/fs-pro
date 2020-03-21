@@ -153,9 +153,13 @@ export class File {
   json() {
     return JSON.parse(this.read().toString());
   }
-  /** creates the file */
+  /**
+   * creates the file
+   * NOTE: it won't modify the file content if the file exits
+   */
   create() {
-    return this.write("");
+    if (existsSync(this.path)) return this.write("");
+    else return this;
   }
   /**
    * watches the file

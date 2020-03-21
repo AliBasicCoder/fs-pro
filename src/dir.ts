@@ -5,7 +5,7 @@ import {
   renameSync,
   rmdirSync,
   statSync,
-  unlinkSync,
+  unlinkSync
 } from "fs";
 import watch from "node-watch";
 import { join, parse } from "path";
@@ -76,7 +76,7 @@ export class Dir {
    * ```
    */
   create() {
-    mkdirSync(this.path);
+    if (!existsSync(this.path)) mkdirSync(this.path);
     return this;
   }
   /**
@@ -123,10 +123,10 @@ export class Dir {
    */
   watch(
     listener: (e: "update" | "remove", file: File) => any,
-    options?: WatchOptions,
+    options?: WatchOptions
   ) {
     this.watcher = watch(this.path, options || {}, (e, filename) =>
-      listener(e, new File(join(this.path, filename))),
+      listener(e, new File(join(this.path, filename)))
     );
     return this.watcher;
   }
@@ -192,8 +192,8 @@ export class Dir {
       const pathOfIt = join(this.path, fileOrDir);
       const isDir = statSync(pathOfIt).isDirectory();
       if (!isDir) return;
-      if (regex.test(fileOrDir)) new Dir(pathOfIt).deleteMatchDir(regex);
-      else new Dir(pathOfIt).delete();
+      if (regex.test(fileOrDir)) new Dir(pathOfIt).delete();
+      else new Dir(pathOfIt).deleteMatchDir(regex);
     });
   }
   /** get the stats of the directory @see https://nodejs.org/api/fs.html#fs_class_fs_stats */
@@ -208,7 +208,7 @@ export class Dir {
    * @param newName the newName
    */
   rename(newName: string) {
-    const newPath = join(this.path, newName);
+    const newPath = join(this.parentDirectory, newName);
     renameSync(this.path, newPath);
     const { base, dir, root } = parse(newPath);
     this.path = newPath;

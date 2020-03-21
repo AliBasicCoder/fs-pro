@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { File } from "../src/index";
+import { File, Dir } from "../src/index";
 import * as assert from "assert";
 import { join } from "path";
 import { EventEmitter } from "events";
@@ -134,6 +134,88 @@ describe("File", () => {
     file.delete();
     assert.equal(existsSync(file.path), false);
     rmdirSync(join(__dirname, "test2"));
+    done();
+  });
+});
+
+function checkDataDir(dir: Dir, parent: string, name: string) {
+  assert.equal(dir.path, join(parent, name));
+  assert.equal(dir.name, name);
+  assert.equal(dir.root, "/");
+  assert.equal(dir.parentDirectory, parent);
+}
+
+describe("Dir", () => {
+  const dir = new Dir(__dirname, "test3");
+  it("have right data", done => {
+    checkDataDir(dir, __dirname, "test3");
+    done();
+  });
+  it(".create()", done => {
+    dir.create();
+    assert.equal(existsSync(dir.path), true);
+    done();
+  });
+  it(".createFile()", done => {
+    const file = dir.createFile(fileIndex(4));
+    assert.equal(file instanceof File, true);
+    checkData(file, 4, dir.path);
+    assert.equal(existsSync(file.path), true);
+    done();
+  });
+  it(".createDir()", done => {
+    const newDir = dir.createDir("test4");
+    assert.equal(newDir instanceof Dir, true);
+    checkDataDir(newDir, dir.path, "test4");
+    assert.equal(existsSync(newDir.path), true);
+    done();
+  });
+  it(".read()", done => {
+    assert.deepEqual(dir.read(), [fileIndex(4), "test4"]);
+    done();
+  });
+  it(".stats()", done => {
+    assert.equal(typeof dir.stats(), "object");
+    done();
+  });
+  it(".deleteMatch()", done => {
+    dir.deleteMath(/test4/);
+    assert.equal(existsSync(join(dir.path, "test4")), false);
+    done();
+  });
+  it(".deleteMachFile()", done => {
+    dir.deleteMatchFile(/file_4/);
+    assert.equal(existsSync(join(dir.path, "file_4")), false);
+    done();
+  });
+  it(".deleteMatchDir()", done => {
+    dir.createDir("test5");
+    dir.deleteMatchDir(/test5/);
+    assert.equal(existsSync(join(dir.path, "test5")), false);
+    done();
+  });
+  it(".rename()", done => {
+    dir.rename("test6");
+    checkDataDir(dir, __dirname, "test6");
+    assert.equal(existsSync(join(__dirname, "test6")), true);
+    assert.equal(existsSync(join(__dirname, "test3")), false);
+    done();
+  });
+  // TODO: adding test for that
+  // it(".watch() .unwatch", done => {
+  //   done();
+  // });
+  it(".delete()", done => {
+    // creating a bunch of files and folders
+    const someDir1 = dir.createDir("some1");
+    const someDir2 = someDir1.createDir("some2");
+    someDir1.createFile("file1");
+    someDir1.createFile("file2");
+    someDir2.createFile("file1");
+    someDir2.createFile("file2");
+    dir.createFile("file3");
+    dir.delete();
+    assert.equal(existsSync(dir.path), false);
     done();
   });
 });
