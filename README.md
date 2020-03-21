@@ -21,19 +21,19 @@ see the full docs [here](https://fs-pro-docs.herokuapp.com/)
 via npm:
 
 ```
-npm i fs-pro
+npm i fs-pro-light
 ```
 
 via yarn:
 
 ```
-yarn add fs-pro
+yarn add fs-pro-light
 ```
 
 ## Usage
 
 ```js
-import { File, Dir } from "fs-pro";
+import { File, Dir } from "fs-pro-light";
 
 // creating a file object
 const file = new File(__dirname, "hello_world.txt");
