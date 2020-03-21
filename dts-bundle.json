@@ -1,5 +1,5 @@
 {
-  "name": "fs-pro",
+  "name": "fs-pro-light",
   "main": "types/index.d.ts",
   "out": "../dist/fs-pro.d.ts"
 }
