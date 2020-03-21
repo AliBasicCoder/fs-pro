@@ -200,8 +200,8 @@ export class File {
    * @param destination the destination to copy the file to
    * @param isRelative tells the function if the path is relative or not
    */
-  copyTo(destination: string, isRelative: boolean = true) {
-    const dest = isRelative ? join(__dirname, destination) : destination;
+  copyTo(destination: string) {
+    const dest = join(this.directory, destination);
     copyFileSync(this.path, dest);
     return new File(dest);
   }
@@ -216,16 +216,16 @@ export class File {
    * @param destination the destination to copy the file to
    * @param isRelative tells the function if the path is relative or not
    */
-  moveTo(destination: string, isRelative: boolean = true) {
-    const dest = isRelative ? join(__dirname, destination) : destination;
-    const newFile = this.copyTo(dest, false);
-    this.delete();
-    this.path = newFile.path;
-    this.base = newFile.base;
-    this.extension = newFile.extension;
-    this.name = newFile.name;
-    this.root = newFile.root;
-    this.directory = newFile.directory;
+  moveTo(destination: string) {
+    const dest = join(destination, this.base);
+    renameSync(this.path, dest);
+    const { base, ext, dir, root, name } = parse(dest);
+    this.path = dest;
+    this.base = base;
+    this.extension = ext;
+    this.name = name;
+    this.root = root;
+    this.directory = dir;
     return this;
   }
   /**
@@ -236,7 +236,7 @@ export class File {
    * @param newName the newName
    */
   rename(newName: string) {
-    const newPath = join(this.path, newName);
+    const newPath = join(this.directory, newName);
     renameSync(this.path, newPath);
     const { base, name, ext, dir, root } = parse(newPath);
     this.path = newPath;
