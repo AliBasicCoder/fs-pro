@@ -34,5 +34,14 @@
   },
   "dependencies": {
     "node-watch": "^0.6.3"
-  }
+  },
+  "keywords": [
+    "fs",
+    "file-system",
+    "watch",
+    "object",
+    "read",
+    "write",
+    "json"
+  ]
 }
