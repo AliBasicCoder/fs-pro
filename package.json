@@ -33,6 +33,7 @@
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
+    "del-symlinks": "^0.1.2",
     "node-watch": "^0.6.3"
   },
   "keywords": [
