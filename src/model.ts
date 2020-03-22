@@ -18,9 +18,10 @@ function createAt<T extends modelData>(data: modelData, path: string): sw<T> {
   for (const key in data) {
     const element = data[key];
     if (isModelFileObj(element)) {
-      obj[key] = new File(path, `${key}${element.ext}`).write(
-        element.defaultContent || ""
-      );
+      const file = new File(path, `${key}${element.ext}`).create();
+      obj[key] = file;
+      if (element.defaultContent && file.stats().size === 0)
+        file.write(element.defaultContent);
     } else if (isModelDirObj(element)) obj[key] = new Dir(path, key).create();
     else {
       obj[key] = createAt(element, join(path, key));
