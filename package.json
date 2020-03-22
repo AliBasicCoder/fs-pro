@@ -3,7 +3,7 @@
   "version": "1.0.8",
   "description": "working with files easily",
   "main": "dist/fs-pro.min.js",
-  "types": "dist/fs-pro.min.js",
+  "types": "dist/fs-pro.d.ts",
   "repository": "https://github.com/AliBasicCoder/fs-pro.git",
   "author": "ali_ahmed",
   "license": "MIT",
