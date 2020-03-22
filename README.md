@@ -48,6 +48,7 @@ see the full docs [here](https://fs-pro-docs.herokuapp.com/)
   - [unwatch](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#unwatch)
   - [watch](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#watch)
   - [write](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#write)
+  - [chmod](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#chmod)
 
 - [Dir](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html)
 
