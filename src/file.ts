@@ -261,4 +261,8 @@ export class File {
   chmod(mode: number) {
     chmodSync(this.path, mode);
   }
+  /** returns true of the file exits */
+  exits() {
+    return existsSync(this.path);
+  }
 }

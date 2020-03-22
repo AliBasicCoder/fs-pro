@@ -210,4 +210,8 @@ export class Dir {
     this.parentDirectory = dir;
     this.root = root;
   }
+  /** returns true of the file exits */
+  exits() {
+    return existsSync(this.path);
+  }
 }

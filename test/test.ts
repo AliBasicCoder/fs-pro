@@ -53,6 +53,11 @@ describe("File", () => {
     done();
   });
 
+  it(".exits()", done => {
+    assert.equal(file.exits(), existsSync(file.path));
+    done();
+  });
+
   it(".write()", done => {
     // string writes
     file.write("hello world");
@@ -154,6 +159,10 @@ describe("Dir", () => {
   it(".create()", done => {
     dir.create();
     assert.equal(existsSync(dir.path), true);
+    done();
+  });
+  it(".exits()", done => {
+    assert.equal(dir.exits(), existsSync(dir.path));
     done();
   });
   it(".createFile()", done => {
