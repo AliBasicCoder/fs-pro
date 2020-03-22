@@ -1,7 +1,8 @@
-src/*
-test/*
+.github/
+.vscode/
+src/
+test/
 .eslintrc.json
 dts-bundle.json
 tsconfig.json
-webpack.config.json
-.vscode/*
+webpack.config.js
