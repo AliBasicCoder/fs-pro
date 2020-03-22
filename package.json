@@ -1,6 +1,6 @@
 {
   "name": "fs-pro-light",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "working with files easily",
   "main": "dist/fs-pro.min.js",
   "types": "dist/fs-pro.min.js",
