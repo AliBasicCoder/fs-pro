@@ -17,20 +17,6 @@ see the full docs [here](https://fs-pro-docs.herokuapp.com/)
 - will delete the whole dir when you use the [delete](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#delete) method
 - provide advanced watching methods see [Dir.watch method](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#watch) and [File.watch method](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#watch)
 
-## Installation
-
-via npm:
-
-```
-npm i fs-pro-light
-```
-
-via yarn:
-
-```
-yarn add fs-pro-light
-```
-
 ## Api
 
 - [File](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html)
@@ -96,6 +82,20 @@ yarn add fs-pro-light
   - [structure](https://fs-pro-docs.herokuapp.com/classes/_src_model_.model.html#structure)
   - [Dir](https://fs-pro-docs.herokuapp.com/classes/_src_model_.model.html#Dir)
   - [File](https://fs-pro-docs.herokuapp.com/classes/_src_model_.model.html#File)
+
+## Installation
+
+via npm:
+
+```
+npm i fs-pro-light
+```
+
+via yarn:
+
+```
+yarn add fs-pro-light
+```
 
 ## Usage
 
