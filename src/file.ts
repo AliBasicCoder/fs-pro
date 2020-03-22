@@ -7,12 +7,13 @@ import {
   readFileSync,
   renameSync,
   Stats,
-  statSync,
-  unlinkSync,
   unwatchFile,
   watchFile,
-  writeFileSync
+  writeFileSync,
+  chmodSync
 } from "fs";
+import { unlink as unlinkSync } from "./del-safe";
+import { stat as statSync } from "./safe-stat";
 import { join, parse } from "path";
 import { obj } from "./types";
 
@@ -249,5 +250,15 @@ export class File {
     this.directory = dir;
     this.extension = ext;
     this.root = root;
+  }
+  /**
+   * changes the mode of the file
+   * ```js
+   * file.chmod(0o400 + 0o200 + 0o100); // gives the owner read, write and execute permissions
+   * ```
+   * @param mode the mode
+   */
+  chmod(mode: number) {
+    chmodSync(this.path, mode);
   }
 }

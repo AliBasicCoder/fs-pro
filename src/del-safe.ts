@@ -1,3 +1,4 @@
+// @ts-ignore
 import delSym from "del-symlinks";
 import { unlinkSync } from "fs";
 
