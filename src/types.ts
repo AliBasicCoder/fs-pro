@@ -12,7 +12,10 @@ export interface modelObjBase<T extends string> {
   type: T;
 }
 
-export type modelFileObj = modelObjBase<"file"> & { ext: string };
+export type modelFileObj = modelObjBase<"file"> & {
+  ext: string;
+  defaultContent?: string | Buffer;
+};
 export type modelDirObj = modelObjBase<"dir"> & { fileType: modelFileObj };
 
 export interface modelData {

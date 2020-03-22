@@ -1,6 +1,6 @@
 import { existsSync, mkdirSync, readdirSync, renameSync, rmdirSync } from "fs";
-import { unlink as unlinkSync } from "./del-safe";
-import { stat as statSync } from "./safe-stat";
+import { unlink as unlinkSync } from "./safe/delete";
+import { stat as statSync } from "./safe/stat";
 import watch from "node-watch";
 import { join, parse } from "path";
 import { File } from "./file";

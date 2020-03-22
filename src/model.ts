@@ -10,15 +10,18 @@ import {
   modelFileObj,
   modelDirObj
 } from "./types";
+import { mkdir as mkdirSync } from "./safe/mkdir";
 
 function createAt<T extends modelData>(data: modelData, path: string): sw<T> {
+  mkdirSync(path);
   const obj: objAny = {};
   for (const key in data) {
     const element = data[key];
-    if (key === "__any" || key === "__any_dir") continue;
-    if (isModelFileObj(element))
-      obj[key] = new File(path, `${key}${element.ext}`).create();
-    else if (isModelDirObj(element)) obj[key] = new Dir(path, key).create();
+    if (isModelFileObj(element)) {
+      obj[key] = new File(path, `${key}${element.ext}`).write(
+        element.defaultContent || ""
+      );
+    } else if (isModelDirObj(element)) obj[key] = new Dir(path, key).create();
     else {
       obj[key] = createAt(element, join(path, key));
     }
@@ -27,16 +30,18 @@ function createAt<T extends modelData>(data: modelData, path: string): sw<T> {
   return obj;
 }
 
-function structure<T extends modelData>(data: modelData, path: string): sw<T> {
+function structureCreator<T extends modelData>(
+  data: modelData,
+  path: string
+): sw<T> {
   const obj: objAny = {};
   for (const key in data) {
     const element = data[key];
-    if (key === "__any" || key === "__any_dir") continue;
     if (isModelFileObj(element))
       obj[key] = new File(path, `${key}${element.ext}`);
     else if (isModelDirObj(element)) obj[key] = new Dir(path, key);
     else {
-      obj[key] = structure(element, join(path, key));
+      obj[key] = structureCreator(element, join(path, key));
     }
   }
   // @ts-ignore
@@ -47,9 +52,13 @@ export class Model {
   /**
    * a methods represents a file
    * @param ext the extension of the file
+   * @param defaultContent the default content you the file to have when it's created
    */
-  public static File(ext: string): modelFileObj {
-    return { type: "file", ext };
+  public static File(
+    ext: string,
+    defaultContent?: Buffer | string
+  ): modelFileObj {
+    return { type: "file", ext, defaultContent };
   }
   /**
    * a methods represents a dir
@@ -90,7 +99,7 @@ export class Model {
    * @param path the path to use
    */
   structure<T extends modelData>(path: string): sw<T> {
-    return structure<T>(this.data, path);
+    return structureCreator<T>(this.data, path);
   }
 
   /**
@@ -114,6 +123,7 @@ export class Model {
    * @param path the path to create files at
    */
   createAt<T extends modelData>(path: string): sw<T> {
+    // @ts-ignore
     return createAt<T>(this.data, path);
   }
 }

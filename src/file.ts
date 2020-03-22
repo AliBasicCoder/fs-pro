@@ -12,8 +12,8 @@ import {
   writeFileSync,
   chmodSync
 } from "fs";
-import { unlink as unlinkSync } from "./del-safe";
-import { stat as statSync } from "./safe-stat";
+import { unlink as unlinkSync } from "./safe/delete";
+import { stat as statSync } from "./safe/stat";
 import { join, parse } from "path";
 import { obj } from "./types";
 

@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { File, Dir } from "../src/index";
+import { File, Dir, Model } from "../src/index";
 import * as assert from "assert";
 import { join } from "path";
 import { EventEmitter } from "events";
@@ -216,6 +216,66 @@ describe("Dir", () => {
     dir.createFile("file3");
     dir.delete();
     assert.equal(existsSync(dir.path), false);
+    done();
+  });
+});
+
+describe("Modal", () => {
+  const modelBase = {
+    dum1: {
+      dum3: Model.File(".txt"),
+      dum5: Model.Dir(Model.File(".txt"))
+    },
+    dum2: {
+      dum4: Model.File(".txt"),
+      dum6: Model.Dir(Model.File(".txt"))
+    },
+    file: Model.File(".txt", "hello world")
+  };
+  const modal = new Model(modelBase);
+
+  it(".structure()", done => {
+    const stuck = modal.structure(join(__dirname, "test9"));
+
+    for (const key in modelBase) {
+      // @ts-ignore
+      const elem = modelBase[key];
+      if (key !== "file") {
+        const keys = Object.keys(elem);
+
+        assert.equal(stuck[key][keys[0]] instanceof File, true);
+        assert.equal(stuck[key][keys[1]] instanceof Dir, true);
+      } else {
+        assert.equal(stuck[key] instanceof File, true);
+      }
+    }
+    done();
+  });
+
+  it(".createAt()", done => {
+    const stuckPath = join(__dirname, "test10");
+    modal.createAt(stuckPath);
+
+    assert.equal(stuckPath, join(__dirname, "test10"));
+    assert.equal(existsSync(stuckPath), true);
+
+    for (const key in modelBase) {
+      // @ts-ignore
+      const elem = modelBase[key];
+      if (key !== "file") {
+        const keys = Object.keys(elem);
+        const file = new File(stuckPath, `${key}/${keys[0]}.txt`);
+        const dir = new Dir(stuckPath, `${key}/${keys[1]}`);
+
+        assert.equal(existsSync(file.path), true);
+        assert.equal(existsSync(dir.path), true);
+      } else {
+        const file = new File(stuckPath, `${key}.txt`);
+        assert.equal(existsSync(file.path), true);
+        assert.equal(file.read().toString(), "hello world");
+      }
+    }
+    new Dir(stuckPath).delete();
     done();
   });
 });
