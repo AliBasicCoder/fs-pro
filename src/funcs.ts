@@ -7,6 +7,12 @@ import { readdirSync } from "fs";
 import { mkdir as mkdirSync } from "./safe/mkdir";
 import { stat } from "./safe/stat";
 
+function sliceFrom(str: string, char: string) {
+  const index = str.indexOf(char);
+  if (index === -1) return str;
+  return str.slice(0, index);
+}
+
 // functions used in model.ts
 
 export function createAt<T extends modelData>(
@@ -41,22 +47,33 @@ export function structureCreator<T extends modelData>(
 // function used in structure.ts
 export function validate(path: string, data: modelData) {
   const dir = new Dir(path);
-  const keys = Object.keys(data);
+  if (!dir.exits()) throw new Error("directory does not exits");
   dir.read().forEach(prf => {
-    const elem = data[prf];
-    if (stat(prf).isDirectory()) {
-      if (keys.indexOf(prf) === -1) throw new Error(`${prf} is not valid`);
-      else if (isModelFileObj(elem))
-        throw new Error(`${prf} supposed to be a file`);
+    // @ts-ignore
+    // prettier-ignore
+    const key = data[prf] ? prf: data[sliceFrom(prf, ".")]? sliceFrom(prf, ".") : data[prf].ext;
+    const elem = data[key];
+    const prfPath = join(path, prf);
+    if (!elem) throw new Error(`${prf} is not valid`);
+    if (stat(prfPath).isDirectory()) {
+      if (isModelFileObj(elem)) throw new Error(`${prf} supposed to be a file`);
       else if (isModelDirObj(elem)) {
-        readdirSync(join(path, prf)).forEach(thing => {
-          if (stat(join(path, prf, thing)).isDirectory())
+        readdirSync(prfPath).forEach(thing => {
+          if (stat(join(prfPath, thing)).isDirectory())
             throw new Error("invalid directory found");
-          if (new File(path, prf, thing).extension !== elem.fileType.ext)
+          if (new File(prfPath, thing).extension !== elem.fileType.ext)
             throw new Error(`file ${prf}/${thing} have a wrong extension`);
         });
       } else {
-        validate(join(path, prf), elem);
+        validate(prfPath, elem);
+      }
+    } else {
+      if (isModelDirObj(elem)) throw new Error(`${prf} suppose to be a dir`);
+      else if (isModelFileObj(elem)) {
+        if (elem.ext !== new File(prfPath).extension)
+          throw new Error(`${prf} have a wrong extension`);
+      } else {
+        throw new Error(`${prf} is invalid`);
       }
     }
   });

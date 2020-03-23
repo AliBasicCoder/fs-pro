@@ -17,7 +17,6 @@ export class Structure {
   }
 
   public static validate(data: modelData, path: string) {
-    if (!this.exits(path)) throw new Error("directory does not exits");
     validate(path, data);
   }
 

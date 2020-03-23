@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { File, Dir, Model } from "../src/index";
+import { File, Dir, Model, Structure } from "../src/index";
 import * as assert from "assert";
 import { join } from "path";
 import { EventEmitter } from "events";
@@ -12,6 +12,18 @@ import {
   rmdirSync
   //  Stats
 } from "fs";
+
+const modelBase = {
+  dum1: {
+    dum3: Model.File(".txt"),
+    dum5: Model.Dir(Model.File(".txt"))
+  },
+  dum2: {
+    dum4: Model.File(".txt"),
+    dum6: Model.Dir(Model.File(".txt"))
+  },
+  file: Model.File(".txt", "hello world")
+};
 
 function isReadableStream(test: any): boolean {
   // @ts-ignore
@@ -230,17 +242,6 @@ describe("Dir", () => {
 });
 
 describe("Modal", () => {
-  const modelBase = {
-    dum1: {
-      dum3: Model.File(".txt"),
-      dum5: Model.Dir(Model.File(".txt"))
-    },
-    dum2: {
-      dum4: Model.File(".txt"),
-      dum6: Model.Dir(Model.File(".txt"))
-    },
-    file: Model.File(".txt", "hello world")
-  };
   const modal = new Model(modelBase);
 
   it(".structure()", done => {
@@ -286,5 +287,27 @@ describe("Modal", () => {
     }
     new Dir(stuckPath).delete();
     done();
+  });
+});
+
+it("Structure", () => {
+  // ignored because the Model.createAt method
+  // uses the same function the this method uses
+  // it(".create()", done => { });
+  describe(".valid()", () => {
+    it("a valid one", done => {
+      const path = join(__dirname, "test11");
+      new Model(modelBase).createAt(path);
+      assert.equal(Structure.valid(modelBase, path), true);
+      new Dir(path).delete();
+      done();
+    });
+    it("an invalid one", done => {
+      const dir = new Dir(__dirname, "test12").create();
+      dir.createDir("dum3").createFile("dum34");
+      assert.equal(Structure.valid(modelBase, dir.path), false);
+      dir.delete();
+      done();
+    });
   });
 });
