@@ -106,7 +106,7 @@ yarn add fs-pro-light
 ## Usage
 
 ```js
-import { File, Dir } from "fs-pro-light";
+import { File, Dir, Model, Structure } from "fs-pro-light";
 
 // creating a file object
 const file = new File(__dirname, "hello_world.txt");
@@ -130,6 +130,33 @@ dir
   // creating a file in the directory (this create a file object)
   .createFile("text.txt")
 // and there's much more in the docs
+
+// the schema for the Model
+const modalBase = {
+  // an object means that this is a dir containing the props
+  dumyDir: {
+    // Modal.File means the this is a file that have
+    // the file arg as the extension (.txt)
+    // and the second for the default content
+    // of the file (hello world)
+    dumyFile: Model.File(".txt", "hello world")
+  },
+  // Modal.Dir means that it's a directory containing
+  // files of the type passed in
+  dirOfTxt: Modal.Dir(Modal.File(".txt")),
+};
+
+// the actual model
+const model = new Model(modelBase);
+
+const structure = modal.structure<typeof modalBase>(path.join(__dirname, "dir"));
+
+Structure.create(path.join(__dirname, "dir"), , {
+  onCreateFile(file: File){
+    console.log(chalk.green("CREATE"), file.path);
+  }
+});
+
 ```
 
 ## Licence

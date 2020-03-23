@@ -1,8 +1,21 @@
 import { modelData, sw, createOptions } from "./types";
-import { existsSync } from "fs";
 import { create, validate } from "./funcs";
 
 export class Structure {
+  /**
+   * creates the structure
+   * example
+   * ```js
+   * Structure.create(path, stuck, {
+   *  onCreateFile(file){
+   *    console.log(chalk.green("CREATE"), file.path);
+   *  }
+   * })
+   * ```
+   * @param path the you want to create the structure in
+   * @param stuck the structure
+   * @param options options
+   */
   public static create(
     path: string,
     stuck: sw<modelData>,
@@ -12,14 +25,21 @@ export class Structure {
     return this;
   }
 
-  public static exits(path: string) {
-    return existsSync(path);
-  }
-
+  /**
+   * makes sure that a given directory matches a given
+   * model
+   * NOTE: throws an error if the directory is not valid see .valid()
+   * ```js
+   * Structure.validate(model.data, dirToValidate);
+   * ````
+   * @param data the model data you want to validate passed on
+   * @param path the path of the file you want to validate
+   */
   public static validate(data: modelData, path: string) {
     validate(path, data);
   }
 
+  /** the same as .validate() but don't throw an error and returns a boolean */
   public static valid(data: modelData, path: string) {
     try {
       this.validate(data, path);
