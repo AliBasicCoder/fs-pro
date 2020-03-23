@@ -7,6 +7,7 @@ import { File } from "./file";
 // will be replaced with an import from node-watch
 import { ImprovedFSWatcher, WatchOptions } from "./types";
 
+/** the File Class is used to help you work with files */
 export class Dir {
   /** the name of the directory */
   name: string;

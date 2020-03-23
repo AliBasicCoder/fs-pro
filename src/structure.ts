@@ -8,9 +8,9 @@ export class Structure {
    * example
    * ```js
    * Structure.create(path, stuck, {
-   *  onCreateFile(file){
-   *    console.log(chalk.green("CREATE"), file.path);
-   *  }
+   *   onCreateFile (file) {
+   *     console.log(chalk.green("CREATE"), file.path);
+   *   }
    * })
    * ```
    * @param path the you want to create the structure in

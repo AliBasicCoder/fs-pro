@@ -17,6 +17,7 @@ import { stat as statSync } from "./safe/stat";
 import { join, parse } from "path";
 import { obj } from "./types";
 
+/** the File Class is used to help you work with files */
 export class File {
   /** the name of the file without the extension */
   name: string;

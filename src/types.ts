@@ -40,8 +40,11 @@ export const isModelDirObj = (obj: any): obj is modelDirObj =>
   obj.type === "dir";
 
 export interface createOptions {
+  /** called when any thing is created wether it's a file or a directory */
   onCreate: (obj: File | Dir) => any;
+  /** called when any file is created */
   onCreateFile: (obj: Dir) => any;
+  /** called when any directory is created  */
   onCreateDir: (obj: Dir) => any;
 }
 
