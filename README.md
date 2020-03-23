@@ -81,13 +81,18 @@ see the full docs [here](https://fs-pro-docs.herokuapp.com/)
   - [watch](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#watch)
 
 - [Model](https://fs-pro-docs.herokuapp.com/classes/_src_model_.model.html)
+
   - [constructor](https://fs-pro-docs.herokuapp.com/classes/_src_model_.model.html#constructor)
   - [data](https://fs-pro-docs.herokuapp.com/classes/_src_model_.model.html#data)
   - [createAt](https://fs-pro-docs.herokuapp.com/classes/_src_model_.model.html#createAt)
   - [structure](https://fs-pro-docs.herokuapp.com/classes/_src_model_.model.html#structure)
   - [Dir](https://fs-pro-docs.herokuapp.com/classes/_src_model_.model.html#Dir)
   - [File](https://fs-pro-docs.herokuapp.com/classes/_src_model_.model.html#File)
-  - [exits](https://fs-pro-docs.herokuapp.com/classes/_src_model_.model.html#exits)
+
+- [Structure](https://fs-pro-docs.herokuapp.com/classes/_src_structure_.structure.html)
+  - [create](https://fs-pro-docs.herokuapp.com/classes/_src_structure_.structure.html#create)
+  - [valid](https://fs-pro-docs.herokuapp.com/classes/_src_structure_.structure.html#valid)
+  - [validate](https://fs-pro-docs.herokuapp.com/classes/_src_structure_.structure.html#validate)
 
 ## Installation
 
