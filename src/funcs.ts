@@ -1,10 +1,10 @@
 import { modelData, sw, objAny, isModelFileObj, isModelDirObj } from "./types";
 import { createOptions } from "./types";
-import { Structure } from "./structure";
 import { Dir } from "./dir";
 import { File } from "./file";
 import { join } from "path";
 import { readdirSync } from "fs";
+import { mkdir as mkdirSync } from "./safe/mkdir";
 import { stat } from "./safe/stat";
 
 // functions used in model.ts
@@ -15,7 +15,7 @@ export function createAt<T extends modelData>(
   options?: Partial<createOptions>
 ): sw<T> {
   const stuck = structureCreator<T>(data, path);
-  Structure.create(stuck, options);
+  create(path, stuck, options);
   return stuck;
 }
 
@@ -26,9 +26,10 @@ export function structureCreator<T extends modelData>(
   const obj: objAny = {};
   for (const key in data) {
     const element = data[key];
-    if (isModelFileObj(element))
+    if (isModelFileObj(element)) {
       obj[key] = new File(path, `${key}${element.ext}`);
-    else if (isModelDirObj(element)) obj[key] = new Dir(path, key);
+      obj[key].defaultContent = element.defaultContent;
+    } else if (isModelDirObj(element)) obj[key] = new Dir(path, key);
     else {
       obj[key] = structureCreator(element, join(path, key));
     }
@@ -70,7 +71,12 @@ const defaultOptions: createOptions = {
   onCreateDir: noop
 };
 
-export function create(stuck: sw<modelData>, options?: Partial<createOptions>) {
+export function create(
+  path: string,
+  stuck: sw<modelData>,
+  options?: Partial<createOptions>
+) {
+  mkdirSync(path);
   const op = Object.assign({}, defaultOptions, options || {});
   for (const key in stuck) {
     if (stuck[key] instanceof File) {
@@ -82,7 +88,7 @@ export function create(stuck: sw<modelData>, options?: Partial<createOptions>) {
       op.onCreate(stuck[key]);
       op.onCreateDir(stuck[key]);
     } else {
-      create(stuck[key]);
+      create(join(path, key), stuck[key], options);
     }
   }
 }

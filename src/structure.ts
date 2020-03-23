@@ -3,8 +3,12 @@ import { existsSync } from "fs";
 import { create, validate } from "./funcs";
 
 export class Structure {
-  public static create(stuck: sw<modelData>, options?: Partial<createOptions>) {
-    create(stuck, options);
+  public static create(
+    path: string,
+    stuck: sw<modelData>,
+    options?: Partial<createOptions>
+  ) {
+    create(path, stuck, options);
     return this;
   }
 

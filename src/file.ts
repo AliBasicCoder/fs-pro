@@ -30,6 +30,8 @@ export class File {
   path: string;
   /** the directory of the file */
   directory: string;
+  /** the default content of the file written when you call .create() */
+  defaultContent?: string | Buffer;
   /** the size of the file */
   get size() {
     return this.stats().size;
@@ -156,10 +158,11 @@ export class File {
   }
   /**
    * creates the file
-   * NOTE: it won't modify the file content if the file exits
+   * NOTE: it won't modify the file content if the file exits and will write
+   * the defaultContent property if exits
    */
   create() {
-    if (!existsSync(this.path)) return this.write("");
+    if (!existsSync(this.path)) return this.write(this.defaultContent || "");
     else return this;
   }
   /**
