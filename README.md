@@ -149,9 +149,19 @@ const modalBase = {
 // the actual model
 const model = new Model(modelBase);
 
+// structures are objects the have the same shape
+// of the object you passed to the Model constructor
+// except every Modal.File will be a File object
+// every thing else will be a Dir object
 const structure = modal.structure<typeof modalBase>(path.join(__dirname, "dir"));
 
-Structure.create(path.join(__dirname, "dir"), , {
+structure.dirOfTxT instanceof Dir === true;
+
+// the Structure class is a set of tools to
+// work with structures
+// here we're creating the structure in the path passed
+Structure.create(path.join(__dirname, "dir"), structure, {
+  // this function will be called every time a file is created
   onCreateFile(file: File){
     console.log(chalk.green("CREATE"), file.path);
   }

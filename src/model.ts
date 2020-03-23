@@ -7,6 +7,7 @@ import {
 } from "./types";
 import { createAt, structureCreator } from "./funcs";
 
+/** the Model Class is used to create model objects that are used to create structures */
 export class Model {
   /**
    * a methods represents a file

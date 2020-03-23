@@ -1,6 +1,7 @@
 import { modelData, sw, createOptions } from "./types";
 import { create, validate } from "./funcs";
 
+/** the Structure Class is a set of tools help you work with structures */
 export class Structure {
   /**
    * creates the structure
