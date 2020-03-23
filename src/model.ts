@@ -1,53 +1,11 @@
-import { join } from "path";
-import { File } from "./file";
-import { Dir } from "./dir";
 import {
-  objAny,
   modelData,
   sw,
-  isModelDirObj,
-  isModelFileObj,
   modelFileObj,
-  modelDirObj
+  modelDirObj,
+  createOptions
 } from "./types";
-import { mkdir as mkdirSync } from "./safe/mkdir";
-
-function createAt<T extends modelData>(data: modelData, path: string): sw<T> {
-  mkdirSync(path);
-  const obj: objAny = {};
-  for (const key in data) {
-    const element = data[key];
-    if (isModelFileObj(element)) {
-      const file = new File(path, `${key}${element.ext}`).create();
-      obj[key] = file;
-      if (element.defaultContent && file.stats().size === 0)
-        file.write(element.defaultContent);
-    } else if (isModelDirObj(element)) obj[key] = new Dir(path, key).create();
-    else {
-      obj[key] = createAt(element, join(path, key));
-    }
-  }
-  // @ts-ignore
-  return obj;
-}
-
-function structureCreator<T extends modelData>(
-  data: modelData,
-  path: string
-): sw<T> {
-  const obj: objAny = {};
-  for (const key in data) {
-    const element = data[key];
-    if (isModelFileObj(element))
-      obj[key] = new File(path, `${key}${element.ext}`);
-    else if (isModelDirObj(element)) obj[key] = new Dir(path, key);
-    else {
-      obj[key] = structureCreator(element, join(path, key));
-    }
-  }
-  // @ts-ignore
-  return obj;
-}
+import { createAt, structureCreator } from "./funcs";
 
 export class Model {
   /**
@@ -123,8 +81,11 @@ export class Model {
    * ```
    * @param path the path to create files at
    */
-  createAt<T extends modelData>(path: string): sw<T> {
+  createAt<T extends modelData>(
+    path: string,
+    options?: Partial<createOptions>
+  ): sw<T> {
     // @ts-ignore
-    return createAt<T>(this.data, path);
+    return createAt<T>(this.data, path, options);
   }
 }

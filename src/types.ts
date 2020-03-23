@@ -39,6 +39,12 @@ export const isModelFileObj = (obj: any): obj is modelFileObj =>
 export const isModelDirObj = (obj: any): obj is modelDirObj =>
   obj.type === "dir";
 
+export interface createOptions {
+  onCreate: (obj: File | Dir) => any;
+  onCreateFile: (obj: Dir) => any;
+  onCreateDir: (obj: Dir) => any;
+}
+
 // copied from node-watch https://npmjs.com/package/delete
 
 export type WatchOptions = {
