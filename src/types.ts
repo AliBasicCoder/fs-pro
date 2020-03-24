@@ -1,6 +1,7 @@
 import { FSWatcher } from "fs";
 import { File } from "./file";
 import { Dir } from "./dir";
+import { fsProErr } from "./fsProErr";
 
 export type obj<T> = {
   [key: string]: T;
@@ -46,6 +47,15 @@ export interface createOptions {
   onCreateFile: (obj: Dir) => any;
   /** called when any directory is created  */
   onCreateDir: (obj: Dir) => any;
+}
+
+export interface validateOptions {
+  /** called when an invalid file found */
+  onInvalidFile: (err: fsProErr, file: File) => any;
+  /** called when an invalid directory found */
+  onInvalidDir: (err: fsProErr, dir: Dir) => any;
+  /** called when an invalid file or directory found */
+  onInvalid: (err: fsProErr, fileOrDir: File | Dir) => any;
 }
 
 // copied from node-watch https://npmjs.com/package/delete

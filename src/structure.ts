@@ -1,4 +1,4 @@
-import { modelData, sw, createOptions } from "./types";
+import { modelData, sw, createOptions, validateOptions } from "./types";
 import { create, validate } from "./funcs";
 
 /** the Structure Class is a set of tools help you work with structures */
@@ -35,9 +35,14 @@ export class Structure {
    * ````
    * @param data the model data you want to validate passed on
    * @param path the path of the file you want to validate
+   * @param options functions to call on errors
    */
-  public static validate(data: modelData, path: string) {
-    validate(path, data);
+  public static validate(
+    data: modelData,
+    path: string,
+    options?: Partial<validateOptions>
+  ) {
+    validate(path, data, options);
   }
 
   /** the same as .validate() but don't throw an error and returns a boolean */

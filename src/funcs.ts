@@ -1,4 +1,11 @@
-import { modelData, sw, objAny, isModelFileObj, isModelDirObj } from "./types";
+import {
+  modelData,
+  sw,
+  objAny,
+  isModelFileObj,
+  isModelDirObj,
+  validateOptions
+} from "./types";
 import { createOptions } from "./types";
 import { Dir } from "./dir";
 import { File } from "./file";
@@ -7,6 +14,21 @@ import { readdirSync } from "fs";
 import { mkdir as mkdirSync } from "./safe/mkdir";
 import { stat } from "./safe/stat";
 import { fsProErr } from "./fsProErr";
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const noop = (...args: any[]) => null;
+
+const createDefaultOptions: createOptions = {
+  onCreate: noop,
+  onCreateFile: noop,
+  onCreateDir: noop
+};
+
+const validateDefaultOptions: validateOptions = {
+  onInvalid: noop,
+  onInvalidDir: noop,
+  onInvalidFile: noop
+};
 
 function sliceFrom(str: string, char: string) {
   const index = str.indexOf(char);
@@ -46,49 +68,77 @@ export function structureCreator<T extends modelData>(
 }
 
 // function used in structure.ts
-export function validate(path: string, data: modelData) {
+export function validate(
+  path: string,
+  data: modelData,
+  options?: Partial<validateOptions>
+) {
   const dir = new Dir(path);
-  if (!dir.exits()) throw new fsProErr("DDE", path);
+  const op = Object.assign({}, validateDefaultOptions, options || {});
+  function regErr(err: fsProErr) {
+    if (typeof options === "undefined") throw err;
+    if (err.code === "STD" || err.code === "WE" || err.code === "IFF") {
+      op.onInvalidFile(err, new File(err.path));
+      op.onInvalid(err, new File(err.path));
+    } else if (err.code === "STF" || err.code === "IDF") {
+      op.onInvalidDir(err, new Dir(err.path));
+      op.onInvalid(err, new Dir(err.path));
+    } else {
+      op.onInvalid(
+        err,
+        stat(err.path).isDirectory() ? new Dir(err.path) : new File(err.path)
+      );
+    }
+  }
+  if (!dir.exits()) {
+    regErr(new fsProErr("DDE", path));
+    return;
+  }
   dir.read().forEach(prf => {
     // @ts-ignore
     // prettier-ignore
     const key = data[prf] ? prf: data[sliceFrom(prf, ".")]? sliceFrom(prf, ".") : data[prf].ext;
     const elem = data[key];
     const prfPath = join(path, prf);
-    if (!elem) throw new fsProErr("IN", prfPath);
+    if (!elem) {
+      regErr(new fsProErr("IN", prfPath));
+      return;
+    }
     if (stat(prfPath).isDirectory()) {
-      if (isModelFileObj(elem)) throw new fsProErr("STF", prfPath);
-      else if (isModelDirObj(elem)) {
+      if (isModelFileObj(elem)) {
+        regErr(new fsProErr("STF", prfPath));
+        return;
+      } else if (isModelDirObj(elem)) {
         readdirSync(prfPath).forEach(thing => {
           const thingPath = join(prfPath, thing);
-          if (stat(thingPath).isDirectory())
-            throw new fsProErr("IN", thingPath);
-          if (new File(thingPath).extension !== elem.fileType.ext)
-            throw new fsProErr("WE", thingPath);
+          if (stat(thingPath).isDirectory()) {
+            regErr(new fsProErr("IN", thingPath));
+            return;
+          }
+          if (new File(thingPath).extension !== elem.fileType.ext) {
+            regErr(new fsProErr("WE", thingPath));
+            return;
+          }
         });
       } else {
-        validate(prfPath, elem);
+        validate(prfPath, elem, options);
       }
     } else {
-      if (isModelDirObj(elem)) throw new fsProErr("STD", prfPath);
-      else if (isModelFileObj(elem)) {
-        if (elem.ext !== new File(prfPath).extension)
-          throw new fsProErr("WE", prfPath);
+      if (isModelDirObj(elem)) {
+        regErr(new fsProErr("STD", prfPath));
+        return;
+      } else if (isModelFileObj(elem)) {
+        if (elem.ext !== new File(prfPath).extension) {
+          regErr(new fsProErr("WE", prfPath));
+          return;
+        }
       } else {
-        throw new fsProErr("IN", prfPath);
+        regErr(new fsProErr("IN", prfPath));
+        return;
       }
     }
   });
 }
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const noop = (...args: any[]) => null;
-
-const defaultOptions: createOptions = {
-  onCreate: noop,
-  onCreateFile: noop,
-  onCreateDir: noop
-};
 
 export function create(
   path: string,
@@ -96,7 +146,7 @@ export function create(
   options?: Partial<createOptions>
 ) {
   mkdirSync(path);
-  const op = Object.assign({}, defaultOptions, options || {});
+  const op = Object.assign({}, createDefaultOptions, options || {});
   for (const key in stuck) {
     if (stuck[key] instanceof File) {
       stuck[key].create();
