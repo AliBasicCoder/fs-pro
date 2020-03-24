@@ -6,6 +6,7 @@ import { join } from "path";
 import { readdirSync } from "fs";
 import { mkdir as mkdirSync } from "./safe/mkdir";
 import { stat } from "./safe/stat";
+import { fsProErr } from "./fsProErr";
 
 function sliceFrom(str: string, char: string) {
   const index = str.indexOf(char);
@@ -47,33 +48,34 @@ export function structureCreator<T extends modelData>(
 // function used in structure.ts
 export function validate(path: string, data: modelData) {
   const dir = new Dir(path);
-  if (!dir.exits()) throw new Error("directory does not exits");
+  if (!dir.exits()) throw new fsProErr("DDE", path);
   dir.read().forEach(prf => {
     // @ts-ignore
     // prettier-ignore
     const key = data[prf] ? prf: data[sliceFrom(prf, ".")]? sliceFrom(prf, ".") : data[prf].ext;
     const elem = data[key];
     const prfPath = join(path, prf);
-    if (!elem) throw new Error(`${prf} is not valid`);
+    if (!elem) throw new fsProErr("IN", prfPath);
     if (stat(prfPath).isDirectory()) {
-      if (isModelFileObj(elem)) throw new Error(`${prf} supposed to be a file`);
+      if (isModelFileObj(elem)) throw new fsProErr("STF", prfPath);
       else if (isModelDirObj(elem)) {
         readdirSync(prfPath).forEach(thing => {
-          if (stat(join(prfPath, thing)).isDirectory())
-            throw new Error("invalid directory found");
-          if (new File(prfPath, thing).extension !== elem.fileType.ext)
-            throw new Error(`file ${prf}/${thing} have a wrong extension`);
+          const thingPath = join(prfPath, thing);
+          if (stat(thingPath).isDirectory())
+            throw new fsProErr("IN", thingPath);
+          if (new File(thingPath).extension !== elem.fileType.ext)
+            throw new fsProErr("WE", thingPath);
         });
       } else {
         validate(prfPath, elem);
       }
     } else {
-      if (isModelDirObj(elem)) throw new Error(`${prf} suppose to be a dir`);
+      if (isModelDirObj(elem)) throw new fsProErr("STD", prfPath);
       else if (isModelFileObj(elem)) {
         if (elem.ext !== new File(prfPath).extension)
-          throw new Error(`${prf} have a wrong extension`);
+          throw new fsProErr("WE", prfPath);
       } else {
-        throw new Error(`${prf} is invalid`);
+        throw new fsProErr("IN", prfPath);
       }
     }
   });

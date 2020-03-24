@@ -6,6 +6,7 @@ import { join, parse } from "path";
 import { File } from "./file";
 // will be replaced with an import from node-watch
 import { ImprovedFSWatcher, WatchOptions } from "./types";
+import { fsProErr } from "./fsProErr";
 
 /** the File Class is used to help you work with files */
 export class Dir {
@@ -51,7 +52,7 @@ export class Dir {
     this.parentDirectory = dir;
     this.root = root;
     if (existsSync(this.path) && !this.stats().isDirectory())
-      throw new Error("Err: path is not directory");
+      throw new fsProErr("STD", this.path);
   }
   /**
    * reads the directory

@@ -16,6 +16,7 @@ import { unlink as unlinkSync } from "./safe/delete";
 import { stat as statSync } from "./safe/stat";
 import { join, parse } from "path";
 import { obj } from "./types";
+import { fsProErr } from "./fsProErr";
 
 /** the File Class is used to help you work with files */
 export class File {
@@ -72,7 +73,7 @@ export class File {
     this.directory = dir;
     this.root = root;
     if (existsSync(this.path) && this.stats().isDirectory())
-      throw new Error("Err: path is not file");
+      throw new fsProErr("STF", this.path);
   }
   /**
    * write some data into the file
