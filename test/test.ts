@@ -83,12 +83,29 @@ describe("File", () => {
     assert.equal(readFileSync(file.path, "utf8"), JSON.stringify(obj));
     done();
   });
-  it(".read()", done => {
-    assert.equal(file.read().toString(), JSON.stringify({ hello: "world" }));
-    done();
-  });
   it(".json()", done => {
     assert.deepEqual(file.json(), { hello: "world" });
+    done();
+  });
+  it(".read()", done => {
+    assert.equal(file.read().toString(), JSON.stringify({ hello: "world" }));
+    file.write("some\nline\nthing");
+    let res = "";
+    file.read("\n", (str, i) => (res += `${i + 1}| ${str}\n`));
+    assert.equal(res, "1| some\n2| line\n3| thing\n");
+    done();
+  });
+  it(".overwrite()", done => {
+    file.overwrite("\n", (str, i) => `${i + 1}| ${str}\n`);
+    assert.equal(file.read().toString(), "1| some\n2| line\n3| thing\n");
+    done();
+  });
+  it(".getIndex", done => {
+    assert.equal(file.getIndex("\n", 0), "1| some");
+    done();
+  });
+  it(".getIndexBetween", done => {
+    assert.deepEqual(file.getIndexBetween("\n", 0, 1), ["1| some"]);
     done();
   });
   it(".append()", done => {

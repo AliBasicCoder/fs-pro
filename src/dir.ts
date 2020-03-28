@@ -199,7 +199,7 @@ export class Dir {
   /**
    * rename the directory
    * ```js
-   * dir.rename("newName.txt");
+   * dir.rename("newName");
    * ```
    * @param newName the newName
    */

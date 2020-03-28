@@ -97,10 +97,18 @@ export class File {
    * example:
    * ```js
    * file.read().toString() // => "hello world"
+   * // or
+   * // this will print the line index followed by "| "
+   * file.read("\n", (str, i) => console.log(`${i}| ${str}`))
    * ```
    */
-  read() {
-    return readFileSync(this.path);
+  read(splitter: string, callback: (str: string, index: number) => void): this;
+  read(): Buffer;
+  read(splitter?: string, callback?: (str: string, index: number) => void) {
+    if (splitter && callback) {
+      this.splitBy(splitter).forEach(callback);
+      return this;
+    } else return readFileSync(this.path);
   }
   /**
    * append some data to the file
@@ -113,6 +121,49 @@ export class File {
   append(data: string | Buffer) {
     appendFileSync(this.path, data);
     return this;
+  }
+  /**
+   * overwrites the file by splitting it's
+   * content with the splitter
+   * ```js
+   * file.overwrite("\n", (str, i) => `${i}| ${str}`);
+   * ```
+   * @param splitter the string to split the file by
+   * @param callback the callback
+   */
+  overwrite(
+    splitter: string,
+    callback: (str: string, index: number) => string
+  ) {
+    let res = "";
+    this.splitBy(splitter).forEach((str, index) => {
+      res += callback(str, index);
+    });
+    this.write(res);
+    return this;
+  }
+  /**
+   * gets the item by the index
+   * ```js
+   * file.getIndex("\n", 24) // gets the line 24
+   * ```
+   * @param splitter the splitter string
+   * @param index the index
+   */
+  getIndex(splitter: string, index: number) {
+    return this.splitBy(splitter)[index];
+  }
+  /**
+   * get the index between two numbers
+   * ```js
+   * file.getIndexBetween("\n", 10, 13) // gets the lines between line 10 and 13 (not including 13)
+   * ```
+   * @param splitter the splitter
+   * @param start the start index
+   * @param end the end index
+   */
+  getIndexBetween(splitter: string, start: number, end?: number) {
+    return this.splitBy(splitter).slice(start, end);
   }
   /**
    * split the file content into an array
@@ -160,11 +211,12 @@ export class File {
   }
   /**
    * creates the file
-   * NOTE: it won't modify the file content if the file exits and will write
+   * NOTE: it won't modify the file content if the file exits and not empty and will write
    * the defaultContent property if exits
    */
   create() {
-    if (!existsSync(this.path)) return this.write(this.defaultContent || "");
+    if (!this.exits()) return this.write(this.defaultContent || "");
+    else if (this.size === 0) return this.write(this.defaultContent || "");
     else return this;
   }
   /**

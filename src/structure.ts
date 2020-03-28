@@ -32,7 +32,7 @@ export class Structure {
    * NOTE: throws an error if the directory is not valid see .valid()
    * ```js
    * Structure.validate(model.data, dirToValidate);
-   * ````
+   * ```
    * @param data the model data you want to validate passed on
    * @param path the path of the file you want to validate
    * @param options functions to call on errors
