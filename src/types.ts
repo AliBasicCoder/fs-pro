@@ -2,6 +2,8 @@ import { FSWatcher } from "fs";
 import { File } from "./file";
 import { Dir } from "./dir";
 import { fsProErr } from "./fsProErr";
+import { Model } from "./model";
+import { Structure } from "./structure";
 
 export type obj<T> = {
   [key: string]: T;
@@ -47,6 +49,24 @@ export interface createOptions {
   onCreateFile: (obj: Dir) => any;
   /** called when any directory is created  */
   onCreateDir: (obj: Dir) => any;
+}
+
+export interface PluginData<A, B> {
+  methodName: string;
+  isStatic: boolean;
+  className: A;
+  func: (this: B, ...args: any[]) => any;
+}
+
+export interface Plugin {
+  name: string;
+  requires?: Plugin[];
+  plugin: (
+    | PluginData<"File", File>
+    | PluginData<"Dir", Dir>
+    | PluginData<"Model", Model>
+    | PluginData<"Structure", Structure>
+  )[];
 }
 
 export interface validateOptions {
