@@ -1,10 +1,25 @@
-// import { File } from "./file";
-// import { Dir } from "./dir";
-// import { Model } from "./model";
-// import { Structure } from "./structure";
 import * as index from "./index";
 import { Plugin } from "./types";
 
+/**
+ * adds plugins to the core library
+ * plugins is a way to add methods to the core class like File, Dir, etc...
+ * ```js
+ * addPlugin({
+ *   name: "xml",
+ *   plugin: [
+ *     {
+ *       methodName: "xml",
+ *       func: function(compact: boolean = true, spaces: number = 2) {
+ *         return xmlJs.xml2json(this.read(), { compact, spaces });
+ *       },
+ *       className: "File",
+ *       isStatic: false
+ *     }]
+ *  });
+ * ```
+ * @param pluginWrapper the plugin
+ */
 export function addPlugin(pluginWrapper: Plugin) {
   const { requires, plugin } = pluginWrapper;
   if (requires) {
