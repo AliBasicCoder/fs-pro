@@ -50,17 +50,27 @@ export interface createOptions {
   /** called when any directory is created  */
   onCreateDir: (obj: Dir) => any;
 }
-
+/**
+ * @param A the className
+ * @param B the actual class type
+ */
 export interface PluginData<A, B> {
+  /** the name of the method */
   methodName: string;
+  /** if true will add the method to the static ones */
   isStatic: boolean;
+  /** the class to add to it */
   className: A;
+  /** the actual method (use the function keyword) */
   func: (this: B, ...args: any[]) => any;
 }
-
+/** the Plugin interface */
 export interface Plugin {
+  /** the name of the plugin */
   name: string;
+  /** any required plugins (will be loaded by order passed) */
   requires?: Plugin[];
+  /** the actual plugin */
   plugin: (
     | PluginData<"File", File>
     | PluginData<"Dir", Dir>

@@ -12,13 +12,19 @@ see the full docs [here](https://fs-pro-docs.herokuapp.com/)
 
 ## Features
 
-- you don't to get the path of the file every single time you want to do something with it
+- you don't have to get the path of the file or directory every single time you want to do something with it
 - Strong typed and documented in the code
 - provides a method to parse json files [.json\(\)](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#json)
 - object will be automatically be stringified to json when you use the [write](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#write) method
 - have a file structure system see [Model Class](https://fs-pro-docs.herokuapp.com/classes/_src_model_.model.html)
 - will delete the whole dir when you use the [delete](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#delete) method
 - provide advanced watching methods see [Dir.watch method](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#watch) and [File.watch method](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#watch)
+- you could add or overwrite any method you like on any class you like via plugins see [addPlugin](https://fs-pro-docs.herokuapp.com/modules/_src_pluginadder_.html#addplugin)
+
+## plugins
+
+- [xml-fpl-plugin](https://www.npmjs.com/package/xml-fpl-plugin)
+  a plugin that adds .xml() method that parses xml to js objects
 
 ## Api
 
@@ -92,9 +98,12 @@ see the full docs [here](https://fs-pro-docs.herokuapp.com/)
   - [File](https://fs-pro-docs.herokuapp.com/classes/_src_model_.model.html#File)
 
 - [Structure](https://fs-pro-docs.herokuapp.com/classes/_src_structure_.structure.html)
+
   - [create](https://fs-pro-docs.herokuapp.com/classes/_src_structure_.structure.html#create)
   - [valid](https://fs-pro-docs.herokuapp.com/classes/_src_structure_.structure.html#valid)
   - [validate](https://fs-pro-docs.herokuapp.com/classes/_src_structure_.structure.html#validate)
+
+- [addPlugin](https://fs-pro-docs.herokuapp.com/modules/_src_pluginadder_.html#addplugin)
 
 ## Installation
 
