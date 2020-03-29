@@ -168,6 +168,11 @@ describe("File", () => {
   it(".delete()", done => {
     file.delete();
     assert.equal(existsSync(file.path), false);
+    if (process.platform === "win32") {
+      new Dir(__dirname, "test2").delete();
+      done();
+      return;
+    }
     rmdirSync(join(__dirname, "test2"));
     done();
   });

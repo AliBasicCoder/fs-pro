@@ -255,7 +255,7 @@ export class File {
    * copy the file to the destination
    * example:
    * ```js
-   * const newFile = file.copyTo("./some_dir");
+   * const newFile = file.copyTo(`some_dir/${file.base}`);
    * newFile.write("hello world");
    * // ...
    * ```
@@ -271,7 +271,7 @@ export class File {
    * moves the file to destination
    * example:
    * ```js
-   * file.moveTo("./newFile.txt");
+   * file.moveTo("some_dir");
    * file.write("hello world");
    * // ...
    * ```
