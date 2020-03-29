@@ -12,6 +12,7 @@ import {
   rmdirSync
   //  Stats
 } from "fs";
+import { parse } from "path";
 
 const modelBase = {
   dum1: {
@@ -47,7 +48,7 @@ const checkData = (file: File, index: number, someDir?: string) => {
   assert.equal(file.name, fileIndex(index));
   assert.equal(file.extension, "");
   assert.equal(file.base, fileIndex(index));
-  assert.equal(file.root, "/");
+  assert.equal(file.root, parse(__dirname).root);
   assert.equal(file.directory, someDir || __dirname);
 };
 
