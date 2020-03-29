@@ -362,5 +362,6 @@ it("addPlugin", done => {
   assert.equal(typeof File.st, "function");
   // @ts-ignore
   assert.equal(File.st(), "hello there");
+  file.delete();
   done();
 });
