@@ -176,7 +176,7 @@ describe("File", () => {
 function checkDataDir(dir: Dir, parent: string, name: string) {
   assert.equal(dir.path, join(parent, name));
   assert.equal(dir.name, name);
-  assert.equal(dir.root, "/");
+  assert.equal(dir.root, parse(__dirname).root);
   assert.equal(dir.parentDirectory, parent);
 }
 
