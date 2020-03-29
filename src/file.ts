@@ -206,7 +206,7 @@ export class File {
    * JsonFile.json() // => { hello: "world" }
    * ```
    */
-  json() {
+  json<T extends obj<any> | any[]>(): T {
     return JSON.parse(this.read().toString());
   }
   /**

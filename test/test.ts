@@ -212,6 +212,13 @@ describe("Dir", () => {
     assert.deepEqual(dir.read(), [fileIndex(4), "test4"]);
     done();
   });
+  it(".readResolve()", done => {
+    assert.deepEqual(dir.readResolve(), [
+      new File(dir.path, fileIndex(4)),
+      new Dir(dir.path, "test4")
+    ]);
+    done();
+  });
   it(".stats()", done => {
     assert.equal(typeof dir.stats(), "object");
     done();

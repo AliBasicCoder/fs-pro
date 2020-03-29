@@ -65,6 +65,19 @@ export class Dir {
     return readdirSync(this.path);
   }
   /**
+   * reads te directory and convert it to File an Dir objects
+   * ```js
+   * dir.readResolve().forEach(console.log);
+   * ```
+   */
+  readResolve() {
+    return this.read().map(path => {
+      const neededPath = join(this.path, path);
+      if (statSync(neededPath).isDirectory()) return new Dir(neededPath);
+      else return new File(neededPath);
+    });
+  }
+  /**
    * creates the directory
    * example:
    * ```js
