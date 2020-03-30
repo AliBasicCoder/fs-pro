@@ -9,7 +9,7 @@
   "license": "MIT",
   "homepage": "https://fs-pro-docs.herokuapp.com",
   "scripts": {
-    "docs": "typedoc --out ../fs-pro-docs/website && cd ../fs-pro-docs && node minify && curl http://fs-pro-docs.herokuapp.com/record.json > record.json && git add . && git commit -a -m \"new version\" && git push heroku master",
+    "docs": "typedoc --out ../fs-pro-docs/website && cd ../fs-pro-docs && node minify && curl http://fs-pro-docs.herokuapp.com/record.json > record.json && git add . && git commit -a -m \"new version\" && git push origin master",
     "lint": "eslint src/*.ts",
     "build": "webpack && dts-bundle --configJson dts-bundle.json && rimraf types",
     "git": "git add . && git commit -a -m \"new version\" && git push origin master",
