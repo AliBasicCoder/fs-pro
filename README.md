@@ -19,7 +19,7 @@ see the full docs [here](https://fs-pro-docs.herokuapp.com/)
 - have a file structure system see [Model Class](https://fs-pro-docs.herokuapp.com/classes/_src_model_.model.html)
 - will delete the whole dir when you use the [delete](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#delete) method
 - provide advanced watching methods see [Dir.watch method](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#watch) and [File.watch method](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#watch)
-- you could add or overwrite any method you like on any class you like via plugins see [addPlugin](https://fs-pro-docs.herokuapp.com/modules/_src_pluginadder_.html#addplugin)
+- you could add or overwrite any method you like on any class you like via plugins see [how to create plugins](#Creating%20plugins) and [addPlugin](https://fs-pro-docs.herokuapp.com/modules/_src_pluginadder_.html#addplugin)
 
 ## plugins
 
@@ -183,6 +183,72 @@ Structure.create(path.join(__dirname, "dir"), structure, {
   }
 });
 
+```
+
+## Creating plugins
+
+first you will need at a folder like this one
+
+```
+|
+|__ index.ts (optional but recommend)
+|__ index.d.ts
+|__ package.json
+```
+
+in the index.ts
+
+```ts
+import { Plugin } from "fs-pro-light/types";
+
+const myPlugin: Plugin = {
+  name: "your-plugin-name",
+  required: [anyRequiredPlugin] // optional
+  plugin: [
+    {
+      methodName: "myMethod",
+      className: "File", // could be the name of any class in the library (File or Dir or Model or Structure)
+      isStatic: false, // if true the method you add will be static
+      func(...myArgs: any[]){
+        // your code...
+      }
+    }
+  ]
+}
+
+export default myPlugin
+
+```
+
+in index.d.ts
+
+```ts
+import * as fsPro from "fs-pro-light";
+
+declare global {
+  namespace fsPro {
+    interface File /* or any class you to add methods to */ {
+      myMethod(...myArgs: any[]): any;
+    }
+  }
+}
+
+declare module "my-plugin" {
+  import { Plugin } from "fs-pro-light/types";
+
+  const xmlPlugin: Plugin;
+
+  export default xmlPlugin;
+}
+```
+
+## Using Plugins
+
+```ts
+import { addPlugin } from "fs-pro-light";
+import myPlugin from "my-plugin";
+
+addPlugin(myPlugin);
 ```
 
 ## Licence
