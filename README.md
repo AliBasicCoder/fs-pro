@@ -4,7 +4,7 @@
 [![npm](https://img.shields.io/npm/v/fs-pro-light)](https://npmjs.com/package/fs-pro-light)
 [![npm](https://img.shields.io/npm/dm/fs-pro-light)](https://npmjs.com/package/fs-pro-light)
 [![npm bundle size](https://img.shields.io/bundlephobia/minzip/fs-pro-light)](https://npmjs.com/package/fs-pro-light)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/AliBasicCoder/fs-pro/Node.js%20CI)](https://github.com/AliBasicCoder/fs-pro)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/AliBasicCoder/fs-pro/Node.js%20CI)](https://github.com/AliBasicCoder/fs-pro/actions?query=workflow%3A%22Node.js+CI%22)
 
 a library to work with files as objects
 
@@ -22,6 +22,8 @@ see the full docs [here](https://fs-pro-docs.herokuapp.com/)
 - you could add or overwrite any method you like on any class you like via plugins see [how to create plugins](#Creating%20plugins) and [addPlugin](https://fs-pro-docs.herokuapp.com/modules/_src_pluginadder_.html#addplugin)
 
 ## plugins
+
+if you want to add your plugin here please post an issue on our [github](https://github.com/AliBasicCoder/fs-pro/issues)
 
 - [xml-fpl-plugin](https://www.npmjs.com/package/xml-fpl-plugin)
   a plugin that adds .xml() method that parses xml to js objects
