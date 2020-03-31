@@ -6,3 +6,4 @@ test/
 dts-bundle.json
 tsconfig.json
 webpack.config.js
+*.ts

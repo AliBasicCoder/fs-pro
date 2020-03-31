@@ -72,7 +72,7 @@ export class File {
     this.extension = ext;
     this.directory = dir;
     this.root = root;
-    if (existsSync(this.path) && this.stats().isDirectory())
+    if (existsSync(this.path) && statSync(this.path).isDirectory())
       throw new fsProErr("STF", this.path);
   }
   /**
