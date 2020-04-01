@@ -11,7 +11,7 @@
   "scripts": {
     "docs": "typedoc --out ../fs-pro-docs/website && cd ../fs-pro-docs && node minify && curl http://fs-pro-docs.herokuapp.com/record.json > record.json && git add . && git commit -a -m \"new version\" && git push origin master",
     "lint": "eslint src/*.ts",
-    "build": "webpack && dts-bundle --configJson dts-bundle.json && rimraf types",
+    "build": "webpack && dts-bundle --configJson dts-bundle.json && rimraf types && cd plugins && tsc *.ts",
     "git": "git add . && git commit -a -m \"new version\" && git push origin master",
     "test": "mocha-parallel-tests -r ts-node/register ./test/test.ts",
     "cpublish": "yarn build && yarn test && yarn lint dist/*.d.ts --fix && yarn docs && yarn publish"
