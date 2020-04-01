@@ -26,8 +26,12 @@ see the full docs [here](https://fs-pro-docs.herokuapp.com/redirect?from=any&to=
 
 if you want to add your plugin here please post an issue on our [github](https://github.com/AliBasicCoder/fs-pro/issues)
 
+first party:
+
 - [xml-fpl-plugin](https://www.npmjs.com/package/xml-fpl-plugin)
   a plugin that adds .xml() method that parses xml to js objects
+
+- [async-fpl-plugin](https://www.npmjs.com/package/async-fpl-plugin) makes every method in the package async (promise)
 
 ## Api
 
