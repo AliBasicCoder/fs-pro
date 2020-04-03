@@ -96,13 +96,18 @@ export class File {
    * reads the file
    * example:
    * ```js
-   * file.read().toString() // => "hello world"
-   * // or
    * // this will print the line index followed by "| "
    * file.read("\n", (str, i) => console.log(`${i}| ${str}`))
    * ```
    */
   read(splitter: string, callback: (str: string, index: number) => void): this;
+  /**
+   * reads the file
+   * example:
+   * ```js
+   * file.read().toString() // => "hello world
+   * ```
+   */
   read(): Buffer;
   read(splitter?: string, callback?: (str: string, index: number) => void) {
     if (splitter && callback) {
