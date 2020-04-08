@@ -1,9 +1,9 @@
-# fs-pro-light
+# fs-pro
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/10435d4146374b0c834b6b1afe60d0b3)](https://app.codacy.com/manual/AliBasicCoder/fs-pro?utm_source=github.com&utm_medium=referral&utm_content=AliBasicCoder/fs-pro&utm_campaign=Badge_Grade_Dashboard)
-[![npm](https://img.shields.io/npm/v/fs-pro-light)](https://npmjs.com/package/fs-pro-light)
-[![npm](https://img.shields.io/npm/dm/fs-pro-light)](https://npmjs.com/package/fs-pro-light)
-[![npm bundle size](https://img.shields.io/bundlephobia/minzip/fs-pro-light)](https://npmjs.com/package/fs-pro-light)
+[![npm](https://img.shields.io/npm/v/fs-pro)](https://npmjs.com/package/fs-pro)
+[![npm](https://img.shields.io/npm/dm/fs-pro)](https://npmjs.com/package/fs-pro)
+[![npm bundle size](https://img.shields.io/bundlephobia/minzip/fs-pro)](https://npmjs.com/package/fs-pro)
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/AliBasicCoder/fs-pro/Node.js%20CI)](https://github.com/AliBasicCoder/fs-pro/actions?query=workflow%3A%22Node.js+CI%22)
 [![Docs visits](https://img.shields.io/endpoint?url=https://fs-pro-docs.herokuapp.com/visits/m)](https://fs-pro-docs.herokuapp.com/redirect?from=any&to=/)
 
@@ -117,19 +117,19 @@ first party:
 via npm:
 
 ```
-npm i fs-pro-light
+npm i fs-pro
 ```
 
 via yarn:
 
 ```
-yarn add fs-pro-light
+yarn add fs-pro
 ```
 
 ## Usage
 
 ```js
-import { File, Dir, Model, Structure } from "fs-pro-light";
+import { File, Dir, Model, Structure } from "fs-pro";
 
 // creating a file object
 const file = new File(__dirname, "hello_world.txt");
@@ -206,7 +206,7 @@ first you will need at a folder like this one
 in the index.ts
 
 ```ts
-import { Plugin } from "fs-pro-light/types";
+import { Plugin } from "fs-pro/types";
 
 const myPlugin: Plugin = {
   name: "your-plugin-name",
@@ -230,7 +230,7 @@ export default myPlugin
 in index.d.ts
 
 ```ts
-import * as fsPro from "fs-pro-light";
+import * as fsPro from "fs-pro";
 
 declare global {
   namespace fsPro {
@@ -241,7 +241,7 @@ declare global {
 }
 
 declare module "my-plugin" {
-  import { Plugin } from "fs-pro-light/types";
+  import { Plugin } from "fs-pro/types";
 
   const xmlPlugin: Plugin;
 
@@ -252,7 +252,7 @@ declare module "my-plugin" {
 ## Using Plugins
 
 ```ts
-import { addPlugin } from "fs-pro-light";
+import { addPlugin } from "fs-pro";
 import myPlugin from "my-plugin";
 
 addPlugin(myPlugin);
