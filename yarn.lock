@@ -86,16 +86,6 @@
     regexpp "^3.0.0"
     tsutils "^3.17.1"
 
-"@typescript-eslint/experimental-utils@2.27.0":
-  version "2.27.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/experimental-utils/-/experimental-utils-2.27.0.tgz#801a952c10b58e486c9a0b36cf21e2aab1e9e01a"
-  integrity sha512-vOsYzjwJlY6E0NJRXPTeCGqjv5OHgRU1kzxHKWJVPjDYGbPgLudBXjIlc+OD1hDBZ4l1DLbOc5VjofKahsu9Jw==
-  dependencies:
-    "@types/json-schema" "^7.0.3"
-    "@typescript-eslint/typescript-estree" "2.27.0"
-    eslint-scope "^5.0.0"
-    eslint-utils "^2.0.0"
-
 "@typescript-eslint/experimental-utils@2.28.0":
   version "2.28.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/experimental-utils/-/experimental-utils-2.28.0.tgz#1fd0961cd8ef6522687b4c562647da6e71f8833d"
@@ -115,19 +105,6 @@
     "@typescript-eslint/experimental-utils" "2.28.0"
     "@typescript-eslint/typescript-estree" "2.28.0"
     eslint-visitor-keys "^1.1.0"
-
-"@typescript-eslint/typescript-estree@2.27.0":
-  version "2.27.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/typescript-estree/-/typescript-estree-2.27.0.tgz#a288e54605412da8b81f1660b56c8b2e42966ce8"
-  integrity sha512-t2miCCJIb/FU8yArjAvxllxbTiyNqaXJag7UOpB5DVoM3+xnjeOngtqlJkLRnMtzaRcJhe3CIR9RmL40omubhg==
-  dependencies:
-    debug "^4.1.1"
-    eslint-visitor-keys "^1.1.0"
-    glob "^7.1.6"
-    is-glob "^4.0.1"
-    lodash "^4.17.15"
-    semver "^6.3.0"
-    tsutils "^3.17.1"
 
 "@typescript-eslint/typescript-estree@2.28.0":
   version "2.28.0"
@@ -3653,10 +3630,10 @@ to-regex@^3.0.1, to-regex@^3.0.2:
     regex-not "^1.0.2"
     safe-regex "^1.1.0"
 
-ts-loader@^6.2.1:
-  version "6.2.2"
-  resolved "https://registry.yarnpkg.com/ts-loader/-/ts-loader-6.2.2.tgz#dffa3879b01a1a1e0a4b85e2b8421dc0dfff1c58"
-  integrity sha512-HDo5kXZCBml3EUPcc7RlZOV/JGlLHwppTLEHb3SHnr5V7NXD4klMEkrhJe5wgRbaWsSXi+Y1SIBN/K9B6zWGWQ==
+ts-loader@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/ts-loader/-/ts-loader-7.0.0.tgz#7c74dfa8956e3e33b91d98d4ed7b6f7575c35c25"
+  integrity sha512-qq9iPK235Xf/uPS1I72CIwB8qpbW0rys3entnXO+rIo2km50lMmeHKCNn1m047W6Sk4kceF6n5NWEnq/V8xdYQ==
   dependencies:
     chalk "^2.3.0"
     enhanced-resolve "^4.0.0"
