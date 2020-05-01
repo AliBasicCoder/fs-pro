@@ -176,7 +176,8 @@ const model = new Model(modelBase);
 // of the object you passed to the Model constructor
 // except every Modal.File will be a File object
 // every thing else will be a Dir object
-const structure = modal.structure<typeof modalBase>(path.join(__dirname, "dir"));
+// NOTE: modal.structure will automatically join the paths given
+const structure = modal.structure<typeof modalBase>(__dirname, "dir");
 
 structure.dirOfTxT instanceof Dir === true;
 
