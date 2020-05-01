@@ -17,12 +17,8 @@ export class Structure {
    * @param stuck the structure
    * @param options options
    */
-  public static create(
-    path: string,
-    stuck: sw<modelData>,
-    options?: Partial<createOptions>
-  ) {
-    create(path, stuck, options);
+  public static create(stuck: sw<modelData>, options?: Partial<createOptions>) {
+    create(stuck.__META__.path, stuck, options);
     return this;
   }
 

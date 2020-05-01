@@ -27,7 +27,7 @@ export interface modelData {
   [key: string]: modelDirObj | modelFileObj | modelData;
 }
 
-export type sw<T extends modelData> = {
+export type actualSw<T extends modelData> = {
   [K in keyof T]: T[K] extends modelFileObj
     ? File
     : T[K] extends modelDirObj
@@ -35,6 +35,12 @@ export type sw<T extends modelData> = {
     : T[K] extends modelData
     ? sw<T[K]>
     : any;
+};
+
+export type sw<T extends modelData> = actualSw<T> & {
+  __META__: {
+    path: string;
+  };
 };
 
 export const isModelFileObj = (obj: any): obj is modelFileObj =>

@@ -1,9 +1,10 @@
+import { join } from "path";
 import {
   modelData,
   sw,
   modelFileObj,
   modelDirObj,
-  createOptions
+  createOptions,
 } from "./types";
 import { createAt, structureCreator } from "./funcs";
 
@@ -58,8 +59,8 @@ export class Model {
    * ```
    * @param path the path to use
    */
-  structure<T extends modelData>(path: string): sw<T> {
-    return structureCreator<T>(this.data, path);
+  structure<T extends modelData>(...paths: string[]): sw<T> {
+    return structureCreator<T>(this.data, join(...paths));
   }
 
   /**
