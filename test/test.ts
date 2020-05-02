@@ -88,6 +88,16 @@ describe("File", () => {
     assert.deepEqual(file.json(), { hello: "world" });
     done();
   });
+  it(".validate()", (done) => {
+    let called = 0;
+    file.validator = (str) => {
+      called++;
+      return JSON.parse(str);
+    };
+    file.validate();
+    assert.equal(called, 1);
+    done();
+  });
   it(".read()", (done) => {
     assert.equal(file.read().toString(), JSON.stringify({ hello: "world" }));
     file.write("some\nline\nthing");

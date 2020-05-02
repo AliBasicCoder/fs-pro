@@ -10,7 +10,7 @@ import {
   unwatchFile,
   watchFile,
   writeFileSync,
-  chmodSync
+  chmodSync,
 } from "fs";
 import { unlink as unlinkSync } from "./safe/delete";
 import { stat as statSync } from "./safe/stat";
@@ -34,6 +34,8 @@ export class File {
   directory: string;
   /** the default content of the file written when you call .create() */
   defaultContent?: string | Buffer;
+  /** a function to validate the file content */
+  validator?: (content: any) => any;
   /** the size of the file */
   get size() {
     return this.stats().size;
@@ -180,9 +182,7 @@ export class File {
    * @param limit A value used to limit the number of elements returned in the array
    */
   splitBy(separator: string | RegExp, limit?: number) {
-    return this.read()
-      .toString()
-      .split(separator, limit);
+    return this.read().toString().split(separator, limit);
   }
   /**
    * creates a read stream for the file
@@ -326,5 +326,17 @@ export class File {
   /** returns true if the file exits */
   exits() {
     return existsSync(this.path);
+  }
+  /**
+   * validates the file using the validator
+   * ```js
+   * // validate a json file
+   * file.validator = str => JSON.parse(str);
+   * file.validate();
+   * ```
+   */
+  validate() {
+    if (!this.validator) throw new Error("please set validator first");
+    this.validator(this.read().toString());
   }
 }
