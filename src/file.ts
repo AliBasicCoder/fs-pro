@@ -35,7 +35,7 @@ export class File {
   /** the default content of the file written when you call .create() */
   defaultContent?: string | Buffer;
   /** a function to validate the file content */
-  validator?: (content: any) => any;
+  validator?: (this: File, content: any) => any;
   /** the size of the file */
   get size() {
     return this.stats().size;
