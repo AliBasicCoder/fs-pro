@@ -6,14 +6,12 @@ const msgs = {
   IN: "Invalid Input",
   WE: "Have wrong extension",
   IDF: "Invalid Directory Found",
-  IFF: "Invalid File Found"
+  IFF: "Invalid File Found",
+  IFC: "Invalid File Content Found",
 };
 
 export class fsProErr extends Error {
-  constructor(
-    public code: "STF" | "STD" | "DDE" | "FDE" | "IN" | "WE" | "IDF" | "IFF",
-    public path: string
-  ) {
+  constructor(public code: keyof typeof msgs, public path: string) {
     super(`${msgs[code]} at: ${path}`);
   }
 }

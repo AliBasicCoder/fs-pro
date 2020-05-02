@@ -1,5 +1,5 @@
-import { modelData, sw, createOptions, validateOptions } from "./types";
-import { create, validate } from "./funcs";
+import { modelData, sw, createOptions } from "./types";
+import { create } from "./funcs";
 
 /** the Structure Class is a set of tools help you work with structures */
 export class Structure {
@@ -20,34 +20,5 @@ export class Structure {
   public static create(stuck: sw<modelData>, options?: Partial<createOptions>) {
     create(stuck.__META__.path, stuck, options);
     return this;
-  }
-
-  /**
-   * makes sure that a given directory matches a given
-   * model
-   * NOTE: throws an error if the directory is not valid see .valid()
-   * ```js
-   * Structure.validate(model.data, dirToValidate);
-   * ```
-   * @param data the model data you want to validate passed on
-   * @param path the path of the file you want to validate
-   * @param options functions to call on errors
-   */
-  public static validate(
-    data: modelData,
-    path: string,
-    options?: Partial<validateOptions>
-  ) {
-    validate(path, data, options);
-  }
-
-  /** the same as .validate() but don't throw an error and returns a boolean */
-  public static valid(data: modelData, path: string) {
-    try {
-      this.validate(data, path);
-      return true;
-    } catch (error) {
-      return false;
-    }
   }
 }

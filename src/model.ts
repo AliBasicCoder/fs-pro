@@ -1,12 +1,14 @@
 import { join } from "path";
+import { File } from "./file";
 import {
   modelData,
   sw,
   modelFileObj,
   modelDirObj,
   createOptions,
+  validateOptions,
 } from "./types";
-import { createAt, structureCreator } from "./funcs";
+import { createAt, structureCreator, validate } from "./funcs";
 
 /** the Model Class is used to create model objects that are used to create structures */
 export class Model {
@@ -17,9 +19,10 @@ export class Model {
    */
   public static File(
     ext: string,
-    defaultContent?: Buffer | string
+    defaultContent?: Buffer | string,
+    validator?: (this: File, content: string) => any
   ): modelFileObj {
-    return { type: "file", ext, defaultContent };
+    return { type: "file", ext, defaultContent, validator };
   }
   /**
    * a methods represents a dir
@@ -60,7 +63,10 @@ export class Model {
    * @param path the path to use
    */
   structure<T extends modelData>(...paths: string[]): sw<T> {
-    return structureCreator<T>(this.data, join(...paths));
+    const path = join(...paths);
+    const stuck = structureCreator<T>(this.data, path);
+    stuck.__META__ = { path };
+    return stuck;
   }
 
   /**
@@ -89,5 +95,29 @@ export class Model {
   ): sw<T> {
     // @ts-ignore
     return createAt<T>(this.data, path, options);
+  }
+  /**
+   * makes sure that a given directory matches a given
+   * model
+   * NOTE: throws an error if the directory is not valid see .valid()
+   * ```js
+   * model.validate(dirToValidate);
+   * ```
+   * @param data the model data you want to validate passed on
+   * @param path the path of the file you want to validate
+   * @param options functions to call on errors
+   */
+  validate(path: string, options?: Partial<validateOptions>) {
+    validate(path, this.data, options);
+  }
+
+  /** the same as .validate() but don't throw an error and returns a boolean */
+  valid(path: string) {
+    try {
+      this.validate(path);
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 }

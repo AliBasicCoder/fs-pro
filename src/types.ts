@@ -18,7 +18,9 @@ export interface modelObjBase<T extends string> {
 export type modelFileObj = modelObjBase<"file"> & {
   ext: string;
   defaultContent?: string | Buffer;
+  validator?: (this: File, content: string) => any;
 };
+
 export type modelDirObj = modelObjBase<"dir"> & { fileType: modelFileObj };
 
 export interface modelData {

@@ -4,7 +4,7 @@ import {
   objAny,
   isModelFileObj,
   isModelDirObj,
-  validateOptions
+  validateOptions,
 } from "./types";
 import { createOptions } from "./types";
 import { Dir } from "./dir";
@@ -21,13 +21,13 @@ const noop = (...args: any[]) => null;
 const createDefaultOptions: createOptions = {
   onCreate: noop,
   onCreateFile: noop,
-  onCreateDir: noop
+  onCreateDir: noop,
 };
 
 const validateDefaultOptions: validateOptions = {
   onInvalid: noop,
   onInvalidDir: noop,
-  onInvalidFile: noop
+  onInvalidFile: noop,
 };
 
 function sliceFrom(str: string, char: string) {
@@ -45,6 +45,7 @@ export function createAt<T extends modelData>(
 ): sw<T> {
   const stuck = structureCreator<T>(data, path);
   create(path, stuck, options);
+  stuck.__META__ = { path };
   return stuck;
 }
 
@@ -56,8 +57,10 @@ export function structureCreator<T extends modelData>(
   for (const key in data) {
     const element = data[key];
     if (isModelFileObj(element)) {
-      obj[key] = new File(path, `${key}${element.ext}`);
-      obj[key].defaultContent = element.defaultContent;
+      const file = new File(path, `${key}${element.ext}`);
+      file.defaultContent = element.defaultContent;
+      file.validator = element.validator;
+      obj[key] = file;
     } else if (isModelDirObj(element)) obj[key] = new Dir(path, key);
     else {
       obj[key] = structureCreator(element, join(path, key));
@@ -94,10 +97,10 @@ export function validate(
     regErr(new fsProErr("DDE", path));
     return;
   }
-  dir.read().forEach(prf => {
+  dir.read().forEach((prf) => {
     // @ts-ignore
     // prettier-ignore
-    const key = data[prf] ? prf: data[sliceFrom(prf, ".")]? sliceFrom(prf, ".") : data[prf].ext;
+    const key = data[prf] ? prf : data[sliceFrom(prf, ".")] ? sliceFrom(prf, ".") : data[prf].ext;
     const elem = data[key];
     const prfPath = join(path, prf);
     if (!elem) {
@@ -109,14 +112,19 @@ export function validate(
         regErr(new fsProErr("STF", prfPath));
         return;
       } else if (isModelDirObj(elem)) {
-        readdirSync(prfPath).forEach(thing => {
+        readdirSync(prfPath).forEach((thing) => {
           const thingPath = join(prfPath, thing);
           if (stat(thingPath).isDirectory()) {
             regErr(new fsProErr("IN", thingPath));
             return;
           }
-          if (new File(thingPath).extension !== elem.fileType.ext) {
+          const file = new File(thingPath);
+          if (file.extension !== elem.fileType.ext) {
             regErr(new fsProErr("WE", thingPath));
+            return;
+          }
+          if (!file.valid()) {
+            regErr(new fsProErr("IFC", file.path));
             return;
           }
         });
@@ -128,8 +136,13 @@ export function validate(
         regErr(new fsProErr("STD", prfPath));
         return;
       } else if (isModelFileObj(elem)) {
-        if (elem.ext !== new File(prfPath).extension) {
+        const file = new File(prfPath);
+        if (elem.ext !== file.extension) {
           regErr(new fsProErr("WE", prfPath));
+          return;
+        }
+        if (!file.valid()) {
+          regErr(new fsProErr("IFC", file.path));
           return;
         }
       } else {
@@ -147,7 +160,10 @@ export function create(
 ) {
   mkdirSync(path);
   const op = Object.assign({}, createDefaultOptions, options || {});
+  op.onCreate(new Dir(path));
+  op.onCreateDir(new Dir(path));
   for (const key in stuck) {
+    if (key === "__META__") continue;
     if (stuck[key] instanceof File) {
       stuck[key].create();
       op.onCreate(stuck[key]);
