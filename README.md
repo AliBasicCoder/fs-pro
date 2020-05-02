@@ -5,7 +5,6 @@
 [![npm](https://img.shields.io/npm/dm/fs-pro)](https://npmjs.com/package/fs-pro)
 [![npm bundle size](https://img.shields.io/bundlephobia/minzip/fs-pro)](https://npmjs.com/package/fs-pro)
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/AliBasicCoder/fs-pro/Node.js%20CI)](https://github.com/AliBasicCoder/fs-pro/actions?query=workflow%3A%22Node.js+CI%22)
-[![Docs visits](https://img.shields.io/endpoint?url=https://fs-pro-docs.herokuapp.com/visits/m)](https://fs-pro-docs.herokuapp.com/redirect?from=any&to=/)
 
 a library to work with files as objects
 
