@@ -228,6 +228,20 @@ describe("Dir", () => {
     assert.equal(existsSync(newDir.path), true);
     done();
   });
+  it(".getFile()", (done) => {
+    const file = dir.getFile(fileIndex(4));
+    assert.equal(file instanceof File, true);
+    checkData(file, 4, dir.path);
+    assert.equal(existsSync(file.path), true);
+    done();
+  });
+  it(".getDir()", (done) => {
+    const newDir = dir.getDir("test4");
+    assert.equal(newDir instanceof Dir, true);
+    checkDataDir(newDir, dir.path, "test4");
+    assert.equal(existsSync(newDir.path), true);
+    done();
+  });
   it(".read()", (done) => {
     assert.deepEqual(dir.read(), [fileIndex(4), "test4"]);
     done();

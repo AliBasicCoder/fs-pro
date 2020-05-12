@@ -84,6 +84,8 @@ first party:
   - [create](https://fs-pro-docs.herokuapp.com/redirect?from=any&to=/classes/_src_dir_.dir.html#create)
   - [createDir](https://fs-pro-docs.herokuapp.com/redirect?from=any&to=/classes/_src_dir_.dir.html#createdir)
   - [createFile](https://fs-pro-docs.herokuapp.com/redirect?from=any&to=/classes/_src_dir_.dir.html#createfile)
+  - [getDir](https://fs-pro-docs.herokuapp.com/redirect?from=any&to=/classes/_src_dir_.dir.html#getdir)
+  - [getFile](https://fs-pro-docs.herokuapp.com/redirect?from=any&to=/classes/_src_dir_.dir.html#getfile)
   - [delete](https://fs-pro-docs.herokuapp.com/redirect?from=any&to=/classes/_src_dir_.dir.html#delete)
   - [deleteMatchDir](https://fs-pro-docs.herokuapp.com/redirect?from=any&to=/classes/_src_dir_.dir.html#deletematchdir)
   - [deleteMatchFile](https://fs-pro-docs.herokuapp.com/redirect?from=any&to=/classes/_src_dir_.dir.html#deletematchfile)

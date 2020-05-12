@@ -71,7 +71,7 @@ export class Dir {
    * ```
    */
   readResolve() {
-    return this.read().map(path => {
+    return this.read().map((path) => {
       const neededPath = join(this.path, path);
       if (statSync(neededPath).isDirectory()) return new Dir(neededPath);
       else return new File(neededPath);
@@ -146,7 +146,7 @@ export class Dir {
   }
   /** deletes the directory even if it's not empty */
   delete() {
-    this.read().forEach(fileOrDir => {
+    this.read().forEach((fileOrDir) => {
       const pathOfIt = join(this.path, fileOrDir);
       if (statSync(pathOfIt).isDirectory()) new Dir(pathOfIt).delete();
       else unlinkSync(pathOfIt);
@@ -161,7 +161,7 @@ export class Dir {
    * @param regex the regex
    */
   deleteMath(regex: RegExp) {
-    this.read().forEach(fileOrDir => {
+    this.read().forEach((fileOrDir) => {
       const pathOfIt = join(this.path, fileOrDir);
       const isDir = statSync(pathOfIt).isDirectory();
       if (regex.test(fileOrDir)) {
@@ -180,7 +180,7 @@ export class Dir {
    * @param regex the regex
    */
   deleteMatchFile(regex: RegExp) {
-    this.read().forEach(fileOrDir => {
+    this.read().forEach((fileOrDir) => {
       const pathOfIt = join(this.path, fileOrDir);
       if (!regex.test(fileOrDir)) return;
       if (statSync(pathOfIt).isDirectory())
@@ -197,7 +197,7 @@ export class Dir {
    * @param regex the regex
    */
   deleteMatchDir(regex: RegExp) {
-    this.read().forEach(fileOrDir => {
+    this.read().forEach((fileOrDir) => {
       const pathOfIt = join(this.path, fileOrDir);
       const isDir = statSync(pathOfIt).isDirectory();
       if (!isDir) return;
@@ -228,5 +228,23 @@ export class Dir {
   /** returns true if the directory exits */
   exits() {
     return existsSync(this.path);
+  }
+  /**
+   * gets a file
+   * ```js
+   * myDir.getFile("myFile.txt").read() /// ...
+   * ```
+   */
+  getFile(path: string) {
+    return new File(this.path, path);
+  }
+  /**
+   * gets a folder
+   * ```js
+   * myDir.getDir("myChildDir").read() /// ...
+   * ```
+   */
+  getDir(path: string) {
+    return new Dir(this.path, path);
   }
 }
