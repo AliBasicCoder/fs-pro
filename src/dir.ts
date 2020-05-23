@@ -10,6 +10,7 @@ import { fsProErr } from "./fsProErr";
 
 /** the File Class is used to help you work with files */
 export class Dir {
+  [Symbol.toStringTag]: string = "Dir";
   /** the name of the directory */
   name: string;
   /** the root of the file */
@@ -51,8 +52,9 @@ export class Dir {
     this.name = base;
     this.parentDirectory = dir;
     this.root = root;
-    if (existsSync(this.path) && !this.stats().isDirectory())
+    if (existsSync(this.path) && !this.stats().isDirectory()) {
       throw new fsProErr("STD", this.path);
+    }
   }
   /**
    * reads the directory
@@ -132,10 +134,12 @@ export class Dir {
    */
   watch(
     listener: (e: "update" | "remove", file: File) => any,
-    options?: WatchOptions
+    options?: WatchOptions,
   ) {
-    this.watcher = watch(this.path, options || {}, (e, filename) =>
-      listener(e, new File(join(this.path, filename)))
+    this.watcher = watch(
+      this.path,
+      options || {},
+      (e, filename) => listener(e, new File(join(this.path, filename))),
     );
     return this.watcher;
   }
@@ -183,9 +187,9 @@ export class Dir {
     this.read().forEach((fileOrDir) => {
       const pathOfIt = join(this.path, fileOrDir);
       if (!regex.test(fileOrDir)) return;
-      if (statSync(pathOfIt).isDirectory())
+      if (statSync(pathOfIt).isDirectory()) {
         new Dir(pathOfIt).deleteMatchFile(regex);
-      else unlinkSync(pathOfIt);
+      } else unlinkSync(pathOfIt);
     });
   }
   /**

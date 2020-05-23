@@ -12,6 +12,7 @@ import { createAt, structureCreator, validate } from "./funcs";
 
 /** the Model Class is used to create model objects that are used to create structures */
 export class Model {
+  [Symbol.toStringTag]: string = "Model";
   /**
    * a methods represents a file
    * @param ext the extension of the file
@@ -20,7 +21,7 @@ export class Model {
   public static File(
     ext: string,
     defaultContent?: Buffer | string,
-    validator?: (this: File, content: string) => any
+    validator?: (this: File, content: string) => any,
   ): modelFileObj {
     return { type: "file", ext, defaultContent, validator };
   }
@@ -91,7 +92,7 @@ export class Model {
    */
   createAt<T extends modelData>(
     path: string,
-    options?: Partial<createOptions>
+    options?: Partial<createOptions>,
   ): sw<T> {
     // @ts-ignore
     return createAt<T>(this.data, path, options);

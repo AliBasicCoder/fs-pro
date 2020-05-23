@@ -11,6 +11,7 @@ const msgs = {
 };
 
 export class fsProErr extends Error {
+  [Symbol.toStringTag]: string = "fsProErr";
   constructor(public code: keyof typeof msgs, public path: string) {
     super(`${msgs[code]} at: ${path}`);
   }

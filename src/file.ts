@@ -20,6 +20,7 @@ import { fsProErr } from "./fsProErr";
 
 /** the File Class is used to help you work with files */
 export class File {
+  [Symbol.toStringTag]: string = "File";
   /** the name of the file without the extension */
   name: string;
   /** the extension of the file */
@@ -74,8 +75,9 @@ export class File {
     this.extension = ext;
     this.directory = dir;
     this.root = root;
-    if (existsSync(this.path) && statSync(this.path).isDirectory())
+    if (existsSync(this.path) && statSync(this.path).isDirectory()) {
       throw new fsProErr("STF", this.path);
+    }
   }
   /**
    * write some data into the file
@@ -89,9 +91,9 @@ export class File {
    * @param data the data to write
    */
   write(data: Buffer | string | obj<any>) {
-    if (Buffer.isBuffer(data) || typeof data === "string")
+    if (Buffer.isBuffer(data) || typeof data === "string") {
       writeFileSync(this.path, data);
-    else writeFileSync(this.path, JSON.stringify(data));
+    } else writeFileSync(this.path, JSON.stringify(data));
     return this;
   }
   /**
@@ -140,7 +142,7 @@ export class File {
    */
   overwrite(
     splitter: string,
-    callback: (str: string, index: number) => string
+    callback: (str: string, index: number) => string,
   ) {
     let res = "";
     this.splitBy(splitter).forEach((str, index) => {
