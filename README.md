@@ -8,7 +8,7 @@
 
 a library to work with files as objects
 
-see the full docs [here](https://fs-pro-docs.herokuapp.com/
+see the full docs [here](https://fs-pro-docs.herokuapp.com/)
 
 ## Features
 
