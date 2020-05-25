@@ -7,3 +7,5 @@ dts-bundle.json
 tsconfig.json
 webpack.config.js
 plugins/async.ts
+*.png
+*.jpeg
