@@ -133,7 +133,7 @@ describe("File", () => {
     done();
   });
   it(".stats()", (done) => {
-    assert.deepEqual(file.stats(), statSync(file.path));
+    assert.deepEqual(file.stat(), statSync(file.path));
     done();
   });
   it(".rename()", (done) => {
@@ -254,7 +254,7 @@ describe("Dir", () => {
     done();
   });
   it(".stats()", (done) => {
-    assert.equal(typeof dir.stats(), "object");
+    assert.equal(typeof dir.stat(), "object");
     done();
   });
   it(".deleteMatch()", (done) => {

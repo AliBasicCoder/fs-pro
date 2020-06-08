@@ -11,6 +11,7 @@ import {
   watchFile,
   writeFileSync,
   chmodSync,
+  lstatSync,
 } from "fs";
 import { unlink as unlinkSync } from "./safe/delete";
 import { stat as statSync } from "./safe/stat";
@@ -39,23 +40,23 @@ export class File {
   validator?: (this: File, content: any) => (Error | string)[];
   /** the size of the file */
   get size() {
-    return this.stats().size;
+    return this.stat().size;
   }
   /** The timestamp indicating the last time this file was accessed. */
   get lastAccessed() {
-    return this.stats().atime;
+    return this.stat().atime;
   }
   /** The timestamp indicating the last time this file was modified. */
   get lastModified() {
-    return this.stats().mtime;
+    return this.stat().mtime;
   }
   /** The timestamp indicating the last time this file status was changed. */
   get lastChanged() {
-    return this.stats().ctime;
+    return this.stat().ctime;
   }
   /** The timestamp indicating when the file have been created */
   get createdAt() {
-    return this.stats().birthtime;
+    return this.stat().birthtime;
   }
   /**
    * the File constructor
@@ -142,7 +143,7 @@ export class File {
    */
   overwrite(
     splitter: string,
-    callback: (str: string, index: number) => string,
+    callback: (str: string, index: number) => string
   ) {
     let res = "";
     this.splitBy(splitter).forEach((str, index) => {
@@ -245,8 +246,12 @@ export class File {
     return this;
   }
   /** gets the stats of the file @see https://nodejs.org/api/fs.html#fs_class_fs_stats */
-  stats() {
+  stat() {
     return statSync(this.path);
+  }
+  /** gets the stats of the file @see https://nodejs.org/api/fs.html#fs_class_fs_stats */
+  lstat() {
+    return lstatSync(this.path);
   }
   /**
    * delete the file

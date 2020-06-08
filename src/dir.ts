@@ -1,4 +1,11 @@
-import { existsSync, mkdirSync, readdirSync, renameSync, rmdirSync } from "fs";
+import {
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  renameSync,
+  rmdirSync,
+  lstatSync,
+} from "fs";
 import { unlink as unlinkSync } from "./safe/delete";
 import { stat as statSync } from "./safe/stat";
 import watch from "node-watch";
@@ -23,23 +30,23 @@ export class Dir {
   private watcher?: ImprovedFSWatcher;
   /** the size of the file */
   get size() {
-    return this.stats().size;
+    return this.stat().size;
   }
   /** The timestamp indicating the last time this file was accessed. */
   get lastAccessed() {
-    return this.stats().atime;
+    return this.stat().atime;
   }
   /** The timestamp indicating the last time this file was modified. */
   get lastModified() {
-    return this.stats().mtime;
+    return this.stat().mtime;
   }
   /** The timestamp indicating the last time this file status was changed. */
   get lastChanged() {
-    return this.stats().ctime;
+    return this.stat().ctime;
   }
   /** The timestamp indicating when the file have been created */
   get createdAt() {
-    return this.stats().birthtime;
+    return this.stat().birthtime;
   }
   /**
    * the Dir constructor
@@ -52,7 +59,7 @@ export class Dir {
     this.name = base;
     this.parentDirectory = dir;
     this.root = root;
-    if (existsSync(this.path) && !this.stats().isDirectory()) {
+    if (existsSync(this.path) && !this.stat().isDirectory()) {
       throw new fsProErr("STD", this.path);
     }
   }
@@ -134,12 +141,10 @@ export class Dir {
    */
   watch(
     listener: (e: "update" | "remove", file: File) => any,
-    options?: WatchOptions,
+    options?: WatchOptions
   ) {
-    this.watcher = watch(
-      this.path,
-      options || {},
-      (e, filename) => listener(e, new File(join(this.path, filename))),
+    this.watcher = watch(this.path, options || {}, (e, filename) =>
+      listener(e, new File(join(this.path, filename)))
     );
     return this.watcher;
   }
@@ -210,8 +215,12 @@ export class Dir {
     });
   }
   /** get the stats of the directory @see https://nodejs.org/api/fs.html#fs_class_fs_stats */
-  stats() {
+  stat() {
     return statSync(this.path);
+  }
+  /** get the stats of the directory @see https://nodejs.org/api/fs.html#fs_class_fs_stats */
+  lstat() {
+    return lstatSync(this.path);
   }
   /**
    * rename the directory
