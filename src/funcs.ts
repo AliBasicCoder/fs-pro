@@ -10,9 +10,7 @@ import { createOptions } from "./types";
 import { Dir } from "./dir";
 import { File } from "./file";
 import { join } from "path";
-import { readdirSync } from "fs";
-import { mkdir as mkdirSync } from "./safe/mkdir";
-import { stat } from "./safe/stat";
+import { readdirSync, mkdirSync, existsSync, statSync } from "fs";
 import { fsProErr } from "./fsProErr";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -89,7 +87,9 @@ export function validate(
     } else {
       op.onInvalid(
         err,
-        stat(err.path).isDirectory() ? new Dir(err.path) : new File(err.path)
+        statSync(err.path).isDirectory()
+          ? new Dir(err.path)
+          : new File(err.path)
       );
     }
   }
@@ -107,14 +107,14 @@ export function validate(
       regErr(new fsProErr("IN", prfPath));
       return;
     }
-    if (stat(prfPath).isDirectory()) {
+    if (statSync(prfPath).isDirectory()) {
       if (isModelFileObj(elem)) {
         regErr(new fsProErr("STF", prfPath));
         return;
       } else if (isModelDirObj(elem)) {
         readdirSync(prfPath).forEach((thing) => {
           const thingPath = join(prfPath, thing);
-          if (stat(thingPath).isDirectory()) {
+          if (statSync(thingPath).isDirectory()) {
             regErr(new fsProErr("IN", thingPath));
             return;
           }
@@ -158,7 +158,7 @@ export function create(
   stuck: sw<modelData>,
   options?: Partial<createOptions>
 ) {
-  mkdirSync(path);
+  if (!existsSync(path)) mkdirSync(path);
   const op = Object.assign({}, createDefaultOptions, options || {});
   op.onCreate(new Dir(path));
   op.onCreateDir(new Dir(path));

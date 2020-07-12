@@ -34,7 +34,6 @@
   },
   "dependencies": {
     "@types/node": "^13.9.8",
-    "del-symlinks": "^0.1.2",
     "node-watch": "^0.6.3"
   },
   "keywords": [
