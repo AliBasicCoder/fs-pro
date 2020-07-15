@@ -1,6 +1,6 @@
 # fs-pro
 
-![fs pro logo](https://raw.githubusercontent.com/AliBasicCoder/fs-pro/master/fsProLogo.png)
+![fs pro logo](https://github.com/AliBasicCoder/fs-pro/blob/master/fsProNewLogo?raw=true)
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/10435d4146374b0c834b6b1afe60d0b3)](https://app.codacy.com/manual/AliBasicCoder/fs-pro?utm_source=github.com&utm_medium=referral&utm_content=AliBasicCoder/fs-pro&utm_campaign=Badge_Grade_Dashboard)
 [![npm](https://img.shields.io/npm/v/fs-pro)](https://npmjs.com/package/fs-pro)
