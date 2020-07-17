@@ -1,9 +1,41 @@
-import { FSWatcher } from "fs";
+import * as FS from "fs";
+import * as PATH from "path";
 import { File } from "./file";
 import { Dir } from "./dir";
 import { fsProErr } from "./fsProErr";
 import { Model } from "./model";
 import { Structure } from "./structure";
+
+export type fsObjType = {
+  appendFileSync: typeof FS.appendFileSync;
+  copyFileSync: typeof FS.copyFileSync;
+  createReadStream: typeof FS.createReadStream;
+  createWriteStream: typeof FS.createWriteStream;
+  existsSync: typeof FS.existsSync;
+  readFileSync: typeof FS.readFileSync;
+  renameSync: typeof FS.renameSync;
+  unwatchFile: typeof FS.unwatchFile;
+  watchFile: typeof FS.watchFile;
+  writeFileSync: typeof FS.writeFileSync;
+  chmodSync: typeof FS.chmodSync;
+  lstatSync: typeof FS.lstatSync;
+  unlinkSync: typeof FS.unlinkSync;
+  statSync: typeof FS.statSync;
+  mkdirSync: typeof FS.mkdirSync;
+  readdirSync: typeof FS.readdirSync;
+  rmdirSync: typeof FS.rmdirSync;
+  // watcher must follow node-watch api
+  watch: (
+    filename: string | string[],
+    options: WatchOptions,
+    callback: (e: string, file: string) => any
+  ) => FS.FSWatcher;
+};
+
+export type pathObjType = {
+  join: typeof PATH.join;
+  parse: typeof PATH.parse;
+};
 
 export type obj<T> = {
   [key: string]: T;
@@ -131,7 +163,7 @@ export type WatchOptions = {
   delay?: number;
 };
 
-export interface ImprovedFSWatcher extends FSWatcher {
+export interface ImprovedFSWatcher extends FS.FSWatcher {
   /**
    * Returns `true` if the watcher has been closed.
    */

@@ -9,8 +9,8 @@ import {
 import { createOptions } from "./types";
 import { Dir } from "./dir";
 import { File } from "./file";
-import { join } from "path";
-import { readdirSync, mkdirSync, existsSync, statSync } from "fs";
+import { join } from "./path";
+import { readdirSync, mkdirSync, existsSync, statSync } from "./fs";
 import { fsProErr } from "./fsProErr";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

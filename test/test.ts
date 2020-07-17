@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { File, Dir, Model, Structure, addPlugin } from "../src/index";
 import * as assert from "assert";
-import { join } from "path";
+import { join, parse } from "path";
 import { EventEmitter } from "events";
 import {
   readFileSync,
@@ -12,7 +12,6 @@ import {
   rmdirSync,
   //  Stats
 } from "fs";
-import { parse } from "path";
 
 const modelBase = {
   dum1: {

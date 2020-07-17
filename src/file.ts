@@ -6,7 +6,6 @@ import {
   existsSync,
   readFileSync,
   renameSync,
-  Stats,
   unwatchFile,
   watchFile,
   writeFileSync,
@@ -14,8 +13,9 @@ import {
   lstatSync,
   unlinkSync,
   statSync,
-} from "fs";
-import { join, parse } from "path";
+} from "./fs";
+import { Stats } from "fs";
+import { join, parse } from "./path";
 import { obj } from "./types";
 import { fsProErr } from "./fsProErr";
 

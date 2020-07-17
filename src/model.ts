@@ -1,4 +1,4 @@
-import { join } from "path";
+import { join } from "./path";
 import { File } from "./file";
 import {
   modelData,
@@ -21,7 +21,7 @@ export class Model {
   public static File(
     ext: string,
     defaultContent?: Buffer | string,
-    validator?: (this: File, content: string) => any,
+    validator?: (this: File, content: string) => any
   ): modelFileObj {
     return { type: "file", ext, defaultContent, validator };
   }
@@ -92,7 +92,7 @@ export class Model {
    */
   createAt<T extends modelData>(
     path: string,
-    options?: Partial<createOptions>,
+    options?: Partial<createOptions>
   ): sw<T> {
     // @ts-ignore
     return createAt<T>(this.data, path, options);

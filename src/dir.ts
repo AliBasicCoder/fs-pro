@@ -7,12 +7,13 @@ import {
   lstatSync,
   unlinkSync,
   statSync,
-} from "fs";
-import watch from "node-watch";
-import { join, parse } from "path";
+  watch,
+} from "./fs";
+import { FSWatcher } from "fs";
+import { join, parse } from "./path";
 import { File } from "./file";
 // will be replaced with an import from node-watch
-import { ImprovedFSWatcher, WatchOptions } from "./types";
+import { WatchOptions } from "./types";
 import { fsProErr } from "./fsProErr";
 
 /** the File Class is used to help you work with files */
@@ -27,7 +28,7 @@ export class Dir {
   /** the directory of the file */
   parentDirectory: string;
 
-  private watcher?: ImprovedFSWatcher;
+  private watcher?: FSWatcher;
   /** the size of the file */
   get size() {
     return this.stat().size;
@@ -139,11 +140,9 @@ export class Dir {
    * @param listener the function will be called when a file changes
    * @param options options
    */
-  watch(
-    listener: (e: "update" | "remove", file: File) => any,
-    options?: WatchOptions
-  ) {
+  watch(listener: (e: string, file: File) => any, options?: WatchOptions) {
     this.watcher = watch(this.path, options || {}, (e, filename) =>
+      // @ts-ignore
       listener(e, new File(join(this.path, filename)))
     );
     return this.watcher;
