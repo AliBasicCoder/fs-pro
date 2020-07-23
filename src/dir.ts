@@ -16,7 +16,7 @@ import { File } from "./file";
 import { WatchOptions } from "./types";
 import { fsProErr } from "./fsProErr";
 
-/** the File Class is used to help you work with files */
+/** the Dir Class is used to help you work with files */
 export class Dir {
   [Symbol.toStringTag]: string = "Dir";
   /** the name of the directory */
@@ -50,9 +50,9 @@ export class Dir {
     return this.stat().birthtime;
   }
   /**
-   * the Dir constructor
-   * NOTE: the path you pass will passed to path.join
+   * @NOTE the path you pass will passed to path.join
    * @param args the path
+   * the Dir Class constructor
    */
   constructor(...args: string[]) {
     this.path = join(...args);
@@ -66,19 +66,16 @@ export class Dir {
   }
   /**
    * reads the directory
-   * example:
-   * ```js
+   * @example
    * console.log(dir.read()) // => ["hello_world.txt", "file2.txt"]
-   * ```
    */
   read() {
     return readdirSync(this.path);
   }
   /**
    * reads te directory and convert it to File an Dir objects
-   * ```js
+   * @example
    * dir.readResolve().forEach(console.log);
-   * ```
    */
   readResolve() {
     return this.read().map((path) => {
@@ -89,10 +86,8 @@ export class Dir {
   }
   /**
    * creates the directory
-   * example:
-   * ```js
+   * @example
    * dir.create();
-   * ```
    */
   create() {
     if (!existsSync(this.path)) mkdirSync(this.path);
@@ -100,45 +95,35 @@ export class Dir {
   }
   /**
    * create a file inside the directory
-   * example:
-   * ```js
+   * @param filename the file you want to create
+   * @example
    * const file = dir.createFile("hello_world.txt");
    * file.write("hello world");
    * //...
-   * ```
-   * @param filename the file you want to create
    */
   createFile(filename: string) {
     return new File(join(this.path, filename)).create();
   }
   /**
    * create a directory inside the directory
-   * example:
-   * ```js
+   * @param dirname the name of the directory
+   * @example
    * const subDir = dir.createDir("hello");
    * subDir.createFile("hello_world.txt");
    * // ...
-   * ```
-   * @param dirname the name of the directory
    */
   createDir(dirname: string) {
     return new Dir(join(this.path, dirname)).create();
   }
   /**
    * watches the directory
-   * example:
-   * ```js
-   * dir.watch(
-   *  (e, file) => {
-   *    if(e === "update")
-   *      console.log(`file ${file.base} have been updated`);
-   *    else
-   *      console.log(`file ${file.base} have been removed`);
-   *  }
-   * )
-   * ```
    * @param listener the function will be called when a file changes
    * @param options options
+   * @example
+   * dir.watch((e, file) => {
+   *    if (e === "update") console.log(`file ${file.base} have been updated`);
+   *    else console.log(`file ${file.base} have been removed`);
+   * })
    */
   watch(listener: (e: string, file: File) => any, options?: WatchOptions) {
     this.watcher = watch(this.path, options || {}, (e, filename) =>
@@ -163,10 +148,9 @@ export class Dir {
   }
   /**
    * delete every thing (where it's a file or a folder) the matches the regex passed in
-   * ```js
-   * dir.deleteMatch(/some/); // delete every thing called some
-   * ```
    * @param regex the regex
+   * @example
+   * dir.deleteMatch(/some/); // delete every thing called some
    */
   deleteMath(regex: RegExp) {
     this.read().forEach((fileOrDir) => {
@@ -182,10 +166,9 @@ export class Dir {
   }
   /**
    * delete every file the matches the regex passed in
-   * ```js
-   * dir.deleteMatchFile(/.*\.js$/); // delete every js file
-   * ```
    * @param regex the regex
+   * @example
+   * dir.deleteMatchFile(/.*\.js$/); // delete every js file
    */
   deleteMatchFile(regex: RegExp) {
     this.read().forEach((fileOrDir) => {
@@ -197,12 +180,10 @@ export class Dir {
     });
   }
   /**
-   * deletes every directory the matches the regex in the dir
-   * and sub dir
-   * ```js
-   * dir.deleteMatchDir(/node_modules/) // delete every node_modules in the dir
-   * ```
+   * deletes every directory the matches the regex in the dir and sub dir
    * @param regex the regex
+   * @example
+   * dir.deleteMatchDir(/node_modules/) // delete every node_modules in the dir
    */
   deleteMatchDir(regex: RegExp) {
     this.read().forEach((fileOrDir) => {
@@ -213,20 +194,25 @@ export class Dir {
       else new Dir(pathOfIt).deleteMatchDir(regex);
     });
   }
-  /** get the stats of the directory @see https://nodejs.org/api/fs.html#fs_class_fs_stats */
+  /**
+   * get the stats of the directory
+   * @see https://nodejs.org/api/fs.html#fs_class_fs_stats
+   */
   stat() {
     return statSync(this.path);
   }
-  /** get the stats of the directory @see https://nodejs.org/api/fs.html#fs_class_fs_stats */
+  /**
+   * get the stats of the directory
+   * @see https://nodejs.org/api/fs.html#fs_class_fs_stats
+   */
   lstat() {
     return lstatSync(this.path);
   }
   /**
    * rename the directory
-   * ```js
-   * dir.rename("newName");
-   * ```
    * @param newName the newName
+   * @example
+   * dir.rename("newName");
    */
   rename(newName: string) {
     const newPath = join(this.parentDirectory, newName);
@@ -242,19 +228,17 @@ export class Dir {
     return existsSync(this.path);
   }
   /**
-   * gets a file
-   * ```js
-   * myDir.getFile("myFile.txt").read() /// ...
-   * ```
+   * gets a file inside the directory
+   * @example
+   * myDir.getFile("myFile.txt").read() //...
    */
   getFile(path: string) {
     return new File(this.path, path);
   }
   /**
-   * gets a folder
-   * ```js
-   * myDir.getDir("myChildDir").read() /// ...
-   * ```
+   * gets a folder inside the directory
+   * @example
+   * myDir.getDir("myChildDir").read() //...
    */
   getDir(path: string) {
     return new Dir(this.path, path);

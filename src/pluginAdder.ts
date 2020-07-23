@@ -4,7 +4,8 @@ import { Plugin } from "./types";
 /**
  * adds plugins to the core library
  * plugins is a way to add methods to the core class like File, Dir, etc...
- * ```js
+ * @param pluginWrapper the plugin
+ * @example
  * addPlugin({
  *   name: "xml",
  *   plugin: [
@@ -17,8 +18,6 @@ import { Plugin } from "./types";
  *       isStatic: false
  *     }]
  *  });
- * ```
- * @param pluginWrapper the plugin
  */
 export function addPlugin(pluginWrapper: Plugin) {
   const { requires, plugin } = pluginWrapper;

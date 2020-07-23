@@ -4,10 +4,8 @@ import { fsObjType } from "./types";
 let fs: fsObjType;
 
 /**
- * this function allows you to override the fs module
- * that fs-pro uses
- *
- * NOTE: the watch method must follow the "node-watch" package api
+ * this function allows you to override the fs module that fs-pro uses
+ * @NOTE the watch method must follow the "node-watch" package api
  * not node fs
  * @param newFs the new fs
  */

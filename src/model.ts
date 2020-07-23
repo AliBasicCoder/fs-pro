@@ -73,10 +73,7 @@ export class Model {
   /**
    * create a structure of File and Dir objects
    * and calls .create in all of theme
-   * @see https://fs-pro-docs.herokuapp.com/classes/_file_.file.html#create
-   * @see https://fs-pro-docs.herokuapp.com/classes/_dir_.dir.html#create
-   *
-   * example:
+      * example:
    * ```js
    * import { Model } from "fs-pro";
    *
@@ -88,6 +85,9 @@ export class Model {
    *
    * structure.node_modules instanceof Dir === "true"
    * ```
+
+   * @see https://fs-pro-docs.herokuapp.com/classes/_file_.file.html#create
+   * @see https://fs-pro-docs.herokuapp.com/classes/_dir_.dir.html#create
    * @param path the path to create files at
    */
   createAt<T extends modelData>(

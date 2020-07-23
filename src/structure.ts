@@ -5,17 +5,15 @@ import { create } from "./funcs";
 export class Structure {
   /**
    * creates the structure
-   * example
-   * ```js
-   * Structure.create(path, stuck, {
+   * @param path the you want to create the structure in
+   * @param stuck the structure
+   * @param options options
+   * @example
+   * Structure.create(stuck, {
    *   onCreateFile (file) {
    *     console.log(chalk.green("CREATE"), file.path);
    *   }
    * })
-   * ```
-   * @param path the you want to create the structure in
-   * @param stuck the structure
-   * @param options options
    */
   public static create(stuck: sw<modelData>, options?: Partial<createOptions>) {
     create(stuck.__META__.path, stuck, options);

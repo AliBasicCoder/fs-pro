@@ -59,14 +59,12 @@ export class File {
     return this.stat().birthtime;
   }
   /**
-   * the File constructor
-   * NOTE: the path you pass will passed to path.join
-   * ```js
+   * @NOTE the path you pass will passed to path.join
+   * @param args the paths
+   * @example
    * const file = new File(__dirname, "./some.txt");
    * file.write("hello world");
    * // ...
-   * ```
-   * @param args the path
    */
   constructor(...args: string[]) {
     this.path = join(...args);
@@ -82,14 +80,12 @@ export class File {
   }
   /**
    * write some data into the file
-   * NOTE: if you pass an object it will be automatically
-   * convert to json
-   * ```js
+   * @param data the data to write
+   * @NOTE if you pass an object it will be automatically convert to json
+   * @example
    * file.write("hello world");
    * file.write(Buffer.from("hello world"));
    * file.write({ hello: "world" });
-   * ```
-   * @param data the data to write
    */
   write(data: Buffer | string | obj<any>) {
     if (Buffer.isBuffer(data) || typeof data === "string") {
@@ -99,19 +95,15 @@ export class File {
   }
   /**
    * reads the file
-   * example:
-   * ```js
+   * @example
    * // this will print the line index followed by "| "
    * file.read("\n", (str, i) => console.log(`${i}| ${str}`))
-   * ```
    */
   read(splitter: string, callback: (str: string, index: number) => void): this;
   /**
    * reads the file
-   * example:
-   * ```js
+   * @example
    * file.read().toString() // => "hello world
-   * ```
    */
   read(): Buffer;
   read(splitter?: string, callback?: (str: string, index: number) => void) {
@@ -122,24 +114,20 @@ export class File {
   }
   /**
    * append some data to the file
-   * example:
-   * ```js
-   * file.append("hello").append("world").read() // => hello world
-   * ```
    * @param data data to append
+   * @example
+   * file.append("hello").append("world").read() // => hello world
    */
   append(data: string | Buffer) {
     appendFileSync(this.path, data);
     return this;
   }
   /**
-   * overwrites the file by splitting it's
-   * content with the splitter
-   * ```js
-   * file.overwrite("\n", (str, i) => `${i}| ${str}`);
-   * ```
+   * overwrites the file by splitting it's content with the splitter
    * @param splitter the string to split the file by
    * @param callback the callback
+   * @example
+   * file.overwrite("\n", (str, i) => `${i}| ${str}`);
    */
   overwrite(
     splitter: string,
@@ -154,73 +142,66 @@ export class File {
   }
   /**
    * gets the item by the index
-   * ```js
-   * file.getIndex("\n", 24) // gets the line 24
-   * ```
    * @param splitter the splitter string
    * @param index the index
+   * @example
+   * file.getIndex("\n", 24) // gets the line 24
    */
   getIndex(splitter: string, index: number) {
     return this.splitBy(splitter)[index];
   }
   /**
    * get the index between two numbers
-   * ```js
-   * file.getIndexBetween("\n", 10, 13) // gets the lines between line 10 and 13 (not including 13)
-   * ```
    * @param splitter the splitter
    * @param start the start index
    * @param end the end index
+   * @example
+   * file.getIndexBetween("\n", 10, 13) // gets the lines between line 10 and 13 (not including 13)
    */
   getIndexBetween(splitter: string, start: number, end?: number) {
     return this.splitBy(splitter).slice(start, end);
   }
   /**
    * split the file content into an array
-   * example of getting the lines of a file
-   * ```js
-   * file.splitBy("\n").forEach(console.log);
-   * ```
    * @param separator the string to split by
    * @param limit A value used to limit the number of elements returned in the array
+   * @example
+   * // example of getting the lines of a file
+   * file.splitBy("\n").forEach(console.log);
    */
   splitBy(separator: string | RegExp, limit?: number) {
     return this.read().toString().split(separator, limit);
   }
   /**
    * creates a read stream for the file
-   * example of copying file content via streams:
-   * ```js
+   * @example
+   * // example of copying file content via streams
    * fileX.createReadStream().pipe(fileY.createWriteStream());
-   * ```
    */
   createReadStream() {
     return createReadStream(this.path);
   }
   /**
    * creates a write stream for the file
-   * example of copying file content via streams:
-   * ```js
+   * @example
+   * // example of copying file content via streams:
    * fileX.createReadStream().pipe(fileY.createWriteStream());
-   * ```
    */
   createWriteStream() {
     return createWriteStream(this.path);
   }
   /**
    * reads the file as json
-   * example:
-   * ```js
+   * @example
    * JsonFile.json() // => { hello: "world" }
-   * ```
    */
   json<T extends obj<any> | any[]>(): T {
     return JSON.parse(this.read().toString());
   }
   /**
    * creates the file
-   * NOTE: it won't modify the file content if the file exits and not empty and will write
-   * the defaultContent property if exits
+   * @NOTE it won't modify the file content if the file exits and not empty and will write
+   * the defaultContent property if empty or doesn't exits
    */
   create() {
     if (!this.exits()) return this.write(this.defaultContent || "");
@@ -229,12 +210,11 @@ export class File {
   }
   /**
    * watches the file
-   * ```js
+   * @param listener the function the will be called when the file changes
+   * @example
    * file.watch(function (e, filename) {
    *    console.log(`the file size is: ${this.size}`);
    * })
-   * ```
-   * @param listener the function the will be called when the file changes
    */
   watch(listener: (this: File, curr: Stats, prev: Stats) => any) {
     watchFile(this.path, listener.bind(this));
@@ -245,34 +225,37 @@ export class File {
     unwatchFile(this.path);
     return this;
   }
-  /** gets the stats of the file @see https://nodejs.org/api/fs.html#fs_class_fs_stats */
+  /**
+   * gets the stats of the file
+   * @see https://nodejs.org/api/fs.html#fs_class_fs_stats
+   */
   stat() {
     return statSync(this.path);
   }
-  /** gets the stats of the file @see https://nodejs.org/api/fs.html#fs_class_fs_stats */
+  /**
+   * gets the stats of the file
+   * @see https://nodejs.org/api/fs.html#fs_class_fs_stats
+   */
   lstat() {
     return lstatSync(this.path);
   }
   /**
    * delete the file
-   * ```js
+   * @example
    * file.delete();
    * fs.existsSync(file.path) // => false
-   * ```
    */
   delete() {
     unlinkSync(this.path);
   }
   /**
    * copy the file to the destination
-   * example:
-   * ```js
+   * @param destination the destination to copy the file to
+   * @param isRelative tells the function if the path is relative or not
+   * @example
    * const newFile = file.copyTo(`some_dir/${file.base}`);
    * newFile.write("hello world");
    * // ...
-   * ```
-   * @param destination the destination to copy the file to
-   * @param isRelative tells the function if the path is relative or not
    */
   copyTo(destination: string) {
     const dest = join(this.directory, destination);
@@ -281,14 +264,12 @@ export class File {
   }
   /**
    * moves the file to destination
-   * example:
-   * ```js
+   * @param destination the destination to copy the file to
+   * @param isRelative tells the function if the path is relative or not
+   * @example
    * file.moveTo("some_dir");
    * file.write("hello world");
    * // ...
-   * ```
-   * @param destination the destination to copy the file to
-   * @param isRelative tells the function if the path is relative or not
    */
   moveTo(destination: string) {
     const dest = join(destination, this.base);
@@ -304,10 +285,9 @@ export class File {
   }
   /**
    * rename the file
-   * ```js
-   * file.rename("newName.txt");
-   * ```
    * @param newName the newName
+   * @example
+   * file.rename("newName.txt");
    */
   rename(newName: string) {
     const newPath = join(this.directory, newName);
@@ -322,10 +302,9 @@ export class File {
   }
   /**
    * changes the mode of the file
-   * ```js
-   * file.chmod(0o400 + 0o200 + 0o100); // gives the owner read, write and execute permissions
-   * ```
    * @param mode the mode
+   * @example
+   * file.chmod(0o400 + 0o200 + 0o100); // gives the owner read, write and execute permissions
    */
   chmod(mode: number) {
     chmodSync(this.path, mode);
@@ -336,12 +315,11 @@ export class File {
   }
   /**
    * validates the file using the validator
-   * ```js
+   * @example
    * // validate a json file
    * file.validator = str => JSON.parse(str);
    * const errors = file.validate();
    * if (errors.length) console.log("file isn't valid")
-   * ```
    */
   validate(): string[] {
     if (!this.validator) throw new Error("please set validator first");
@@ -355,12 +333,10 @@ export class File {
   }
   /**
    * safer from validate and returns just a boolean
-   *
-   * NOTE: it will return true if validator property is undefined
-   * ```js
+   * @NOTE it will return true if validator property is undefined
+   * @example
    * file.validator = str => JSON.parse(str);
    * if (!file.valid()) console.log("file isn't valid");
-   * ```
    */
   valid(): boolean {
     if (!this.validator) return true;

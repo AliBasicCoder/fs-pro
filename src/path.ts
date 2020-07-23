@@ -3,8 +3,7 @@ import { pathObjType } from "./types";
 let path: pathObjType;
 
 /**
- * this function allows you to override the path module
- * that path-pro uses
+ * this function allows you to override the path module that fs-pro uses
  * @param newPath the new path
  */
 export function setPath(newPath: pathObjType) {
