@@ -175,10 +175,9 @@ const modalBase = {
 // the actual model
 const model = new Model(modelBase);
 
-// structures are objects the have the same shape
-// of the object you passed to the Model constructor
-// except every Modal.File will be a File object
-// every thing else will be a Dir object
+// structures are models applied to a directory
+// every Modal.File will be a File
+// every thing else will be a Dir
 // NOTE: modal.structure will automatically join the paths given
 const structure = modal.structure<typeof modalBase>(__dirname, "dir");
 
