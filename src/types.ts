@@ -6,6 +6,11 @@ import { fsProErr } from "./fsProErr";
 import { Model } from "./model";
 import { Structure } from "./structure";
 
+export type DirForeachOptions = {
+  /** if true will loop recursively */
+  recursive?: boolean;
+};
+
 export type fsObjType = {
   appendFileSync: typeof FS.appendFileSync;
   copyFileSync: typeof FS.copyFileSync;

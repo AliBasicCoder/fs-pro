@@ -13,7 +13,7 @@ import { FSWatcher } from "fs";
 import { join, parse } from "./path";
 import { File } from "./file";
 // will be replaced with an import from node-watch
-import { WatchOptions } from "./types";
+import { WatchOptions, DirForeachOptions } from "./types";
 import { fsProErr } from "./fsProErr";
 
 /** the Dir Class is used to help you work with files */
@@ -51,7 +51,7 @@ export class Dir {
   }
   /**
    * @NOTE the path you pass will passed to path.join
-   * @param args the path
+   * @param args the paths
    * the Dir Class constructor
    */
   constructor(...args: string[]) {
@@ -85,7 +85,62 @@ export class Dir {
     });
   }
   /**
-   * creates the directory
+   * loops throw every thing inside the directory
+   * @param callback the callback
+   * @param options options
+   * @example
+   * // console logs every thing's path (file or dir)
+   * dir.forEach(thing => console.log(thing.path));
+   * // console logs every thing's path (file or dir) recursively
+   * dir.forEach(thing => console.log(thing.path), { recursive: true });
+   */
+  forEach(
+    callback: (fileOrDir: File | Dir) => any,
+    options: DirForeachOptions = {}
+  ) {
+    this.readResolve().forEach((thing) => {
+      callback(thing);
+      if (thing instanceof Dir && options.recursive)
+        thing.forEach(callback, options);
+    });
+  }
+  /**
+   * loops throw every file inside the directory
+   * @param callback the callback
+   * @param options options
+   * @example
+   * // console logs every file's path
+   * dir.forEachFile(file => console.log(file.path))
+   * // console logs every file's path
+   * dir.forEachFile(file => console.log(file.path), { recursive: true })
+   */
+  forEachFile(callback: (file: File) => any, options: DirForeachOptions = {}) {
+    this.readResolve().forEach((thing) => {
+      if (thing instanceof File) callback(thing);
+      if (thing instanceof Dir && options.recursive)
+        thing.forEachFile(callback, options);
+    });
+  }
+  /**
+   * loops throw every directory inside the directory
+   * @param callback the callback
+   * @param options options
+   * @example
+   * // console logs every directory's path
+   * dir.forEachDir(dir => console.log(dir.path))
+   * // console logs every directory's path
+   * dir.forEachDir(dir => console.log(dir.path), { recursive: true })
+   */
+  forEachDir(callback: (dir: Dir) => any, options: DirForeachOptions = {}) {
+    this.readResolve().forEach((thing) => {
+      if (thing instanceof Dir) {
+        callback(thing);
+        if (options.recursive) thing.forEachDir(callback, options);
+      }
+    });
+  }
+  /**
+   * creates the directory (if it doesn't exits)
    * @example
    * dir.create();
    */
@@ -113,7 +168,7 @@ export class Dir {
    * // ...
    */
   createDir(dirname: string) {
-    return new Dir(join(this.path, dirname)).create();
+    return new Dir(this.path, dirname).create();
   }
   /**
    * watches the directory
@@ -147,7 +202,7 @@ export class Dir {
     rmdirSync(this.path);
   }
   /**
-   * delete every thing (where it's a file or a folder) the matches the regex passed in
+   * delete every thing (where it's a file or a folder) that matches the regex passed in
    * @param regex the regex
    * @example
    * dir.deleteMatch(/some/); // delete every thing called some

@@ -124,6 +124,8 @@ export class File {
   }
   /**
    * overwrites the file by splitting it's content with the splitter
+   * passing the split data into a callback and replacing it with the
+   * result
    * @param splitter the string to split the file by
    * @param callback the callback
    * @example
@@ -141,7 +143,8 @@ export class File {
     return this;
   }
   /**
-   * gets the item by the index
+   * splits the file content and get the item with index
+   * passed
    * @param splitter the splitter string
    * @param index the index
    * @example
@@ -151,7 +154,8 @@ export class File {
     return this.splitBy(splitter)[index];
   }
   /**
-   * get the index between two numbers
+   * splits the file content and get the items between start
+   * and end
    * @param splitter the splitter
    * @param start the start index
    * @param end the end index
@@ -200,13 +204,12 @@ export class File {
   }
   /**
    * creates the file
-   * @NOTE it won't modify the file content if the file exits and not empty and will write
-   * the defaultContent property if empty or doesn't exits
+   * @NOTE it won't modify the file content if the file exits and not empty
    */
   create() {
     if (!this.exits()) return this.write(this.defaultContent || "");
     else if (this.size === 0) return this.write(this.defaultContent || "");
-    else return this;
+    return this;
   }
   /**
    * watches the file
@@ -251,28 +254,47 @@ export class File {
   /**
    * copy the file to the destination
    * @param destination the destination to copy the file to
-   * @param isRelative tells the function if the path is relative or not
+   * @param rename rename the file to another name
+   * @param isRelative resolves the destination path based the file path
    * @example
-   * const newFile = file.copyTo(`some_dir/${file.base}`);
+   * // copy to absolute path
+   * const newFile = file.copyTo("/home/some_dir");
+   * // copy to a path relative to file path
+   * const newFile = file.copyTo("../some_dir", null, true);
+   * // copy and rename
+   * const newFile = file.copyTo("/home/some_dir", "newName.txt");
+   * const newFile = file.copyTo("../some_dir", "newName.txt", true);
+   *
    * newFile.write("hello world");
-   * // ...
    */
-  copyTo(destination: string) {
-    const dest = join(this.directory, destination);
+  copyTo(destination: string, rename?: null | string, isRelative?: boolean) {
+    const dest = isRelative
+      ? join(this.directory, destination, rename || this.base)
+      : join(destination, rename || this.base);
     copyFileSync(this.path, dest);
     return new File(dest);
   }
   /**
    * moves the file to destination
    * @param destination the destination to copy the file to
-   * @param isRelative tells the function if the path is relative or not
+   * @param rename rename the file to another name
+   * @param isRelative resolves the destination path based the file path
    * @example
-   * file.moveTo("some_dir");
+   * // move to absolute path
+   * file.moveTo("/home/some_dir");
+   * // move to a path relative to file path
+   * file.moveTo("../some_dir", null, true);
+   * // move and rename
+   * file.moveTo("/home/some_dir", "newName.txt");
+   * file.moveTo("../some_dir", "newName.txt", true);
+   *
    * file.write("hello world");
    * // ...
    */
-  moveTo(destination: string) {
-    const dest = join(destination, this.base);
+  moveTo(destination: string, rename?: null | string, isRelative?: boolean) {
+    const dest = isRelative
+      ? join(this.path, destination, rename || "")
+      : join(destination, rename || this.base);
     renameSync(this.path, dest);
     const { base, ext, dir, root, name } = parse(dest);
     this.path = dest;
@@ -332,7 +354,7 @@ export class File {
     }
   }
   /**
-   * safer from validate and returns just a boolean
+   * safer from validate (cause it will return true if there's no "validator")
    * @NOTE it will return true if validator property is undefined
    * @example
    * file.validator = str => JSON.parse(str);
