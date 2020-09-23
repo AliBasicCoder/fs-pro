@@ -5,8 +5,8 @@ import {
   isModelFileObj,
   isModelDirObj,
   validateOptions,
+  createOptions,
 } from "./types";
-import { createOptions } from "./types";
 import { Dir } from "./dir";
 import { File } from "./file";
 import { join } from "./path";

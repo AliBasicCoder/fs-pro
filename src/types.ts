@@ -1,10 +1,20 @@
 import * as FS from "fs";
+import {
+  FSWatcher,
+  Stats,
+  BigIntOptions,
+  PathLike,
+  BigIntStats,
+  StatOptions,
+} from "fs";
 import * as PATH from "path";
 import { File } from "./file";
 import { Dir } from "./dir";
 import { fsProErr } from "./fsProErr";
 import { Model } from "./model";
 import { Structure } from "./structure";
+
+export { FSWatcher, Stats, BigIntOptions, PathLike, BigIntStats, StatOptions };
 
 export type DirForeachOptions = {
   /** if true will loop recursively */

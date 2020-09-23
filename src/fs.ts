@@ -1,5 +1,11 @@
-import { Stats, BigIntOptions, PathLike, BigIntStats, StatOptions } from "fs";
-import { fsObjType } from "./types";
+import {
+  fsObjType,
+  Stats,
+  BigIntOptions,
+  PathLike,
+  BigIntStats,
+  StatOptions,
+} from "./types";
 
 let fs: fsObjType;
 
