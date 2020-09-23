@@ -14,9 +14,8 @@ import {
   unlinkSync,
   statSync,
 } from "./fs";
-import { Stats } from "fs";
 import { join, parse } from "./path";
-import { obj } from "./types";
+import { obj, Stats } from "./types";
 import { fsProErr } from "./fsProErr";
 
 /** the File Class is used to help you work with files */

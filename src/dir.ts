@@ -9,11 +9,10 @@ import {
   statSync,
   watch,
 } from "./fs";
-import { FSWatcher } from "fs";
 import { join, parse } from "./path";
 import { File } from "./file";
 // will be replaced with an import from node-watch
-import { WatchOptions, DirForeachOptions } from "./types";
+import { WatchOptions, DirForeachOptions, FSWatcher } from "./types";
 import { fsProErr } from "./fsProErr";
 
 /** the Dir Class is used to help you work with files */
