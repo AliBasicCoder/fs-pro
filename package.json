@@ -17,7 +17,7 @@
     "cpublish": "yarn build && yarn test && yarn lint dist/*.d.ts --fix && yarn docs && yarn publish"
   },
   "devDependencies": {
-    "@types/mocha": "^7.0.2",
+    "@types/mocha": "^8.0.3",
     "@typescript-eslint/eslint-plugin": "^2.24.0",
     "@typescript-eslint/parser": "^2.24.0",
     "dts-bundle": "^0.7.3",
