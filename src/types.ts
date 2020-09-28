@@ -11,8 +11,6 @@ import * as PATH from "path";
 import { File } from "./file";
 import { Dir } from "./dir";
 import { fsProErr } from "./fsProErr";
-import { Model } from "./model";
-import { Structure } from "./structure";
 
 export { FSWatcher, Stats, BigIntOptions, PathLike, BigIntStats, StatOptions };
 
@@ -126,12 +124,7 @@ export interface Plugin {
   /** any required plugins (will be loaded by order passed) */
   requires?: Plugin[];
   /** the actual plugin */
-  plugin: (
-    | PluginData<"File", File>
-    | PluginData<"Dir", Dir>
-    | PluginData<"Model", Model>
-    | PluginData<"Structure", Structure>
-  )[];
+  plugin: (PluginData<"File", File> | PluginData<"Dir", Dir>)[];
 }
 
 export interface validateOptions {
