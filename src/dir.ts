@@ -8,6 +8,7 @@ import {
   unlinkSync,
   statSync,
   watch,
+  tmpDir,
 } from "./fs";
 import { join, parse } from "./path";
 import { File } from "./file";
@@ -64,6 +65,15 @@ export class Dir {
     }
   }
   /**
+   * create a dir in the tmp directory
+   * @example
+   * const dir = Dir.tmpDir();
+   * console.log(dir.path) // => "'/tmp/tmp-132576-Rlxque0XmU45'"
+   */
+  static tmpDir() {
+    return new Dir(tmpDir());
+  }
+  /**
    * reads the directory
    * @example
    * console.log(dir.read()) // => ["hello_world.txt", "file2.txt"]
@@ -72,7 +82,7 @@ export class Dir {
     return readdirSync(this.path);
   }
   /**
-   * reads te directory and convert it to File an Dir objects
+   * reads te directory and convert it to File and Dir objects
    * @example
    * dir.readResolve().forEach(console.log);
    */
@@ -84,7 +94,7 @@ export class Dir {
     });
   }
   /**
-   * loops throw every thing inside the directory
+   * loops through every thing inside the directory
    * @param callback the callback
    * @param options options
    * @example
@@ -104,7 +114,7 @@ export class Dir {
     });
   }
   /**
-   * loops throw every file inside the directory
+   * loops through every file inside the directory
    * @param callback the callback
    * @param options options
    * @example
@@ -121,7 +131,7 @@ export class Dir {
     });
   }
   /**
-   * loops throw every directory inside the directory
+   * loops through every directory inside the directory
    * @param callback the callback
    * @param options options
    * @example
@@ -150,23 +160,48 @@ export class Dir {
   /**
    * create a file inside the directory
    * @param filename the file you want to create
+   * @param createParents create parent directories if doesn't exits
+   * @NOTE use ONLY forward slash of filename
    * @example
    * const file = dir.createFile("hello_world.txt");
    * file.write("hello world");
+   * // ...
+   * const file2 = dir.createFile("some_dir/hello_world.txt", true);
+   * file2.write("hello world");
    * //...
    */
-  createFile(filename: string) {
+  createFile(filename: string, createParents?: boolean) {
+    if (createParents) {
+      const parentsArr = filename.split("/");
+      parentsArr.forEach((dir, i) =>
+        i !== parentsArr.length - 1
+          ? new Dir(this.path, ...parentsArr.slice(0, i), dir).create()
+          : null
+      );
+    }
     return new File(join(this.path, filename)).create();
   }
   /**
    * create a directory inside the directory
    * @param dirname the name of the directory
+   * @param createParents create parent directories if doesn't exits
    * @example
    * const subDir = dir.createDir("hello");
    * subDir.createFile("hello_world.txt");
    * // ...
+   * const subDir2 = dir.createDir("foo/bar/hello", true);
+   * subDir2.createFile("hello_world.txt");
+   * // ...
    */
-  createDir(dirname: string) {
+  createDir(dirname: string, createParents?: boolean) {
+    if (createParents) {
+      const parentsArr = dirname.split("/");
+      parentsArr.forEach((dir, i) =>
+        i !== parentsArr.length - 1
+          ? new Dir(this.path, ...parentsArr.slice(0, i), dir).create()
+          : null
+      );
+    }
     return new Dir(this.path, dirname).create();
   }
   /**
@@ -193,12 +228,7 @@ export class Dir {
   }
   /** deletes the directory even if it's not empty */
   delete() {
-    this.read().forEach((fileOrDir) => {
-      const pathOfIt = join(this.path, fileOrDir);
-      if (statSync(pathOfIt).isDirectory()) new Dir(pathOfIt).delete();
-      else unlinkSync(pathOfIt);
-    });
-    rmdirSync(this.path);
+    rmdirSync(this.path, { recursive: true });
   }
   /**
    * delete every thing (where it's a file or a folder) that matches the regex passed in
@@ -296,5 +326,51 @@ export class Dir {
    */
   getDir(path: string) {
     return new Dir(this.path, path);
+  }
+  /**
+   * copy the directory to another location
+   * @param destination the destination folder
+   * @param rename rename the folder copy
+   * @param isRelative if true resolves the destination path based on the dir path
+   * @example
+   * // copy directory to "/home/some_dir"
+   * dir.copyTo("/home/some_dir")
+   * // copy directory to "/home/some_dir" an rename the directory's copy name to "new-name"
+   * dir.copyTo("/home/some_dir", "new_name")
+   * // copy directory to "../some_dir" (path is resolved passed on folder's location)
+   * dir.copyTo("../some_dir", null, true)
+   */
+  copyTo(destination: string, rename?: null | string, isRelative?: boolean) {
+    const dest = isRelative
+      ? join(this.path, destination, rename || this.name)
+      : join(destination, rename || this.name);
+    mkdirSync(dest);
+    this.forEach((fileOrDir) => fileOrDir.copyTo(dest));
+    return new Dir(dest);
+  }
+  /**
+   * move the directory to another location
+   * @param destination the destination folder
+   * @param rename rename the folder
+   * @param isRelative if true resolves the destination path based on the dir path
+   * @example
+   * // move directory to "/home/some_dir"
+   * dir.moveTo("/home/some_dir")
+   * // move directory to "/home/some_dir" an rename the directory to "new-name"
+   * dir.moveTo("/home/some_dir", "new_name")
+   * // move directory to "../some_dir" (path is resolved passed on folder's location)
+   * dir.moveTo("../some_dir", null, true)
+   */
+  moveTo(destination: string, rename?: null | string, isRelative?: boolean) {
+    const dest = isRelative
+      ? join(this.path, destination, rename || this.name)
+      : join(destination, rename || this.name);
+    mkdirSync(dest);
+    this.forEach((fileOrDir) => fileOrDir.moveTo(dest));
+    rmdirSync(this.path);
+    const parsedPath = parse(dest);
+    this.path = dest;
+    this.name = parsedPath.base;
+    this.root = parsedPath.root;
   }
 }

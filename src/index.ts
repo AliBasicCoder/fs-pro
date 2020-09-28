@@ -1,17 +1,25 @@
 import { Dir } from "./dir";
 import { File } from "./file";
-import { Model } from "./model";
-import { Structure } from "./structure";
 import { addPlugin } from "./pluginAdder";
 import { setFs } from "./fs";
 import { setPath } from "./path";
+import { Shape } from "./Shape";
 import watch from "node-watch";
+import * as fs from "fs";
+import * as path from "path";
+import { fileSync, dirSync } from "tmp";
 
 setFs({
-  ...require("fs"),
+  ...fs,
   watch,
+  mkTempDir() {
+    return dirSync().name;
+  },
+  mkTempFile() {
+    return fileSync().name;
+  },
 });
 
-setPath(require("path"));
+setPath(path);
 
-export { File, Dir, Model, Structure, addPlugin, setFs, setPath };
+export { File, Dir, addPlugin, setFs, setPath, Shape };
