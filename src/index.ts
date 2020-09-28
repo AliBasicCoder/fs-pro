@@ -3,6 +3,7 @@ import { File } from "./file";
 import { addPlugin } from "./pluginAdder";
 import { setFs } from "./fs";
 import { setPath } from "./path";
+import { Shape } from "./Shape";
 import watch from "node-watch";
 import * as fs from "fs";
 import * as path from "path";
@@ -21,4 +22,4 @@ setFs({
 
 setPath(path);
 
-export { File, Dir, addPlugin, setFs, setPath };
+export { File, Dir, addPlugin, setFs, setPath, Shape };

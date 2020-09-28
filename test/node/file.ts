@@ -69,9 +69,9 @@ describe("File", () => {
   it(".validate() and file.valid()", (done) => {
     const file = new File(__dirname, fileIndex(4)).write({ hello: "world" });
     let called = 0;
-    file.validator = (str) => {
+    file.validator = function () {
       called++;
-      return JSON.parse(str);
+      return JSON.parse(this.read().toString());
     };
     file.validate();
     assert.equal(called, 1);

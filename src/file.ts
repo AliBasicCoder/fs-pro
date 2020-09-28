@@ -37,7 +37,7 @@ export class File {
   /** the default content of the file written when you call .create() */
   defaultContent?: string | Buffer;
   /** a function to validate the file content */
-  validator?: (this: File, content: any) => (Error | string)[];
+  validator?: (this: File) => Error[] | void;
   /** the size of the file */
   get size() {
     return this.stat().size;
@@ -340,18 +340,22 @@ export class File {
   }
   /**
    * validates the file using the validator
+   * @NOTE if an error happens in file.validator file.validate will handel it
+   * an return an array of errors
    * @example
    * // validate a json file
-   * file.validator = str => JSON.parse(str);
+   * file.validator = function () {
+   *    JSON.parse(this.read.toString())
+   * }
    * const errors = file.validate();
    * if (errors.length) console.log("file isn't valid")
    */
-  validate(): string[] {
+  validate(): Error[] {
     if (!this.validator) throw new Error("please set validator first");
     try {
-      const errs = this.validator(this.read().toString());
+      const errs = this.validator();
       if (!Array.isArray(errs)) return [];
-      return errs.map((err) => (typeof err === "string" ? err : err.message));
+      return errs;
     } catch (error) {
       return [error];
     }
@@ -360,8 +364,12 @@ export class File {
    * safer from validate (cause it will return true if there's no "validator")
    * @NOTE it will return true if validator property is undefined
    * @example
-   * file.validator = str => JSON.parse(str);
-   * if (!file.valid()) console.log("file isn't valid");
+   * // validate a json file
+   * file.validator = function () {
+   *    JSON.parse(this.read.toString())
+   * }
+   * const errors = file.validate();
+   * if (errors.length) console.log("file isn't valid")
    */
   valid(): boolean {
     if (!this.validator) return true;
