@@ -91,6 +91,46 @@ export interface validateOptions {
   onInvalid: (err: fsProErr, fileOrDir: File | Dir) => any;
 }
 
+// for Shape
+
+export type fileType = {
+  __isFile: true;
+  dfCont?: string | Buffer;
+  validator?: (this: File) => Error[] | void;
+  str: string;
+};
+
+export type dirType = {
+  __isDir: true;
+  str: string;
+  fileType: fileType;
+};
+
+export type ShapeObj = {
+  // @ts-ignore
+  __rest?: ShapeObj | fileType | dirType;
+  // @ts-ignore
+  __name?: string;
+  [key: string]: fileType | dirType | ShapeObj;
+};
+
+export const isFileType = (obj: any): obj is fileType => obj.__isFile === true;
+
+export const isDirType = (obj: any): obj is dirType => obj.__isDir === true;
+
+export type createEvents = {
+  onCreate?: (thing: File | Dir) => any;
+  onCreateFile?: (file: File) => any;
+  onCreateDir?: (thing: Dir) => any;
+};
+
+export type errArr = {
+  arr: fsProErr[];
+  push: (err?: fsProErr | errArr) => void;
+};
+
+export const isErrArr = (obj?: any): obj is errArr => obj.arr && obj.push;
+
 // copied from node-watch https://npmjs.com/package/delete
 
 export type WatchOptions = {

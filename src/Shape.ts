@@ -1,40 +1,19 @@
-import { objAny } from "./types";
+import {
+  objAny,
+  ShapeObj,
+  createEvents,
+  isDirType,
+  isFileType,
+  fileType,
+  dirType,
+  errArr,
+  isErrArr,
+} from "./types";
 import { Dir } from "./dir";
 import { File } from "./file";
 import { join } from "./path";
 import { fsProErr } from "./fsProErr";
 import { existsSync } from "./fs";
-
-type fileType = {
-  __isFile: true;
-  dfCont?: string | Buffer;
-  validator?: (this: File) => Error[] | void;
-  str: string;
-};
-
-type dirType = {
-  __isDir: true;
-  str: string;
-  fileType: fileType;
-};
-
-type ShapeObj = {
-  // @ts-ignore
-  __rest?: ShapeObj | fileType | dirType;
-  // @ts-ignore
-  __name?: string;
-  [key: string]: fileType | dirType | ShapeObj;
-};
-
-const isFileType = (obj: any): obj is fileType => obj.__isFile === true;
-
-const isDirType = (obj: any): obj is dirType => obj.__isDir === true;
-
-type createEvents = {
-  onCreate?: (thing: File | Dir) => any;
-  onCreateFile?: (file: File) => any;
-  onCreateDir?: (thing: Dir) => any;
-};
 
 function createEventRegister(eventsListeners?: createEvents) {
   return (thing: File | Dir) => {
@@ -145,13 +124,6 @@ function check(
   }
   return validate(fileOrDir.path, currentObj, crash);
 }
-
-type errArr = {
-  arr: fsProErr[];
-  push: (err?: fsProErr | errArr) => void;
-};
-
-const isErrArr = (obj?: any): obj is errArr => obj.arr && obj.push;
 
 function errArray(crash: boolean): errArr {
   return {
