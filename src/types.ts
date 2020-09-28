@@ -58,53 +58,6 @@ export type obj<T> = {
 
 export type objAny = obj<any>;
 
-export interface modelObjBase<T extends string> {
-  type: T;
-}
-
-export type modelFileObj = modelObjBase<"file"> & {
-  ext: string;
-  defaultContent?: string | Buffer;
-  validator?: (this: File, content: string) => any;
-};
-
-export type modelDirObj = modelObjBase<"dir"> & { fileType: modelFileObj };
-
-export interface modelData {
-  // __any?: modelFileObj;
-  // __any_dir?: modelDirObj;
-  [key: string]: modelDirObj | modelFileObj | modelData;
-}
-
-export type actualSw<T extends modelData> = {
-  [K in keyof T]: T[K] extends modelFileObj
-    ? File
-    : T[K] extends modelDirObj
-    ? Dir
-    : T[K] extends modelData
-    ? sw<T[K]>
-    : any;
-};
-
-export type sw<T extends modelData> = actualSw<T> & {
-  __META__: {
-    path: string;
-  };
-};
-
-export const isModelFileObj = (obj: any): obj is modelFileObj =>
-  obj.type === "file";
-export const isModelDirObj = (obj: any): obj is modelDirObj =>
-  obj.type === "dir";
-
-export interface createOptions {
-  /** called when any thing is created wether it's a file or a directory */
-  onCreate: (obj: File | Dir) => any;
-  /** called when any file is created */
-  onCreateFile: (obj: Dir) => any;
-  /** called when any directory is created  */
-  onCreateDir: (obj: Dir) => any;
-}
 /**
  * @param A the className
  * @param B the actual class type
