@@ -13,7 +13,7 @@
     "lint": "eslint src/*.ts",
     "build": "webpack && dts-bundle --configJson dts-bundle.json && rimraf types",
     "git": "git add . && git commit -a -m \"new version\" && git push origin master",
-    "test": "mocha -r ts-node/register ./test/test.ts",
+    "test": "mocha -r ts-node/register ./test/node/*.ts",
     "cpublish": "yarn build && yarn test && yarn lint dist/*.d.ts --fix && yarn docs && yarn publish"
   },
   "devDependencies": {
@@ -33,7 +33,9 @@
   },
   "dependencies": {
     "@types/node": "^14.11.2",
-    "node-watch": "^0.6.3"
+    "@types/tmp": "^0.2.0",
+    "node-watch": "^0.6.3",
+    "tmp": "^0.2.1"
   },
   "keywords": [
     "fs",

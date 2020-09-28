@@ -8,6 +8,7 @@ import {
   unlinkSync,
   statSync,
   watch,
+  tmpDir,
 } from "./fs";
 import { join, parse } from "./path";
 import { File } from "./file";
@@ -62,6 +63,9 @@ export class Dir {
     if (existsSync(this.path) && !this.stat().isDirectory()) {
       throw new fsProErr("STD", this.path);
     }
+  }
+  static tmpDir() {
+    return new Dir(tmpDir());
   }
   /**
    * reads the directory

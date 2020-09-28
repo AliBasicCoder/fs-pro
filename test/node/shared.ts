@@ -3,6 +3,12 @@ import { File, Dir } from "../../src/index";
 import { join, parse } from "path";
 import { EventEmitter } from "events";
 
+export const randomDir = () =>
+  `dir_${Math.random().toString().replace(".", "")}`;
+
+export const randomFile = () =>
+  `file_${Math.random().toString().replace(".", "")}`;
+
 export const fileIndex = (index: number) => `file_${index}`;
 
 export const checkData = (file: File, index: number, someDir?: string) => {

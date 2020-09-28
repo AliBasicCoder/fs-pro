@@ -37,6 +37,8 @@ export type fsObjType = {
   mkdirSync: typeof FS.mkdirSync;
   readdirSync: typeof FS.readdirSync;
   rmdirSync: typeof FS.rmdirSync;
+  mkTempFile: () => string;
+  mkTempDir: () => string;
   // watcher must follow node-watch api
   watch: (
     filename: string | string[],

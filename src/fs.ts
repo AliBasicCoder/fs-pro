@@ -105,3 +105,11 @@ export function rmdirSync(...args: Parameters<fsObjType["rmdirSync"]>) {
 export function watch(...args: Parameters<fsObjType["watch"]>) {
   return fs.watch(...args);
 }
+
+export function tmpFile() {
+  return fs.mkTempFile();
+}
+
+export function tmpDir() {
+  return fs.mkTempDir();
+}

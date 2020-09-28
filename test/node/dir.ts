@@ -2,28 +2,35 @@ import * as assert from "assert";
 import { File, Dir } from "../../src/index";
 import { join } from "path";
 import { existsSync, rmdirSync } from "fs";
-import { checkDataDir, dirIndex, fileIndex, checkData } from "./shared";
+import * as os from "os";
+import {
+  checkDataDir,
+  dirIndex,
+  fileIndex,
+  checkData,
+  randomDir,
+} from "./shared";
 
 describe("Dir", () => {
   it("have right data", (done) => {
-    const dir = new Dir(__dirname, dirIndex(0));
-    checkDataDir(dir, __dirname, dirIndex(0));
+    const name = randomDir();
+    const dir = new Dir(__dirname, name);
+    checkDataDir(dir, __dirname, name);
     done();
   });
   it(".create()", (done) => {
-    const dir = new Dir(__dirname, dirIndex(0));
-    dir.create();
+    const dir = new Dir(os.tmpdir(), randomDir()).create();
     assert.equal(existsSync(dir.path), true);
     rmdirSync(dir.path);
     done();
   });
   it(".exits()", (done) => {
-    const dir = new Dir(__dirname, dirIndex(1));
+    const dir = new Dir(__dirname, randomDir());
     assert.equal(dir.exits(), existsSync(dir.path));
     done();
   });
   it(".createFile()", (done) => {
-    const dir = new Dir(__dirname, dirIndex(2)).create();
+    const dir = Dir.tmpDir();
     const file = dir.createFile(fileIndex(19));
     assert.equal(file instanceof File, true);
     checkData(file, 19, dir.path);
@@ -33,17 +40,17 @@ describe("Dir", () => {
     done();
   });
   it(".createDir()", (done) => {
-    const dir = new Dir(__dirname, dirIndex(3)).create();
-    const newDir = dir.createDir(dirIndex(4));
+    const dir = Dir.tmpDir();
+    const newDir = dir.createDir(randomDir());
     assert.equal(newDir instanceof Dir, true);
-    checkDataDir(newDir, dir.path, dirIndex(4));
+    checkDataDir(newDir, dir.path, newDir.name);
     assert.equal(existsSync(newDir.path), true);
     rmdirSync(newDir.path);
     rmdirSync(dir.path);
     done();
   });
   it(".delete()", (done) => {
-    const dir = new Dir(__dirname, dirIndex(5)).create();
+    const dir = Dir.tmpDir();
     // creating a bunch of files and folders
     const someDir1 = dir.createDir("some1");
     const someDir2 = someDir1.createDir("some2");
@@ -57,7 +64,7 @@ describe("Dir", () => {
     done();
   });
   it(".getFile()", (done) => {
-    const dir = new Dir(__dirname, dirIndex(6)).create();
+    const dir = Dir.tmpDir();
     dir.createFile(fileIndex(20));
     const file = dir.getFile(fileIndex(20));
     assert.equal(file instanceof File, true);
@@ -67,7 +74,7 @@ describe("Dir", () => {
     done();
   });
   it(".getDir()", (done) => {
-    const dir = new Dir(__dirname, dirIndex(7)).create();
+    const dir = Dir.tmpDir();
     dir.createDir(dirIndex(8));
     const newDir = dir.getDir(dirIndex(8));
     assert.equal(newDir instanceof Dir, true);
@@ -77,7 +84,7 @@ describe("Dir", () => {
     done();
   });
   it(".read()", (done) => {
-    const dir = new Dir(__dirname, dirIndex(9)).create();
+    const dir = Dir.tmpDir();
     dir.createFile(fileIndex(21));
     dir.createDir(dirIndex(10));
     assert.deepEqual(dir.read(), [dirIndex(10), fileIndex(21)]);
@@ -85,7 +92,7 @@ describe("Dir", () => {
     done();
   });
   it(".readResolve()", (done) => {
-    const dir = new Dir(__dirname, dirIndex(10)).create();
+    const dir = Dir.tmpDir();
     dir.createDir(dirIndex(11));
     dir.createFile(fileIndex(22));
     assert.deepEqual(dir.readResolve(), [
@@ -96,13 +103,13 @@ describe("Dir", () => {
     done();
   });
   it(".stats()", (done) => {
-    const dir = new Dir(__dirname, dirIndex(12)).create();
+    const dir = Dir.tmpDir();
     assert.equal(typeof dir.stat(), "object");
     dir.delete();
     done();
   });
   it(".deleteMatch()", (done) => {
-    const dir = new Dir(__dirname, dirIndex(13)).create();
+    const dir = Dir.tmpDir();
     dir.createDir(dirIndex(14));
     dir.deleteMath(/dir_12/);
     assert.equal(existsSync(join(dir.path, "dir_12")), false);
@@ -110,7 +117,7 @@ describe("Dir", () => {
     done();
   });
   it(".deleteMachFile()", (done) => {
-    const dir = new Dir(__dirname, dirIndex(15)).create();
+    const dir = Dir.tmpDir();
     dir.createFile(fileIndex(23));
     dir.deleteMatchFile(/file_23/);
     assert.equal(existsSync(join(dir.path, "file_23")), false);
@@ -118,7 +125,7 @@ describe("Dir", () => {
     done();
   });
   it(".deleteMatchDir()", (done) => {
-    const dir = new Dir(__dirname, dirIndex(16)).create();
+    const dir = Dir.tmpDir();
     dir.createDir(dirIndex(17));
     dir.deleteMatchDir(/dir_17/);
     assert.equal(existsSync(join(dir.path, dirIndex(17))), false);
@@ -126,7 +133,7 @@ describe("Dir", () => {
     done();
   });
   it(".rename()", (done) => {
-    const dir = new Dir(__dirname, dirIndex(17)).create();
+    const dir = Dir.tmpDir();
     dir.rename(dirIndex(18));
     checkDataDir(dir, __dirname, dirIndex(18));
     assert.equal(existsSync(join(__dirname, dirIndex(18))), true);
@@ -135,7 +142,7 @@ describe("Dir", () => {
     done();
   });
   it(".forEach(), .forEachFile(), .forEachDir()", (done) => {
-    const dir = new Dir(__dirname, dirIndex(19)).create();
+    const dir = Dir.tmpDir();
     dir.createDir(dirIndex(20)).createFile(fileIndex(24));
     dir.createFile(fileIndex(25));
     // prettier-ignore

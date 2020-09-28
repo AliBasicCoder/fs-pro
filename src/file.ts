@@ -13,6 +13,7 @@ import {
   lstatSync,
   unlinkSync,
   statSync,
+  tmpFile,
 } from "./fs";
 import { join, parse } from "./path";
 import { obj, Stats } from "./types";
@@ -76,6 +77,9 @@ export class File {
     if (existsSync(this.path) && statSync(this.path).isDirectory()) {
       throw new fsProErr("STF", this.path);
     }
+  }
+  public tmpFile() {
+    return new File(tmpFile());
   }
   /**
    * write some data into the file
