@@ -8,6 +8,7 @@ import {
   dirType,
   errArr,
   isErrArr,
+  ShapeObjWithoutName,
 } from "./types";
 import { Dir } from "./dir";
 import { File } from "./file";
@@ -183,10 +184,10 @@ function validate(path: string, shapeObj: ShapeObj, crash: boolean = false) {
   return errs;
 }
 
-export class Shape {
+export class Shape<T extends ShapeObj> {
   shapeObj: ShapeObj;
 
-  constructor(shape: ShapeObj) {
+  constructor(shape: T) {
     this.shapeObj = shape;
   }
 
@@ -203,15 +204,32 @@ export class Shape {
     };
   }
 
-  static Dir(str: string, fileType: fileType): dirType {
-    return {
-      __isDir: true,
-      str,
-      fileType,
-    };
+  static Dir(str: string, fileType: fileType): dirType;
+  static Dir(str: string, shapeObj: ShapeObjWithoutName): ShapeObj;
+  static Dir(
+    str: string,
+    fileTypeOrShapeObj: fileType | ShapeObjWithoutName
+  ): dirType | ShapeObj {
+    if (isFileType(fileTypeOrShapeObj)) {
+      return {
+        __isDir: true,
+        str,
+        fileType: fileTypeOrShapeObj,
+      };
+    } else {
+      // @ts-ignore
+      return {
+        __name: str,
+        ...fileTypeOrShapeObj,
+      };
+    }
   }
 
-  createShapeInst(path: string, eventsListeners?: createEvents) {
+  createShapeInst(
+    path: string,
+    eventsListeners?: createEvents
+  ): switchToShapeInstRef<T> {
+    // @ts-ignore
     return createShapeInst(this.shapeObj, path, eventsListeners);
   }
 
@@ -219,3 +237,14 @@ export class Shape {
     return validate(path, this.shapeObj, crash);
   }
 }
+
+type switchToShapeInstRef<T extends ShapeObj> = {
+  [K in keyof T]: T[K] extends fileType
+    ? File
+    : T[K] extends dirType
+    ? Dir
+    : // @ts-ignore
+      switchToShapeInstRef<T[K]>;
+} & {
+  __dir: Dir;
+};

@@ -106,11 +106,16 @@ export type dirType = {
   fileType: fileType;
 };
 
-// TODO: find a way to fix this
-export type ShapeObj = {
+export type ShapeObj = { [key: string]: ShapeObj | fileType | dirType } & {
   __rest?: ShapeObj | fileType | dirType;
   __name?: string;
-} & { [key: string]: fileType | dirType | ShapeObj };
+};
+
+export type ShapeObjWithoutName = {
+  [key: string]: ShapeObj | fileType | dirType;
+} & {
+  __rest?: ShapeObj | fileType | dirType;
+};
 
 export const isFileType = (obj: any): obj is fileType => obj.__isFile === true;
 

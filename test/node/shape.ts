@@ -13,13 +13,11 @@ function existsAndType(...paths: string[]) {
 describe("Shape", () => {
   const shape = new Shape({
     some_file: Shape.File("some_file.txt"),
-    // @ts-ignore
-    some_dir: {
+    some_dir: Shape.Dir("some_dir", {
       some_dir_2: Shape.Dir("some_dir_2", Shape.File("*.txt")),
       some_file_2: Shape.File("some_file_2"),
       __rest: Shape.File("*.txt"),
-      __name: "some_dir",
-    },
+    }),
     some_dir_3: Shape.Dir("some_dir_3", Shape.File("*.txt")),
     __rest: Shape.File("rest[0-9]{3}.txt|*.any"),
   });
