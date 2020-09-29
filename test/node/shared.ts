@@ -11,11 +11,16 @@ export const randomFile = () =>
 
 export const fileIndex = (index: number) => `file_${index}`;
 
-export const checkData = (file: File, index: number, someDir?: string) => {
-  assert.equal(file.path, join(someDir || __dirname, fileIndex(index)));
-  assert.equal(file.name, fileIndex(index));
+export const checkData = (
+  file: File,
+  index: number | string,
+  someDir?: string
+) => {
+  const name = typeof index === "number" ? fileIndex(index) : index;
+  assert.equal(file.path, join(someDir || __dirname, name));
+  assert.equal(file.name, name);
   assert.equal(file.extension, "");
-  assert.equal(file.base, fileIndex(index));
+  assert.equal(file.base, name);
   assert.equal(file.root, parse(__dirname).root);
   assert.equal(file.directory, someDir || __dirname);
 };

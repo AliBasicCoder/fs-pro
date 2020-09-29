@@ -3,13 +3,13 @@ import { File, Dir } from "../../src/index";
 import { join } from "path";
 import { existsSync, rmdirSync } from "fs";
 import * as os from "os";
-import {
-  checkDataDir,
-  dirIndex,
-  fileIndex,
-  checkData,
-  randomDir,
-} from "./shared";
+import { checkDataDir, checkData, randomDir, randomFile } from "./shared";
+
+function fillArray<T>(arr: T[], times: number, func: (times: number) => T) {
+  for (let i = 0; i <= times; i++) {
+    arr.push(func(times));
+  }
+}
 
 describe("Dir", () => {
   it("have right data", (done) => {
@@ -31,9 +31,10 @@ describe("Dir", () => {
   });
   it(".createFile()", (done) => {
     const dir = Dir.tmpDir();
-    const file = dir.createFile(fileIndex(19));
+    const file_base = randomFile();
+    const file = dir.createFile(file_base);
     assert.equal(file instanceof File, true);
-    checkData(file, 19, dir.path);
+    checkData(file, file_base, dir.path);
     assert.equal(existsSync(file.path), true);
     file.delete();
     rmdirSync(dir.path);
@@ -65,39 +66,41 @@ describe("Dir", () => {
   });
   it(".getFile()", (done) => {
     const dir = Dir.tmpDir();
-    dir.createFile(fileIndex(20));
-    const file = dir.getFile(fileIndex(20));
+    const file_base = randomFile();
+    dir.createFile(file_base);
+    const file = dir.getFile(file_base);
     assert.equal(file instanceof File, true);
-    checkData(file, 20, dir.path);
+    checkData(file, file_base, dir.path);
     assert.equal(existsSync(file.path), true);
     dir.delete();
     done();
   });
   it(".getDir()", (done) => {
     const dir = Dir.tmpDir();
-    dir.createDir(dirIndex(8));
-    const newDir = dir.getDir(dirIndex(8));
+    const newDir_name = randomDir();
+    dir.createDir(newDir_name);
+    const newDir = dir.getDir(newDir_name);
     assert.equal(newDir instanceof Dir, true);
-    checkDataDir(newDir, dir.path, dirIndex(8));
+    checkDataDir(newDir, dir.path, newDir_name);
     assert.equal(existsSync(newDir.path), true);
     dir.delete();
     done();
   });
   it(".read()", (done) => {
     const dir = Dir.tmpDir();
-    dir.createFile(fileIndex(21));
-    dir.createDir(dirIndex(10));
-    assert.deepEqual(dir.read(), [dirIndex(10), fileIndex(21)]);
+    const sub_file = dir.createFile(randomFile());
+    const sub_dir = dir.createDir(randomDir());
+    assert.deepEqual(dir.read(), [sub_dir.name, sub_file.base]);
     dir.delete();
     done();
   });
   it(".readResolve()", (done) => {
     const dir = Dir.tmpDir();
-    dir.createDir(dirIndex(11));
-    dir.createFile(fileIndex(22));
+    const sub_dir = dir.createDir(randomDir());
+    const sub_file = dir.createFile(randomFile());
     assert.deepEqual(dir.readResolve(), [
-      new Dir(dir.path, dirIndex(11)),
-      new File(dir.path, fileIndex(22)),
+      new Dir(dir.path, sub_dir.name),
+      new File(dir.path, sub_file.base),
     ]);
     dir.delete();
     done();
@@ -109,79 +112,85 @@ describe("Dir", () => {
     done();
   });
   it(".deleteMatch()", (done) => {
+    // TODO: improve this testing
     const dir = Dir.tmpDir();
-    dir.createDir(dirIndex(14));
-    dir.deleteMath(/dir_12/);
-    assert.equal(existsSync(join(dir.path, "dir_12")), false);
+    const sub_dir = dir.createDir(randomDir());
+    dir.deleteMath(RegExp(sub_dir.name));
+    assert.equal(sub_dir.exits(), false);
     dir.delete();
     done();
   });
   it(".deleteMachFile()", (done) => {
+    // TODO: improve this testing
     const dir = Dir.tmpDir();
-    dir.createFile(fileIndex(23));
-    dir.deleteMatchFile(/file_23/);
-    assert.equal(existsSync(join(dir.path, "file_23")), false);
+    const sub_file = dir.createFile(randomFile());
+    dir.deleteMatchFile(RegExp(sub_file.base));
+    assert.equal(sub_file.exits(), false);
     dir.delete();
     done();
   });
   it(".deleteMatchDir()", (done) => {
     const dir = Dir.tmpDir();
-    dir.createDir(dirIndex(17));
-    dir.deleteMatchDir(/dir_17/);
-    assert.equal(existsSync(join(dir.path, dirIndex(17))), false);
+    const sub_dir = dir.createDir(randomDir());
+    dir.deleteMatchDir(RegExp(sub_dir.name));
+    assert.equal(existsSync(sub_dir.path), false);
     dir.delete();
     done();
   });
   it(".rename()", (done) => {
     const dir = Dir.tmpDir();
-    dir.rename(dirIndex(18));
-    checkDataDir(dir, __dirname, dirIndex(18));
-    assert.equal(existsSync(join(__dirname, dirIndex(18))), true);
-    assert.equal(existsSync(join(__dirname, dirIndex(17))), false);
+    const old_name = dir.name;
+    const new_name = randomDir();
+    dir.rename(new_name);
+    checkDataDir(dir, os.homedir(), new_name);
+    assert.equal(existsSync(join(os.tmpdir(), new_name)), true);
+    assert.equal(existsSync(join(os.tmpdir(), old_name)), false);
     dir.delete();
     done();
   });
   it(".forEach(), .forEachFile(), .forEachDir()", (done) => {
-    const dir = Dir.tmpDir();
-    dir.createDir(dirIndex(20)).createFile(fileIndex(24));
-    dir.createFile(fileIndex(25));
-    // prettier-ignore
-    const called = [{ dir: 0, file: 0 },{ dir: 0, file: 0 },{ dir: 0, file: 0 },{ dir: 0, file: 0 },{ dir: 0, file: 0 },{ dir: 0, file: 0 }];
     function callback(ind: number) {
       return (thing: File | Dir) => {
         if (thing instanceof Dir) called[ind].dir++;
         if (thing instanceof File) called[ind].file++;
       };
     }
+    const dir = Dir.tmpDir();
+    dir.createDir(randomDir()).createFile(randomFile());
+    dir.createFile(randomFile());
+    const called: { file: number; dir: number }[] = [];
+    fillArray(called, 6, () => ({ file: 0, dir: 0 }));
     dir.forEach(callback(0), { recursive: true });
     dir.forEach(callback(1));
     dir.forEachFile(callback(2));
     dir.forEachFile(callback(3), { recursive: true });
     dir.forEachDir(callback(4));
     dir.forEachDir(callback(5), { recursive: true });
-    assert.deepEqual(called[0], {
-      dir: 1,
-      file: 2,
-    });
-    assert.deepEqual(called[1], {
-      dir: 1,
-      file: 1,
-    });
-    assert.deepEqual(called[2], {
-      dir: 0,
-      file: 1,
-    });
-    assert.deepEqual(called[3], {
-      dir: 0,
-      file: 2,
-    });
-    assert.deepEqual(called[4], {
-      dir: 1,
-      file: 0,
-    });
-    assert.deepEqual(called[5], {
-      dir: 1,
-      file: 0,
+    assert.deepEqual(called, {
+      0: {
+        dir: 1,
+        file: 2,
+      },
+      1: {
+        dir: 1,
+        file: 1,
+      },
+      2: {
+        dir: 0,
+        file: 1,
+      },
+      3: {
+        dir: 0,
+        file: 2,
+      },
+      4: {
+        dir: 1,
+        file: 0,
+      },
+      5: {
+        dir: 1,
+        file: 0,
+      },
     });
     dir.delete();
     done();
