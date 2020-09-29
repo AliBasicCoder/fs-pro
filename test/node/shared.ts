@@ -9,14 +9,7 @@ export const randomDir = () =>
 export const randomFile = () =>
   `file_${Math.random().toString().replace(".", "")}`;
 
-export const fileIndex = (index: number) => `file_${index}`;
-
-export const checkData = (
-  file: File,
-  index: number | string,
-  someDir?: string
-) => {
-  const name = typeof index === "number" ? fileIndex(index) : index;
+export const checkData = (file: File, name: string, someDir?: string) => {
   assert.equal(file.path, join(someDir || __dirname, name));
   assert.equal(file.name, name);
   assert.equal(file.extension, "");
@@ -30,10 +23,6 @@ export function checkDataDir(dir: Dir, parent: string, name: string) {
   assert.equal(dir.name, name);
   assert.equal(dir.root, parse(__dirname).root);
   assert.equal(dir.parentDirectory, parent);
-}
-
-export function dirIndex(num: number) {
-  return `dir_${num}`;
 }
 
 export function isReadableStream(test: any): boolean {

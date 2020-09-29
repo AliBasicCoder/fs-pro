@@ -78,7 +78,7 @@ export class File {
       throw new fsProErr("STF", this.path);
     }
   }
-  public tmpFile() {
+  static tmpFile() {
     return new File(tmpFile());
   }
   /**

@@ -1,30 +1,24 @@
 import * as assert from "assert";
-import { File } from "../../src/index";
-import { join } from "path";
+import { Dir, File } from "../../src/index";
+import * as os from "os";
 import {
-  fileIndex,
   checkData,
   isReadableStream,
   isWritableStream,
+  randomFile,
 } from "./shared";
-import {
-  readFileSync,
-  existsSync,
-  statSync,
-  mkdirSync,
-  unlinkSync,
-  rmdirSync,
-} from "fs";
+import { readFileSync, existsSync, statSync, unlinkSync } from "fs";
 
 describe("File", () => {
   it("have right data", (done) => {
-    const file = new File(__dirname, fileIndex(0));
-    checkData(file, 0);
+    const file_base = randomFile();
+    const file = new File(__dirname, file_base);
+    checkData(file, file_base);
     done();
   });
 
   it(".create()", (done) => {
-    const file = new File(__dirname, fileIndex(0));
+    const file = new File(os.tmpdir(), randomFile());
     file.create();
     assert.equal(existsSync(file.path), true);
     unlinkSync(file.path);
@@ -32,20 +26,29 @@ describe("File", () => {
   });
 
   it(".exits()", (done) => {
-    const file = new File(__dirname, fileIndex(1));
+    const file = new File(os.tmpdir(), randomFile());
     assert.equal(file.exits(), existsSync(file.path));
+
+    const file2 = new File(os.tmpdir(), randomFile());
+    assert.equal(file2.exits(), existsSync(file2.path));
     done();
   });
 
   it(".delete()", (done) => {
-    const file = new File(__dirname, fileIndex(19)).create();
+    const file = new File(os.tmpdir(), randomFile()).create();
     file.delete();
     assert.equal(existsSync(file.path), false);
     done();
   });
 
+  it("File.tmpFile()", (done) => {
+    const file = File.tmpFile();
+    checkData(file, file.name, os.tmpdir());
+    done();
+  });
+
   it(".write()", (done) => {
-    const file = new File(__dirname, fileIndex(2));
+    const file = File.tmpFile();
     // string writes
     file.write("hello world");
     assert.equal(readFileSync(file.path, "utf8"), "hello world");
@@ -59,15 +62,17 @@ describe("File", () => {
     file.delete();
     done();
   });
+
   it(".json()", (done) => {
-    const file = new File(__dirname, fileIndex(3));
+    const file = File.tmpFile();
     file.write({ hello: "world" });
     assert.deepEqual(file.json(), { hello: "world" });
     file.delete();
     done();
   });
+
   it(".validate() and file.valid()", (done) => {
-    const file = new File(__dirname, fileIndex(4)).write({ hello: "world" });
+    const file = File.tmpFile().write({ hello: "world" });
     let called = 0;
     file.validator = function () {
       called++;
@@ -79,8 +84,9 @@ describe("File", () => {
     file.delete();
     done();
   });
+
   it(".read()", (done) => {
-    const file = new File(__dirname, fileIndex(5)).write({ hello: "world" });
+    const file = File.tmpFile().write({ hello: "world" });
     assert.equal(file.read().toString(), JSON.stringify({ hello: "world" }));
     file.write("some\nline\nthing");
     let res = "";
@@ -89,106 +95,121 @@ describe("File", () => {
     file.delete();
     done();
   });
+
   it(".overwrite()", (done) => {
-    const file = new File(__dirname, fileIndex(6)).write("some\nline\nthing");
+    const file = File.tmpFile().write("some\nline\nthing");
     file.overwrite("\n", (str, i) => `${i + 1}| ${str}\n`);
     assert.equal(file.read().toString(), "1| some\n2| line\n3| thing\n");
     file.delete();
     done();
   });
+
   it(".getIndex()", (done) => {
-    const file = new File(__dirname, fileIndex(7)).write("1| some\n");
+    const file = File.tmpFile().write("1| some\n");
     assert.equal(file.getIndex("\n", 0), "1| some");
     file.delete();
     done();
   });
+
   it(".getIndexBetween()", (done) => {
-    const file = new File(__dirname, fileIndex(8)).write("1| some\n");
+    const file = File.tmpFile().write("1| some\n");
     assert.deepEqual(file.getIndexBetween("\n", 0, 1), ["1| some"]);
     file.delete();
     done();
   });
+
   it(".append()", (done) => {
-    const file = new File(__dirname, fileIndex(9));
+    const file = File.tmpFile();
     file.write("hello ").append("world");
     assert.equal(file.read().toString(), "hello world");
     file.delete();
     done();
   });
+
   it(".splitBy()", (done) => {
-    const file = new File(__dirname, fileIndex(10)).write("hello world");
+    const file = File.tmpFile().write("hello world");
     assert.deepEqual(file.splitBy(" "), ["hello", "world"]);
     file.delete();
     done();
   });
+
   it(".stats()", (done) => {
-    const file = new File(__dirname, fileIndex(11)).create();
+    const file = File.tmpFile().create();
     assert.deepEqual(file.stat(), statSync(file.path));
     file.delete();
     done();
   });
+
   it(".rename()", (done) => {
-    const file = new File(__dirname, fileIndex(12)).create();
-    file.rename(fileIndex(13));
-    checkData(file, 13);
+    const file = File.tmpFile().create();
+    const new_name = randomFile();
+    file.rename(new_name);
+    checkData(file, new_name, os.tmpdir());
     assert.equal(existsSync(file.path), true);
     file.delete();
     done();
   });
+
   it(".copyTo()", (done) => {
-    const file = new File(__dirname, fileIndex(14)).create();
-    const test2 = join(__dirname, "test2");
-    mkdirSync(test2);
+    const original_file = File.tmpFile().create();
+    const dest_dir = Dir.tmpDir();
 
-    const newFile = file.copyTo(test2);
-    checkData(newFile, 14, test2);
-    assert.equal(existsSync(newFile.path), true);
-    unlinkSync(newFile.path);
+    const copy1 = original_file.copyTo(dest_dir.path);
+    checkData(copy1, original_file.base, dest_dir.path);
+    assert.equal(existsSync(copy1.path), true);
+    copy1.delete();
 
-    const newFile2 = file.copyTo(test2, fileIndex(15));
-    checkData(newFile2, 15, test2);
-    assert.equal(existsSync(newFile2.path), true);
-    unlinkSync(newFile2.path);
+    const copy2_base = randomFile();
+    const copy2 = original_file.copyTo(dest_dir.path, copy2_base);
+    checkData(copy2, copy2_base, dest_dir.path);
+    assert.equal(existsSync(copy2.path), true);
+    copy2.delete();
 
-    const newFile3 = file.copyTo("./test2", null, true);
-    checkData(newFile3, 14, test2);
-    assert.equal(existsSync(newFile3.path), true);
-    unlinkSync(newFile3.path);
+    const copy3 = original_file.copyTo(dest_dir.name, null, true);
+    checkData(copy3, original_file.base, dest_dir.path);
+    assert.equal(existsSync(copy3.path), true);
+    copy3.delete();
 
-    const newFile4 = file.copyTo("./test2", fileIndex(15), true);
-    checkData(newFile4, 15, test2);
-    assert.equal(existsSync(newFile4.path), true);
-    unlinkSync(newFile4.path);
+    const copy4_base = randomFile();
+    const copy4 = original_file.copyTo(dest_dir.name, copy4_base, true);
+    checkData(copy4, copy4_base, dest_dir.path);
+    assert.equal(existsSync(copy4.path), true);
+    copy4.delete();
 
-    file.delete();
+    dest_dir.delete();
+    original_file.delete();
     done();
   });
+
   it(".moveTo()", (done) => {
-    const file = new File(__dirname, fileIndex(16)).create();
-    const test2 = join(__dirname, "test2");
-    file.moveTo(test2);
-    checkData(file, 16, test2);
+    const file = File.tmpFile();
+    const dist_dir = Dir.tmpDir();
+    file.moveTo(dist_dir.path);
+    checkData(file, file.name, dist_dir.path);
     assert.equal(existsSync(file.path), true);
     file.delete();
-    rmdirSync(test2);
+    dist_dir.delete();
     done();
   });
+
   it(".createReadStream()", (done) => {
-    const file = new File(__dirname, fileIndex(17)).create();
+    const file = File.tmpFile();
     const stream = file.createReadStream();
     assert.equal(isReadableStream(stream), true);
     stream.close();
     file.delete();
     done();
   });
+
   it(".createWriteStream()", (done) => {
-    const file = new File(__dirname, fileIndex(18)).create();
+    const file = File.tmpFile();
     const stream = file.createWriteStream();
     assert.equal(isWritableStream(stream), true);
     stream.close();
     file.delete();
     done();
   });
+
   // TODO: find a way to this test
   // it(".watch() .unWatch()", done => {
   //   let called = 0;

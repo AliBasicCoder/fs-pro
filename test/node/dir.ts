@@ -142,7 +142,7 @@ describe("Dir", () => {
     const old_name = dir.name;
     const new_name = randomDir();
     dir.rename(new_name);
-    checkDataDir(dir, os.homedir(), new_name);
+    checkDataDir(dir, os.tmpdir(), new_name);
     assert.equal(existsSync(join(os.tmpdir(), new_name)), true);
     assert.equal(existsSync(join(os.tmpdir(), old_name)), false);
     dir.delete();
@@ -159,39 +159,39 @@ describe("Dir", () => {
     dir.createDir(randomDir()).createFile(randomFile());
     dir.createFile(randomFile());
     const called: { file: number; dir: number }[] = [];
-    fillArray(called, 6, () => ({ file: 0, dir: 0 }));
+    fillArray(called, 5, () => ({ file: 0, dir: 0 }));
     dir.forEach(callback(0), { recursive: true });
     dir.forEach(callback(1));
     dir.forEachFile(callback(2));
     dir.forEachFile(callback(3), { recursive: true });
     dir.forEachDir(callback(4));
     dir.forEachDir(callback(5), { recursive: true });
-    assert.deepEqual(called, {
-      0: {
+    assert.deepEqual(called, [
+      {
         dir: 1,
         file: 2,
       },
-      1: {
+      {
         dir: 1,
         file: 1,
       },
-      2: {
+      {
         dir: 0,
         file: 1,
       },
-      3: {
+      {
         dir: 0,
         file: 2,
       },
-      4: {
+      {
         dir: 1,
         file: 0,
       },
-      5: {
+      {
         dir: 1,
         file: 0,
       },
-    });
+    ]);
     dir.delete();
     done();
   });
