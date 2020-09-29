@@ -197,12 +197,7 @@ export class Dir {
   }
   /** deletes the directory even if it's not empty */
   delete() {
-    this.read().forEach((fileOrDir) => {
-      const pathOfIt = join(this.path, fileOrDir);
-      if (statSync(pathOfIt).isDirectory()) new Dir(pathOfIt).delete();
-      else unlinkSync(pathOfIt);
-    });
-    rmdirSync(this.path);
+    rmdirSync(this.path, { recursive: true });
   }
   /**
    * delete every thing (where it's a file or a folder) that matches the regex passed in
