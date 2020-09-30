@@ -88,7 +88,7 @@ export class Dir {
     });
   }
   /**
-   * loops throw every thing inside the directory
+   * loops through every thing inside the directory
    * @param callback the callback
    * @param options options
    * @example
@@ -108,7 +108,7 @@ export class Dir {
     });
   }
   /**
-   * loops throw every file inside the directory
+   * loops through every file inside the directory
    * @param callback the callback
    * @param options options
    * @example
@@ -125,7 +125,7 @@ export class Dir {
     });
   }
   /**
-   * loops throw every directory inside the directory
+   * loops through every directory inside the directory
    * @param callback the callback
    * @param options options
    * @example
@@ -154,23 +154,48 @@ export class Dir {
   /**
    * create a file inside the directory
    * @param filename the file you want to create
+   * @param createParents create parent directories if doesn't exits
+   * @NOTE use ONLY forward slash of filename
    * @example
    * const file = dir.createFile("hello_world.txt");
    * file.write("hello world");
+   * // ...
+   * const file2 = dir.createFile("some_dir/hello_world.txt", true);
+   * file2.write("hello world");
    * //...
    */
-  createFile(filename: string) {
+  createFile(filename: string, createParents?: boolean) {
+    if (createParents) {
+      const parentsArr = filename.split("/");
+      parentsArr.forEach((dir, i) =>
+        i !== parentsArr.length - 1
+          ? new Dir(this.path, ...parentsArr.slice(0, i), dir).create()
+          : null
+      );
+    }
     return new File(join(this.path, filename)).create();
   }
   /**
    * create a directory inside the directory
    * @param dirname the name of the directory
+   * @param createParents create parent directories if doesn't exits
    * @example
    * const subDir = dir.createDir("hello");
    * subDir.createFile("hello_world.txt");
    * // ...
+   * const subDir2 = dir.createDir("foo/bar/hello", true);
+   * subDir2.createFile("hello_world.txt");
+   * // ...
    */
-  createDir(dirname: string) {
+  createDir(dirname: string, createParents?: boolean) {
+    if (createParents) {
+      const parentsArr = dirname.split("/");
+      parentsArr.forEach((dir, i) =>
+        i !== parentsArr.length - 1
+          ? new Dir(this.path, ...parentsArr.slice(0, i), dir).create()
+          : null
+      );
+    }
     return new Dir(this.path, dirname).create();
   }
   /**

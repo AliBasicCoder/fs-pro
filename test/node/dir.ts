@@ -18,38 +18,20 @@ describe("Dir", () => {
     checkDataDir(dir, __dirname, name);
     done();
   });
+
   it(".create()", (done) => {
     const dir = new Dir(os.tmpdir(), randomDir()).create();
     assert.equal(existsSync(dir.path), true);
     rmdirSync(dir.path);
     done();
   });
+
   it(".exits()", (done) => {
     const dir = new Dir(__dirname, randomDir());
     assert.equal(dir.exits(), existsSync(dir.path));
     done();
   });
-  it(".createFile()", (done) => {
-    const dir = Dir.tmpDir();
-    const file_base = randomFile();
-    const file = dir.createFile(file_base);
-    assert.equal(file instanceof File, true);
-    checkData(file, file_base, dir.path);
-    assert.equal(existsSync(file.path), true);
-    file.delete();
-    rmdirSync(dir.path);
-    done();
-  });
-  it(".createDir()", (done) => {
-    const dir = Dir.tmpDir();
-    const newDir = dir.createDir(randomDir());
-    assert.equal(newDir instanceof Dir, true);
-    checkDataDir(newDir, dir.path, newDir.name);
-    assert.equal(existsSync(newDir.path), true);
-    rmdirSync(newDir.path);
-    rmdirSync(dir.path);
-    done();
-  });
+
   it(".delete()", (done) => {
     const dir = Dir.tmpDir();
     // creating a bunch of files and folders
@@ -64,6 +46,41 @@ describe("Dir", () => {
     assert.equal(existsSync(dir.path), false);
     done();
   });
+
+  it(".createFile()", (done) => {
+    const dir = Dir.tmpDir();
+    const file_base = randomFile();
+    const file = dir.createFile(file_base);
+    assert.equal(file instanceof File, true);
+    checkData(file, file_base, dir.path);
+    assert.equal(existsSync(file.path), true);
+    file.delete();
+
+    const file2_base = randomFile();
+    const file2 = dir.createFile(`foo/bar/hi/bye/${file2_base}`, true);
+    assert.equal(file2 instanceof File, true);
+    checkData(file2, file2_base, join(dir.path, "foo/bar/hi/bye"));
+    assert.equal(existsSync(file2.path), true);
+    file2.delete();
+    dir.delete();
+    done();
+  });
+
+  it(".createDir()", (done) => {
+    const dir = Dir.tmpDir();
+    const subDir = dir.createDir(randomDir());
+    assert.equal(subDir instanceof Dir, true);
+    checkDataDir(subDir, dir.path, subDir.name);
+    assert.equal(existsSync(subDir.path), true);
+
+    const subDir2 = dir.createDir(`foo/bar/${randomDir()}`, true);
+    assert.equal(subDir2 instanceof Dir, true);
+    checkDataDir(subDir2, join(dir.path, "foo/bar"), subDir2.name);
+    assert.equal(existsSync(subDir2.path), true);
+    dir.delete();
+    done();
+  });
+
   it(".getFile()", (done) => {
     const dir = Dir.tmpDir();
     const file_base = randomFile();
