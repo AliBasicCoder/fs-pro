@@ -11,8 +11,6 @@ import * as PATH from "path";
 import { File } from "./file";
 import { Dir } from "./dir";
 import { fsProErr } from "./fsProErr";
-import { Model } from "./model";
-import { Structure } from "./structure";
 
 export { FSWatcher, Stats, BigIntOptions, PathLike, BigIntStats, StatOptions };
 
@@ -39,6 +37,8 @@ export type fsObjType = {
   mkdirSync: typeof FS.mkdirSync;
   readdirSync: typeof FS.readdirSync;
   rmdirSync: typeof FS.rmdirSync;
+  mkTempFile: () => string;
+  mkTempDir: () => string;
   // watcher must follow node-watch api
   watch: (
     filename: string | string[],
@@ -58,53 +58,6 @@ export type obj<T> = {
 
 export type objAny = obj<any>;
 
-export interface modelObjBase<T extends string> {
-  type: T;
-}
-
-export type modelFileObj = modelObjBase<"file"> & {
-  ext: string;
-  defaultContent?: string | Buffer;
-  validator?: (this: File, content: string) => any;
-};
-
-export type modelDirObj = modelObjBase<"dir"> & { fileType: modelFileObj };
-
-export interface modelData {
-  // __any?: modelFileObj;
-  // __any_dir?: modelDirObj;
-  [key: string]: modelDirObj | modelFileObj | modelData;
-}
-
-export type actualSw<T extends modelData> = {
-  [K in keyof T]: T[K] extends modelFileObj
-    ? File
-    : T[K] extends modelDirObj
-    ? Dir
-    : T[K] extends modelData
-    ? sw<T[K]>
-    : any;
-};
-
-export type sw<T extends modelData> = actualSw<T> & {
-  __META__: {
-    path: string;
-  };
-};
-
-export const isModelFileObj = (obj: any): obj is modelFileObj =>
-  obj.type === "file";
-export const isModelDirObj = (obj: any): obj is modelDirObj =>
-  obj.type === "dir";
-
-export interface createOptions {
-  /** called when any thing is created wether it's a file or a directory */
-  onCreate: (obj: File | Dir) => any;
-  /** called when any file is created */
-  onCreateFile: (obj: Dir) => any;
-  /** called when any directory is created  */
-  onCreateDir: (obj: Dir) => any;
-}
 /**
  * @param A the className
  * @param B the actual class type
@@ -126,12 +79,7 @@ export interface Plugin {
   /** any required plugins (will be loaded by order passed) */
   requires?: Plugin[];
   /** the actual plugin */
-  plugin: (
-    | PluginData<"File", File>
-    | PluginData<"Dir", Dir>
-    | PluginData<"Model", Model>
-    | PluginData<"Structure", Structure>
-  )[];
+  plugin: (PluginData<"File", File> | PluginData<"Dir", Dir>)[];
 }
 
 export interface validateOptions {
@@ -142,6 +90,49 @@ export interface validateOptions {
   /** called when an invalid file or directory found */
   onInvalid: (err: fsProErr, fileOrDir: File | Dir) => any;
 }
+
+// for Shape
+
+export type fileType = {
+  __isFile: true;
+  dfCont?: string | Buffer;
+  validator?: (this: File) => Error[] | void;
+  str: string;
+};
+
+export type dirType = {
+  __isDir: true;
+  str: string;
+  fileType: fileType;
+};
+
+export type ShapeObj = { [key: string]: ShapeObj | fileType | dirType } & {
+  __rest?: ShapeObj | fileType | dirType;
+  __name?: string;
+};
+
+export type ShapeObjWithoutName = {
+  [key: string]: ShapeObj | fileType | dirType;
+} & {
+  __rest?: ShapeObj | fileType | dirType;
+};
+
+export const isFileType = (obj: any): obj is fileType => obj.__isFile === true;
+
+export const isDirType = (obj: any): obj is dirType => obj.__isDir === true;
+
+export type createEvents = {
+  onCreate?: (thing: File | Dir) => any;
+  onCreateFile?: (file: File) => any;
+  onCreateDir?: (thing: Dir) => any;
+};
+
+export type errArr = {
+  arr: fsProErr[];
+  push: (err?: fsProErr | errArr) => void;
+};
+
+export const isErrArr = (obj?: any): obj is errArr => obj.arr && obj.push;
 
 // copied from node-watch https://npmjs.com/package/delete
 

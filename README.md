@@ -21,97 +21,80 @@ see the full docs [here](https://fs-pro-docs.herokuapp.com/)
 - have a file structure system see [Model Class](https://fs-pro-docs.herokuapp.com/classes/_src_model_.model.html)
 - will delete the whole dir when you use the [delete](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#delete) method
 - provide advanced watching methods see [Dir.watch method](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#watch) and [File.watch method](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#watch)
-- you could add or overwrite any method you like on any class you like via plugins see [how to create plugins](#Creating%20plugins) and [addPlugin](https://fs-pro-docs.herokuapp.com/modules/_src_pluginadder_.html#addplugin)
-
-## plugins
-
-if you want to add your plugin here please post an issue on our [github](https://github.com/AliBasicCoder/fs-pro/issues)
-
-first party:
-
-- [xml-fpl-plugin](https://www.npmjs.com/package/xml-fpl-plugin)
-  a plugin that adds .xml() method that parses xml to js objects
-
-- [async-fpl-plugin](https://www.npmjs.com/package/async-fpl-plugin) makes every method in the package async (promise)
+- you could add any method you like on any class you like via plugins see [how to create plugins](#Creating%20plugins) and [addPlugin](https://fs-pro-docs.herokuapp.com/modules/_src_pluginadder_.html#addplugin)
 
 ## Api
 
 - [File](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html)
 
-  - [constructor](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#constructor)
-  - [base](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#base)
-  - [directory](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#directory)
-  - [extension](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#extension)
-  - [name](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#name)
   - [path](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#path)
+  - [name](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#name)
+  - [base](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#base)
+  - [extension](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#extension)
+  - [directory](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#directory)
   - [root](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#root)
-  - [createdAt](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#createdat)
-  - [lastAccessed](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#lastaccessed)
-  - [lastChanged](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#lastchanged)
-  - [lastModified](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#lastmodified)
-  - [size](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#size)
-  - [append](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#append)
-  - [copyTo](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#copyTo)
-  - [create](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#create)
-  - [createReadStream](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#createreadstream)
-  - [createWriteStream](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#createwritestream)
-  - [delete](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#delete)
-  - [json](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#json)
-  - [moveTo](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#moveto)
-  - [read](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#read)
-  - [rename](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#rename)
-  - [splitBy](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#splitby)
-  - [stats](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#stats)
-  - [unwatch](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#unwatch)
-  - [watch](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#watch)
   - [write](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#write)
-  - [chmod](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#chmod)
-  - [exits](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#exits)
+  - [read](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#read)
+  - [append](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#append)
+  - [overwrite](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#overwrite)
   - [getIndex](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#getindex)
   - [getIndexBetween](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#getindexbetween)
+  - [splitBy](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#splitby)
+  - [createReadStream](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#createreadstream)
+  - [createWriteStream](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#createwritestream)
+  - [json](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#json)
+  - [create](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#create)
+  - [watch](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#watch)
+  - [unwatch](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#unwatch)
+  - [stat](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#stat)
+  - [lstat](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#lstat)
+  - [delete](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#delete)
+  - [copyTo](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#copyto)
+  - [moveTo](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#moveto)
+  - [rename](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#rename)
+  - [chmod](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#chmod)
+  - [exits](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#exits)
+  - [validate](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#validate)
+  - [valid](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#valid)
+  - [tmpFile](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#tmpfile)
 
 - [Dir](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html)
 
-  - [constructor](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#constructor)
-  - [name](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#name)
-  - [parentDirectory](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#parentDirectory)
   - [path](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#path)
+  - [name](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#name)
+  - [parentDirectory](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#parentdirectory)
   - [root](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#root)
-  - [watcher](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#watcher)
-  - [createdAt](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#createdat)
-  - [lastAccessed](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#lastaccessed)
-  - [lastChanged](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#lastchanged)
-  - [lastModified](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#lastmodified)
-  - [size](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#size)
-  - [create](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#create)
-  - [createDir](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#createdir)
-  - [createFile](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#createfile)
-  - [getDir](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#getdir)
-  - [getFile](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#getfile)
-  - [delete](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#delete)
-  - [deleteMatchDir](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#deletematchdir)
-  - [deleteMatchFile](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#deletematchfile)
-  - [deleteMath](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#deletematch)
   - [read](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#read)
-  - [rename](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#rename)
-  - [stats](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#stats)
-  - [unwatch](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#unwatch)
+  - [readResolve](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#readresolve)
+  - [forEach](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#foreach)
+  - [forEachFile](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#foreachfile)
+  - [forEachDir](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#foreachdir)
+  - [create](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#create)
+  - [createFile](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#createfile)
+  - [createDir](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#createdir)
   - [watch](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#watch)
+  - [unwatch](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#unwatch)
+  - [delete](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#delete)
+  - [deleteMath](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#deletemath)
+  - [deleteMatchFile](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#deletematchfile)
+  - [deleteMatchDir](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#deletematchdir)
+  - [stat](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#stat)
+  - [lstat](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#lstat)
+  - [rename](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#rename)
+  - [exits](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#exits)
+  - [getFile](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#getfile)
+  - [getDir](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#getdir)
+  - [copyTo](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#copyto)
+  - [moveTo](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#moveto)
+  - [tmpDir](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#tmpdir)
 
-- [Model](https://fs-pro-docs.herokuapp.com/classes/_src_model_.model.html)
+- [Shape](https://fs-pro-docs.herokuapp.com/classes/_src_shape.shape.html)
 
-  - [constructor](https://fs-pro-docs.herokuapp.com/classes/_src_model_.model.html#constructor)
-  - [data](https://fs-pro-docs.herokuapp.com/classes/_src_model_.model.html#data)
-  - [createat](https://fs-pro-docs.herokuapp.com/classes/_src_model_.model.html#createAt)
-  - [structure](https://fs-pro-docs.herokuapp.com/classes/_src_model_.model.html#structure)
-  - [Dir](https://fs-pro-docs.herokuapp.com/classes/_src_model_.model.html#Dir)
-  - [File](https://fs-pro-docs.herokuapp.com/classes/_src_model_.model.html#File)
-
-- [Structure](https://fs-pro-docs.herokuapp.com/classes/_src_structure_.structure.html)
-
-  - [create](https://fs-pro-docs.herokuapp.com/classes/_src_structure_.structure.html#create)
-  - [valid](https://fs-pro-docs.herokuapp.com/classes/_src_structure_.structure.html#valid)
-  - [validate](https://fs-pro-docs.herokuapp.com/classes/_src_structure_.structure.html#validate)
+  - [shapeObj](https://fs-pro-docs.herokuapp.com/classes/_src_shape.shape.html#shapeobj)
+  - [createShapeInst](https://fs-pro-docs.herokuapp.com/classes/_src_shape.shape.html#createshapeinst)
+  - [validate](https://fs-pro-docs.herokuapp.com/classes/_src_shape.shape.html#validate)
+  - [File](https://fs-pro-docs.herokuapp.com/classes/_src_shape.shape.html#file)
+  - [Dir](https://fs-pro-docs.herokuapp.com/classes/_src_shape.shape.html#dir)
 
 - [addPlugin](https://fs-pro-docs.herokuapp.com/modules/_src_pluginadder_.html#addplugin)
 
@@ -132,7 +115,7 @@ yarn add fs-pro
 ## Usage
 
 ```js
-import { File, Dir, Model, Structure } from "fs-pro";
+import { File, Dir, Shape } from "fs-pro";
 
 // creating a file object
 const file = new File(__dirname, "hello_world.txt");
@@ -157,41 +140,36 @@ dir
   .createFile("text.txt")
 // and there's much more in the docs
 
-// the schema for the Model
-const modalBase = {
-  // an object means that this is a dir containing the props
-  dumyDir: {
-    // Modal.File means the this is a file that have
-    // the file arg as the extension (.txt)
-    // and the second for the default content
-    // of the file (hello world)
-    dumyFile: Model.File(".txt", "hello world")
-  },
-  // Modal.Dir means that it's a directory containing
-  // files of the type passed in
-  dirOfTxt: Modal.Dir(Modal.File(".txt")),
-};
-
-// the actual model
-const model = new Model(modelBase);
-
-// structures are models applied to a directory
-// every Modal.File will be a File
-// every thing else will be a Dir
-// NOTE: modal.structure will automatically join the paths given
-const structure = modal.structure<typeof modalBase>(__dirname, "dir");
-
-structure.dirOfTxT instanceof Dir === true;
-
-// the Structure class is a set of tools to
-// work with structures
-// here we're creating the structure in the path passed
-Structure.create(structure, {
-  // this function will be called every time a file is created
-  onCreateFile(file: File){
-    console.log(chalk.green("CREATE"), file.path);
-  }
+// the Shape class is a class that helps you manage your directory
+// the Shape instance (or inst for short) is the Shape applied to a directory
+// the Shape instance reference is a JS object the references the Shape instance
+// the Shape constructor takes the Shape of your directory
+// every key in the object passed in is an identifier for the file or dir
+const shape = new Shape({
+  // for adding files use Shape.File with the file name
+  some_file: Shape.File("some_file.txt"),
+  // for adding a directory of files use Shape.Dir with
+  // the dir name and file name regex (a custom type of regex to test if the filename matches it)
+  // see Shape.File doc for more information about filename regex
+  some_dir: Shape.Dir("some_dir", Shape.File("test[0-9]{3}.txt|*.any")),
+  // for adding a shaped folder use Shape.Dir with the directory name
+  // and the shape of it
+  some_shaped_dir: Shape.Dir("shaped_dir", {
+    file_1: Shape.File("file_1.txt"),
+    // ...
+  }),
+  // __rest tells Shape that any thing not mentioned
+  // must follow the given shape
+  __rest: Shape.File("*.txt"),
 });
+
+const shapeInstRef = shape.createShapeInst(target_dir);
+
+shapeInstRef.some_file.write("hello world");
+
+shapeInstRef.some_dir.createFile("test100.txt");
+
+shapeInstRef.some_shaped_dir.file_1.write("hello world");
 
 ```
 
@@ -217,7 +195,7 @@ const myPlugin: Plugin = {
   plugin: [
     {
       methodName: "myMethod",
-      className: "File", // could be the name of any class in the library (File or Dir or Model or Structure)
+      className: "File", // could be the name of any class in the library (File or Dir or Shape)
       isStatic: false, // if true the method you add will be static
       func(...myArgs: any[]){
         // your code...
