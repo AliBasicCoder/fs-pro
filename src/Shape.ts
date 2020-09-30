@@ -187,6 +187,31 @@ function validate(path: string, shapeObj: ShapeObj, crash: boolean = false) {
 export class Shape<T extends ShapeObj> {
   shapeObj: ShapeObj;
 
+  /**
+   * the Shape class is a class that helps you manage your directory
+   * the Shape instance (or inst for short) is the Shape applied to a directory
+   * the Shape instance reference is a JS object the references the Shape instance
+   * the Shape constructor takes the Shape of your directory
+   * every key in the object passed in is an identifier for the file or dir
+   * @example
+   * const shape = new Shape({
+   *   // for adding files use Shape.File with the file name
+   *   some_file: Shape.File("some_file.txt"),
+   *   // for adding a directory of files use Shape.Dir with
+   *   // the dir name and file name regex
+   *   some_dir: Shape.Dir("some_dir", Shape.File("test[0-9]{3}.txt|*.any")),
+   *   // for adding a shaped folder use Shape.Dir with the directory name
+   *   // and the shape of it
+   *   some_shaped_dir: Shape.Dir("shaped_dir", {
+   *     file_1: Shape.File("file_1.txt"),
+   *     // ...
+   *   }),
+   *   // __rest tells Shape that any thing not mentioned
+   *   // must follow the given shape
+   *   __rest: Shape.File("*.txt"),
+   * });
+   * @param shape the shape
+   */
   constructor(shape: T) {
     this.shapeObj = shape;
   }
