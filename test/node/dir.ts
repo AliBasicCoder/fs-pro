@@ -213,6 +213,45 @@ describe("Dir", () => {
     done();
   });
 
+  it(".copyTo()", () => {
+    const dir = Dir.tmpDir();
+    const filesArr = [
+      "some.txt",
+      "some_dir/some.txt",
+      "empty_dir",
+      "foo/bar/hi/deep_file.txt",
+      "foo/bar/hi/deep_empty_dir",
+    ];
+    filesArr.forEach((item) => dir.createFile(item, true));
+
+    const newDir = dir.copyTo("../", `${dir.name}_copied`, true);
+    checkDataDir(newDir, os.tmpdir(), `${dir.name}_copied`);
+    filesArr.forEach((item) => {
+      assert.equal(newDir.getFile(item).exits(), true);
+    });
+    dir.delete();
+    newDir.delete();
+  });
+
+  it(".moveTo()", () => {
+    const dir = Dir.tmpDir();
+    const filesArr = [
+      "some.txt",
+      "some_dir/some.txt",
+      "empty_dir",
+      "foo/bar/hi/deep_file.txt",
+      "foo/bar/hi/deep_empty_dir",
+    ];
+    filesArr.forEach((item) => dir.createFile(item, true));
+
+    const old_dir_name = dir.name;
+    dir.moveTo("../", `${dir.name}_moved`, true);
+    checkDataDir(dir, os.tmpdir(), `${old_dir_name}_moved`);
+    filesArr.forEach((item) => {
+      assert.equal(dir.getFile(item).exits(), true);
+    });
+    dir.delete();
+  });
   // TODO: adding test for that
   // it(".watch() .unwatch", done => {
   //   done();

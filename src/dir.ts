@@ -64,6 +64,12 @@ export class Dir {
       throw new fsProErr("STD", this.path);
     }
   }
+  /**
+   * create a dir in the tmp directory
+   * @example
+   * const dir = Dir.tmpDir();
+   * console.log(dir.path) // => "'/tmp/tmp-132576-Rlxque0XmU45'"
+   */
   static tmpDir() {
     return new Dir(tmpDir());
   }
@@ -76,7 +82,7 @@ export class Dir {
     return readdirSync(this.path);
   }
   /**
-   * reads te directory and convert it to File an Dir objects
+   * reads te directory and convert it to File and Dir objects
    * @example
    * dir.readResolve().forEach(console.log);
    */
@@ -320,5 +326,51 @@ export class Dir {
    */
   getDir(path: string) {
     return new Dir(this.path, path);
+  }
+  /**
+   * copy the directory to another location
+   * @param destination the destination folder
+   * @param rename rename the folder copy
+   * @param isRelative if true resolves the destination path based on the dir path
+   * @example
+   * // copy directory to "/home/some_dir"
+   * dir.copyTo("/home/some_dir")
+   * // copy directory to "/home/some_dir" an rename the directory's copy name to "new-name"
+   * dir.copyTo("/home/some_dir", "new_name")
+   * // copy directory to "../some_dir" (path is resolved passed on folder's location)
+   * dir.copyTo("../some_dir", null, true)
+   */
+  copyTo(destination: string, rename?: null | string, isRelative?: boolean) {
+    const dest = isRelative
+      ? join(this.path, destination, rename || this.name)
+      : join(destination, rename || this.name);
+    mkdirSync(dest);
+    this.forEach((fileOrDir) => fileOrDir.copyTo(dest));
+    return new Dir(dest);
+  }
+  /**
+   * move the directory to another location
+   * @param destination the destination folder
+   * @param rename rename the folder
+   * @param isRelative if true resolves the destination path based on the dir path
+   * @example
+   * // move directory to "/home/some_dir"
+   * dir.moveTo("/home/some_dir")
+   * // move directory to "/home/some_dir" an rename the directory to "new-name"
+   * dir.moveTo("/home/some_dir", "new_name")
+   * // move directory to "../some_dir" (path is resolved passed on folder's location)
+   * dir.moveTo("../some_dir", null, true)
+   */
+  moveTo(destination: string, rename?: null | string, isRelative?: boolean) {
+    const dest = isRelative
+      ? join(this.path, destination, rename || this.name)
+      : join(destination, rename || this.name);
+    mkdirSync(dest);
+    this.forEach((fileOrDir) => fileOrDir.moveTo(dest));
+    rmdirSync(this.path);
+    const parsedPath = parse(dest);
+    this.path = dest;
+    this.name = parsedPath.base;
+    this.root = parsedPath.root;
   }
 }
