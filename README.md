@@ -23,17 +23,6 @@ see the full docs [here](https://fs-pro-docs.herokuapp.com/)
 - provide advanced watching methods see [Dir.watch method](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#watch) and [File.watch method](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#watch)
 - you could add or overwrite any method you like on any class you like via plugins see [how to create plugins](#Creating%20plugins) and [addPlugin](https://fs-pro-docs.herokuapp.com/modules/_src_pluginadder_.html#addplugin)
 
-## plugins
-
-if you want to add your plugin here please post an issue on our [github](https://github.com/AliBasicCoder/fs-pro/issues)
-
-first party:
-
-- [xml-fpl-plugin](https://www.npmjs.com/package/xml-fpl-plugin)
-  a plugin that adds .xml() method that parses xml to js objects
-
-- [async-fpl-plugin](https://www.npmjs.com/package/async-fpl-plugin) makes every method in the package async (promise)
-
 ## Api
 
 - [File](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html)
@@ -98,21 +87,6 @@ first party:
   - [unwatch](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#unwatch)
   - [watch](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#watch)
 
-- [Model](https://fs-pro-docs.herokuapp.com/classes/_src_model_.model.html)
-
-  - [constructor](https://fs-pro-docs.herokuapp.com/classes/_src_model_.model.html#constructor)
-  - [data](https://fs-pro-docs.herokuapp.com/classes/_src_model_.model.html#data)
-  - [createat](https://fs-pro-docs.herokuapp.com/classes/_src_model_.model.html#createAt)
-  - [structure](https://fs-pro-docs.herokuapp.com/classes/_src_model_.model.html#structure)
-  - [Dir](https://fs-pro-docs.herokuapp.com/classes/_src_model_.model.html#Dir)
-  - [File](https://fs-pro-docs.herokuapp.com/classes/_src_model_.model.html#File)
-
-- [Structure](https://fs-pro-docs.herokuapp.com/classes/_src_structure_.structure.html)
-
-  - [create](https://fs-pro-docs.herokuapp.com/classes/_src_structure_.structure.html#create)
-  - [valid](https://fs-pro-docs.herokuapp.com/classes/_src_structure_.structure.html#valid)
-  - [validate](https://fs-pro-docs.herokuapp.com/classes/_src_structure_.structure.html#validate)
-
 - [addPlugin](https://fs-pro-docs.herokuapp.com/modules/_src_pluginadder_.html#addplugin)
 
 ## Installation
@@ -132,7 +106,7 @@ yarn add fs-pro
 ## Usage
 
 ```js
-import { File, Dir, Model, Structure } from "fs-pro";
+import { File, Dir, Shape } from "fs-pro";
 
 // creating a file object
 const file = new File(__dirname, "hello_world.txt");
@@ -157,41 +131,35 @@ dir
   .createFile("text.txt")
 // and there's much more in the docs
 
-// the schema for the Model
-const modalBase = {
-  // an object means that this is a dir containing the props
-  dumyDir: {
-    // Modal.File means the this is a file that have
-    // the file arg as the extension (.txt)
-    // and the second for the default content
-    // of the file (hello world)
-    dumyFile: Model.File(".txt", "hello world")
-  },
-  // Modal.Dir means that it's a directory containing
-  // files of the type passed in
-  dirOfTxt: Modal.Dir(Modal.File(".txt")),
-};
-
-// the actual model
-const model = new Model(modelBase);
-
-// structures are models applied to a directory
-// every Modal.File will be a File
-// every thing else will be a Dir
-// NOTE: modal.structure will automatically join the paths given
-const structure = modal.structure<typeof modalBase>(__dirname, "dir");
-
-structure.dirOfTxT instanceof Dir === true;
-
-// the Structure class is a set of tools to
-// work with structures
-// here we're creating the structure in the path passed
-Structure.create(structure, {
-  // this function will be called every time a file is created
-  onCreateFile(file: File){
-    console.log(chalk.green("CREATE"), file.path);
-  }
+// the Shape class is a class that helps you manage your directory
+// the Shape instance (or inst for short) is the Shape applied to a directory
+// the Shape instance reference is a JS object the references the Shape instance
+// the Shape constructor takes the Shape of your directory
+// every key in the object passed in is an identifier for the file or dir
+const shape = new Shape({
+  // for adding files use Shape.File with the file name
+  some_file: Shape.File("some_file.txt"),
+  // for adding a directory of files use Shape.Dir with
+  // the dir name and file name regex
+  some_dir: Shape.Dir("some_dir", Shape.File("test[0-9]{3}.txt|*.any")),
+  // for adding a shaped folder use Shape.Dir with the directory name
+  // and the shape of it
+  some_shaped_dir: Shape.Dir("shaped_dir", {
+    file_1: Shape.File("file_1.txt"),
+    // ...
+  }),
+  // __rest tells Shape that any thing not mentioned
+  // must follow the given shape
+  __rest: Shape.File("*.txt"),
 });
+
+const shapeInstRef = shape.createShapeInst(target_dir);
+
+shapeInstRef.some_file.write("hello world");
+
+shapeInstRef.some_dir.createFile("test100.txt");
+
+shapeInstRef.some_shaped_dir.file_1.write("hello world");
 
 ```
 
@@ -217,7 +185,7 @@ const myPlugin: Plugin = {
   plugin: [
     {
       methodName: "myMethod",
-      className: "File", // could be the name of any class in the library (File or Dir or Model or Structure)
+      className: "File", // could be the name of any class in the library (File or Dir or Shape)
       isStatic: false, // if true the method you add will be static
       func(...myArgs: any[]){
         // your code...
