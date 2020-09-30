@@ -112,6 +112,7 @@ export class Dir {
       if (thing instanceof Dir && options.recursive)
         thing.forEach(callback, options);
     });
+    return this;
   }
   /**
    * loops through every file inside the directory
@@ -129,6 +130,7 @@ export class Dir {
       if (thing instanceof Dir && options.recursive)
         thing.forEachFile(callback, options);
     });
+    return this;
   }
   /**
    * loops through every directory inside the directory
@@ -147,6 +149,7 @@ export class Dir {
         if (options.recursive) thing.forEachDir(callback, options);
       }
     });
+    return this;
   }
   /**
    * creates the directory (if it doesn't exits)
@@ -229,6 +232,7 @@ export class Dir {
   /** deletes the directory even if it's not empty */
   delete() {
     rmdirSync(this.path, { recursive: true });
+    return this;
   }
   /**
    * delete every thing (where it's a file or a folder) that matches the regex passed in
@@ -247,6 +251,7 @@ export class Dir {
         new Dir(pathOfIt).deleteMath(regex);
       }
     });
+    return this;
   }
   /**
    * delete every file the matches the regex passed in
@@ -262,6 +267,7 @@ export class Dir {
         new Dir(pathOfIt).deleteMatchFile(regex);
       } else unlinkSync(pathOfIt);
     });
+    return this;
   }
   /**
    * deletes every directory the matches the regex in the dir and sub dir
@@ -277,6 +283,7 @@ export class Dir {
       if (regex.test(fileOrDir)) new Dir(pathOfIt).delete();
       else new Dir(pathOfIt).deleteMatchDir(regex);
     });
+    return this;
   }
   /**
    * get the stats of the directory
@@ -306,6 +313,7 @@ export class Dir {
     this.name = base;
     this.parentDirectory = dir;
     this.root = root;
+    return this;
   }
   /** returns true if the directory exits */
   exits() {
@@ -372,5 +380,6 @@ export class Dir {
     this.path = dest;
     this.name = parsedPath.base;
     this.root = parsedPath.root;
+    return this;
   }
 }

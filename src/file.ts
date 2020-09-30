@@ -324,6 +324,7 @@ export class File {
     this.directory = dir;
     this.extension = ext;
     this.root = root;
+    return this;
   }
   /**
    * changes the mode of the file
@@ -333,6 +334,7 @@ export class File {
    */
   chmod(mode: number) {
     chmodSync(this.path, mode);
+    return this;
   }
   /** returns true if the file exits */
   exits() {

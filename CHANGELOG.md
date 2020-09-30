@@ -26,3 +26,9 @@ a breaking changes version
 - Change File.validator to return and array of Error or nothing
 - Changing Dir.delete() to use the "recursive" options instead of manual deleting
 - Prevent addPlugin form loading a plugin twice
+
+## v3.1.0 Oct 1, 2020
+
+**Fix:**
+
+- Some method "return this"
