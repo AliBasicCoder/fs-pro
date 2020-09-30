@@ -193,12 +193,15 @@ export class Shape<T extends ShapeObj> {
    * the Shape instance reference is a JS object the references the Shape instance
    * the Shape constructor takes the Shape of your directory
    * every key in the object passed in is an identifier for the file or dir
+   * @NOTE DO NOT use these keys any where inside the shape "__dir", "__name"
+   * "__rest", "__isFile", "__isDir"
    * @example
    * const shape = new Shape({
    *   // for adding files use Shape.File with the file name
    *   some_file: Shape.File("some_file.txt"),
    *   // for adding a directory of files use Shape.Dir with
-   *   // the dir name and file name regex
+   *   // the dir name and file name regex (a custom type of regex to test if the filename matches it)
+   *   // see Shape.File doc for more information about filename regex
    *   some_dir: Shape.Dir("some_dir", Shape.File("test[0-9]{3}.txt|*.any")),
    *   // for adding a shaped folder use Shape.Dir with the directory name
    *   // and the shape of it
@@ -216,6 +219,19 @@ export class Shape<T extends ShapeObj> {
     this.shapeObj = shape;
   }
 
+  /**
+   * use this method for adding files to your shape
+   * @NOTE file regex are different than normal regex
+   * 1. Shape every convert any "*" to ".*" (unless it's backslashed)
+   * 2. it splits the regex by "|" and test every one separately (unless it's backslashed)
+   * @example
+   * const shape = new Shape({
+   *   some_file: Shape.File("file_name")
+   * });
+   * @param str the filename or match regex
+   * @param dfCont file default content (content will be added on creation)
+   * @param validator a function used to validate the file
+   */
   static File(
     str: string,
     dfCont?: string | Buffer,
@@ -229,6 +245,22 @@ export class Shape<T extends ShapeObj> {
     };
   }
 
+  /**
+   * use this method to define a directory
+   * @example
+   * const shape = new Shape({
+   *   // example for defining a Dir including only files the match
+   *   // the Shape.File passed in
+   *   some_dir: Shape.Dir("dir_name", Shape.File("test[0-100].txt")),
+   *   // example for defining a Dir when a schema
+   *   some_shaped_dir: Shape.Dir("dir_name", {
+   *     some_file: Shape.File("some_name")
+   *     // ...
+   *   }),
+   * });
+   * @param str the directory name
+   * @param fileTypeOrShapeObj file type of the Shape Obj
+   */
   static Dir(str: string, fileType: fileType): dirType;
   static Dir(str: string, shapeObj: ShapeObjWithoutName): ShapeObj;
   static Dir(

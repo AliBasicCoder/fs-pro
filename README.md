@@ -149,7 +149,8 @@ const shape = new Shape({
   // for adding files use Shape.File with the file name
   some_file: Shape.File("some_file.txt"),
   // for adding a directory of files use Shape.Dir with
-  // the dir name and file name regex
+  // the dir name and file name regex (a custom type of regex to test if the filename matches it)
+  // see Shape.File doc for more information about filename regex
   some_dir: Shape.Dir("some_dir", Shape.File("test[0-9]{3}.txt|*.any")),
   // for adding a shaped folder use Shape.Dir with the directory name
   // and the shape of it
