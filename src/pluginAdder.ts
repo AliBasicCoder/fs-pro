@@ -19,6 +19,8 @@ const track: {
   isStatic: boolean;
 }[] = [];
 
+const addedPlugins: string[] = [];
+
 function checkIfOverwrites(element: Plugin["plugin"][0], pluginName: string) {
   for (let i = 0; i < track.length; i++) {
     const { className, methodName, isStatic } = track[i];
@@ -61,6 +63,8 @@ export function addPlugin(
   if (requires) {
     requires.forEach((rq) => addPlugin(rq));
   }
+  // prevent addPlugin form loading a plugin twice
+  if (addedPlugins.includes(pluginWrapper.name)) return;
   for (let i = 0; i < plugin.length; i++) {
     const element = plugin[i];
     if (element.isStatic) {
@@ -87,4 +91,5 @@ export function addPlugin(
       isStatic: element.isStatic,
     });
   }
+  addedPlugins.push(pluginWrapper.name);
 }
