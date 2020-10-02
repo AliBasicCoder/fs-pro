@@ -16,6 +16,8 @@ export {
   WatchOptions,
 };
 
+export type WatchListener = (e: string, path: string) => any;
+
 export type DirForeachOptions = {
   /** if true will loop recursively */
   recursive?: boolean;

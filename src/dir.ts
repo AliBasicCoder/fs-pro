@@ -13,7 +13,12 @@ import {
 import { join, parse } from "./path";
 import { File } from "./file";
 // will be replaced with an import from node-watch
-import { WatchOptions, DirForeachOptions, FSWatcher } from "./types";
+import {
+  WatchOptions,
+  DirForeachOptions,
+  FSWatcher,
+  WatchListener,
+} from "./types";
 import { fsProErr } from "./fsProErr";
 
 /** the Dir Class is used to help you work with files */
@@ -209,15 +214,25 @@ export class Dir {
   }
   /**
    * watches the directory
-   * @param options options
-   * @param listener the function will be called when a file changes
+   * @param optionsOrListener options
+   * @param maybeListener the function will be called when a file changes
    * @example
    * dir.watch({}, (e, path) => {
    *    if (e === "update") console.log(`${path} have been updated`);
    *    if(e === "remove") console.log(`${path} have been removed`);
    * })
    */
-  watch(options?: WatchOptions, listener?: (e: string, path: string) => any) {
+  watch(options: WatchOptions, listener?: WatchListener): FSWatcher;
+  watch(listener?: WatchListener): FSWatcher;
+  watch(
+    optionsOrListener?: WatchOptions | WatchListener,
+    maybeListener?: WatchListener
+  ) {
+    const options = typeof optionsOrListener === "object" && optionsOrListener;
+    const listener =
+      typeof optionsOrListener === "function"
+        ? optionsOrListener
+        : maybeListener;
     this.watcher = watch(this.path, options || {});
     if (listener) this.watcher.on("all", listener);
     return this.watcher;
