@@ -252,8 +252,34 @@ describe("Dir", () => {
     });
     dir.delete();
   });
-  // TODO: adding test for that
-  // it(".watch() .unwatch", done => {
-  //   done();
-  // });
+
+  it(".watch() .unwatch()", async () => {
+    const track: any[] = [];
+    const dir = Dir.tmpDir();
+    dir.watch((...args) => track.push(args));
+    await wait(100);
+    const sub_dir = dir.createDir("hi");
+    await wait(100);
+    sub_dir.delete();
+    await wait(100);
+    dir.unwatch();
+    await wait(100);
+    sub_dir.create();
+    await wait(100);
+    sub_dir.delete();
+    assert.equal(track.length, 3);
+    assert.deepEqual(
+      [...track[0].slice(0, 2), typeof track[0][2] === "object"],
+      ["addDir", dir.path, true]
+    );
+    assert.deepEqual(
+      [...track[1].slice(0, 2), typeof track[1][2] === "object"],
+      ["addDir", sub_dir.path, true]
+    );
+    assert.deepEqual(track[2], ["unlinkDir", sub_dir.path]);
+  });
 });
+
+function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}

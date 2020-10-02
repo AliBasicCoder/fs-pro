@@ -211,18 +211,21 @@ describe("File", () => {
   });
 
   // TODO: find a way to this test
-  // it(".watch() .unWatch()", done => {
-  //   let called = 0;
-  //   file.watch(function(curr: Stats, prev: Stats) {
-  //     assert.equal(typeof curr, "object");
-  //     assert.equal(typeof prev, "object");
-  //     assert.equal(this.read().toString(), "hello world");
-  //     called++;
-  //   });
-  //   file.write("hello world");
-  //   file.unwatch();
-  //   file.write("hello world2");
-  //   assert.equal(called, 1);
-  //   done();
-  // });
+  it(".watch() .unWatch()", async () => {
+    const file = File.tmpFile();
+    const track: any[] = [];
+    file.watch((e) => track.push(e));
+    await wait(100);
+    file.write("hello world");
+    await wait(100);
+    file.unwatch();
+    await wait(100);
+    file.write("hello world2");
+    await wait(100);
+    assert.deepEqual(track, ["add", "change"]);
+  });
 });
+
+function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
