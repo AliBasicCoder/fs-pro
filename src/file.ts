@@ -6,17 +6,16 @@ import {
   existsSync,
   readFileSync,
   renameSync,
-  unwatchFile,
-  watchFile,
   writeFileSync,
   chmodSync,
   lstatSync,
   unlinkSync,
   statSync,
   tmpFile,
+  watch,
 } from "./fs";
 import { join, parse } from "./path";
-import { obj, Stats } from "./types";
+import { FSWatcher, obj, Stats } from "./types";
 import { fsProErr } from "./fsProErr";
 
 /** the File Class is used to help you work with files */
@@ -36,6 +35,7 @@ export class File {
   directory: string;
   /** the default content of the file written when you call .create() */
   defaultContent?: string | Buffer;
+  private watcher?: FSWatcher;
   /** a function to validate the file content */
   validator?: (this: File) => Error[] | void;
   /** the size of the file */
@@ -218,17 +218,18 @@ export class File {
    * watches the file
    * @param listener the function the will be called when the file changes
    * @example
-   * file.watch(function (e, filename) {
-   *    console.log(`the file size is: ${this.size}`);
-   * })
+   * file.watch(function (e, stat) {
+   *    console.log(`the file size is: ${stat.size}`);
+   * });
    */
-  watch(listener: (this: File, curr: Stats, prev: Stats) => any) {
-    watchFile(this.path, listener.bind(this));
+  watch(listener?: (this: File, e: string, stat: Stats) => any) {
+    this.watcher = watch(this.path, {});
+    if (listener) this.watcher.on("all", listener.bind(this));
     return this;
   }
   /** stops watching the file */
   unwatch() {
-    unwatchFile(this.path);
+    this.watcher?.close();
     return this;
   }
   /**

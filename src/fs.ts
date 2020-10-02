@@ -53,14 +53,6 @@ export function renameSync(...args: Parameters<fsObjType["renameSync"]>) {
   return fs.renameSync(...args);
 }
 
-export function unwatchFile(...args: Parameters<fsObjType["unwatchFile"]>) {
-  return fs.unwatchFile(...args);
-}
-
-export function watchFile(...args: Parameters<fsObjType["watchFile"]>) {
-  return fs.watchFile(...args);
-}
-
 export function writeFileSync(...args: Parameters<fsObjType["writeFileSync"]>) {
   return fs.writeFileSync(...args);
 }
