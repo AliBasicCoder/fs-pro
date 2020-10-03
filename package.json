@@ -7,7 +7,7 @@
   "repository": "https://github.com/AliBasicCoder/fs-pro.git",
   "author": "ali_ahmed",
   "license": "MIT",
-  "homepage": "https://fs-pro-docs.herokuapp.com/redirect?from=nry&to=/",
+  "homepage": "https://fs-pro-docs.herokuapp.com",
   "scripts": {
     "docs": "typedoc --out ../fs-pro-docs/website --ignoreCompilerErrors && cd ../fs-pro-docs && csso website/assets/css/main.css --output website/assets/css/main.css && git add . && git commit -a -m \"new version\" && git push origin master",
     "lint": "eslint src/*.ts",
