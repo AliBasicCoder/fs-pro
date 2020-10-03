@@ -210,6 +210,8 @@ describe("File", () => {
   });
 
   it(".watch() .unwatch()", (done) => {
+    // skipping macos
+    if (process.platform === "darwin") done();
     const file = File.tmpFile();
     const track: any[] = [];
     file.watch((e) => track.push(e));
