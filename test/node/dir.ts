@@ -267,6 +267,7 @@ describe("Dir", () => {
     sub_dir.create();
     await wait(100);
     sub_dir.delete();
+    console.log(track);
     assert.equal(track.length, 3);
     assert.deepEqual(
       [...track[0].slice(0, 2), typeof track[0][2] === "object"],
