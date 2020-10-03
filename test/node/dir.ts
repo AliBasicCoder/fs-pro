@@ -260,6 +260,8 @@ describe("Dir", () => {
   });
 
   it(".watch() .unwatch()", async () => {
+    // skipping macos
+    if (process.platform === "darwin") return;
     const track: any[] = [];
     const dir = Dir.tmpDir();
     dir.watch((...args) => track.push(args));
