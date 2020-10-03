@@ -267,16 +267,14 @@ describe("Dir", () => {
     sub_dir.create();
     await wait(100);
     sub_dir.delete();
-    try {
-      assert.equal(track.length, 3);
-      assert.deepEqual(track[0].slice(0, 2), ["addDir", dir.path]);
-      assert.deepEqual(track[1].slice(0, 2), ["addDir", sub_dir.path]);
-      assert.deepEqual(track[2], ["unlinkDir", sub_dir.path]);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(track);
-      throw error;
-    }
+    assert.deepEqual(
+      [track[0].slice(0, 2), track[1].slice(0, 2), track[2]],
+      [
+        ["addDir", dir.path],
+        ["addDir", sub_dir.path],
+        ["unlinkDir", sub_dir.path],
+      ]
+    );
   });
 });
 
