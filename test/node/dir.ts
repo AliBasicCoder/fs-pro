@@ -47,6 +47,12 @@ describe("Dir", () => {
     done();
   });
 
+  it(".delete() (empty folder)", (done) => {
+    const dir = Dir.tmpDir();
+    dir.delete();
+    done();
+  });
+
   it(".createFile()", (done) => {
     const dir = Dir.tmpDir();
     const file_base = randomFile();
