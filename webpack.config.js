@@ -5,23 +5,26 @@ module.exports = {
   output: {
     filename: "fs-pro.min.js",
     path: path.join(__dirname, "dist"),
-    libraryTarget: "commonjs"
+    libraryTarget: "commonjs",
+  },
+  externals: {
+    chokidar: "chokidar",
   },
   target: "node",
   node: {
     fs: "empty",
-    path: "empty"
+    path: "empty",
   },
   mode: "production",
   module: {
     rules: [
       {
         test: /\.ts$/,
-        use: "ts-loader"
-      }
-    ]
+        use: "ts-loader",
+      },
+    ],
   },
   resolve: {
-    extensions: [".ts", ".js"]
-  }
+    extensions: [".ts", ".js"],
+  },
 };
