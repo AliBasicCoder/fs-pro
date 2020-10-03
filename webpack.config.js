@@ -1,4 +1,5 @@
 const path = require("path");
+const nodeExternals = require("webpack-node-externals");
 
 module.exports = {
   entry: "./src/index",
@@ -7,9 +8,7 @@ module.exports = {
     path: path.join(__dirname, "dist"),
     libraryTarget: "commonjs",
   },
-  externals: {
-    chokidar: "chokidar",
-  },
+  externals: [nodeExternals()],
   target: "node",
   node: {
     fs: "empty",
