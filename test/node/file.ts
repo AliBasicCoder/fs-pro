@@ -13,7 +13,7 @@ describe("File", () => {
   it("have right data", (done) => {
     const file_base = randomFile();
     const file = new File(__dirname, file_base);
-    checkData(file, file_base);
+    checkData(file, file_base, __dirname);
     done();
   });
 
