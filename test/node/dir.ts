@@ -268,7 +268,7 @@ describe("Dir", () => {
     await wait(100);
     sub_dir.delete();
     assert.deepEqual(
-      [track[0].slice(0, 2), track[1].slice(0, 2), track[2]],
+      [track[0]?.slice(0, 2), track[1]?.slice(0, 2), track[2]],
       [
         ["addDir", dir.path],
         ["addDir", sub_dir.path],
