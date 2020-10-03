@@ -4,14 +4,16 @@ import { addPlugin } from "./pluginAdder";
 import { setFs } from "./fs";
 import { setPath } from "./path";
 import { Shape } from "./Shape";
-import watch from "node-watch";
+import { watch, WatchOptions } from "chokidar";
 import * as fs from "fs";
 import * as path from "path";
 import { fileSync, dirSync } from "tmp";
 
 setFs({
   ...fs,
-  watch,
+  watch(path: string, options?: WatchOptions) {
+    return watch(path, options);
+  },
   mkTempDir() {
     return dirSync().name;
   },

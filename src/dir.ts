@@ -13,7 +13,12 @@ import {
 import { join, parse } from "./path";
 import { File } from "./file";
 // will be replaced with an import from node-watch
-import { WatchOptions, DirForeachOptions, FSWatcher } from "./types";
+import {
+  WatchOptions,
+  DirForeachOptions,
+  FSWatcher,
+  WatchListener,
+} from "./types";
 import { fsProErr } from "./fsProErr";
 
 /** the Dir Class is used to help you work with files */
@@ -209,19 +214,27 @@ export class Dir {
   }
   /**
    * watches the directory
-   * @param listener the function will be called when a file changes
-   * @param options options
+   * @param optionsOrListener options
+   * @param maybeListener the function will be called when a file changes
    * @example
-   * dir.watch((e, file) => {
-   *    if (e === "update") console.log(`file ${file.base} have been updated`);
-   *    else console.log(`file ${file.base} have been removed`);
+   * dir.watch({}, (e, path) => {
+   *    if (e === "update") console.log(`${path} have been updated`);
+   *    if(e === "remove") console.log(`${path} have been removed`);
    * })
    */
-  watch(listener: (e: string, file: File) => any, options?: WatchOptions) {
-    this.watcher = watch(this.path, options || {}, (e, filename) =>
-      // @ts-ignore
-      listener(e, new File(join(this.path, filename)))
-    );
+  watch(options: WatchOptions, listener?: WatchListener): FSWatcher;
+  watch(listener?: WatchListener): FSWatcher;
+  watch(
+    optionsOrListener?: WatchOptions | WatchListener,
+    maybeListener?: WatchListener
+  ) {
+    const options = typeof optionsOrListener === "object" && optionsOrListener;
+    const listener =
+      typeof optionsOrListener === "function"
+        ? optionsOrListener
+        : maybeListener;
+    this.watcher = watch(this.path, options || {});
+    if (listener) this.watcher.on("all", listener);
     return this.watcher;
   }
   /** stops watching the directory */

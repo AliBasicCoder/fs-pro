@@ -32,3 +32,13 @@ a breaking changes version
 **Fix:**
 
 - Some method "return this"
+
+## v3.2.0 Oct 3, 2020
+
+**Improvements:**
+
+- Switching watch lib to "chokidar"
+- Add testing for File.watch() and Dir.watch() and unwatch
+- Adding private property "watcher" to File
+- Changing API for File.watch() and Dir.watch()
+- Fixing Bug found in Shape.createShapeInst()

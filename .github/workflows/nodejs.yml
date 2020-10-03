@@ -7,12 +7,37 @@ on:
     branches: [master]
 
 jobs:
-  build:
-    strategy:
-      matrix:
-        platform: [ubuntu-latest, macos-latest]
+  build_windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
+      - run: yarn test
+        env:
+          CI: true
 
-    runs-on: ${{ matrix.platform }}
+  build_macos:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
+      - run: yarn test
+        env:
+          CI: true
+
+  build_ubuntu:
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2

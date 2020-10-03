@@ -9,19 +9,19 @@ export const randomDir = () =>
 export const randomFile = () =>
   `file_${Math.random().toString().replace(".", "")}`;
 
-export const checkData = (file: File, name: string, someDir?: string) => {
-  assert.equal(file.path, join(someDir || __dirname, name));
+export const checkData = (file: File, name: string, someDir: string) => {
+  assert.equal(file.path, join(someDir, name));
   assert.equal(file.name, name);
   assert.equal(file.extension, "");
   assert.equal(file.base, name);
-  assert.equal(file.root, parse(__dirname).root);
-  assert.equal(file.directory, someDir || __dirname);
+  assert.equal(file.root, parse(someDir).root);
+  assert.equal(file.directory, someDir);
 };
 
 export function checkDataDir(dir: Dir, parent: string, name: string) {
   assert.equal(dir.path, join(parent, name));
   assert.equal(dir.name, name);
-  assert.equal(dir.root, parse(__dirname).root);
+  assert.equal(dir.root, parse(parent).root);
   assert.equal(dir.parentDirectory, parent);
 }
 

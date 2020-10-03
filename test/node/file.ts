@@ -13,7 +13,7 @@ describe("File", () => {
   it("have right data", (done) => {
     const file_base = randomFile();
     const file = new File(__dirname, file_base);
-    checkData(file, file_base);
+    checkData(file, file_base, __dirname);
     done();
   });
 
@@ -187,7 +187,6 @@ describe("File", () => {
     file.moveTo(dist_dir.path);
     checkData(file, file.name, dist_dir.path);
     assert.equal(existsSync(file.path), true);
-    file.delete();
     dist_dir.delete();
     done();
   });
@@ -210,19 +209,27 @@ describe("File", () => {
     done();
   });
 
-  // TODO: find a way to this test
-  // it(".watch() .unWatch()", done => {
-  //   let called = 0;
-  //   file.watch(function(curr: Stats, prev: Stats) {
-  //     assert.equal(typeof curr, "object");
-  //     assert.equal(typeof prev, "object");
-  //     assert.equal(this.read().toString(), "hello world");
-  //     called++;
-  //   });
-  //   file.write("hello world");
-  //   file.unwatch();
-  //   file.write("hello world2");
-  //   assert.equal(called, 1);
-  //   done();
-  // });
+  it(".watch() .unwatch()", (done) => {
+    const file = File.tmpFile();
+    const track: any[] = [];
+    file.watch((e) => track.push(e));
+    wait(100)
+      .then(() => {
+        file.write("hello world");
+        return wait(100);
+      })
+      .then(() => {
+        file.unwatch();
+        return wait(100);
+      })
+      .then(() => file.write("hello world2"))
+      .then(() => {
+        assert.deepEqual(track, ["add", "change"]);
+        done();
+      });
+  });
 });
+
+function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}

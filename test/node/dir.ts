@@ -47,6 +47,12 @@ describe("Dir", () => {
     done();
   });
 
+  it(".delete() (empty folder)", (done) => {
+    const dir = Dir.tmpDir();
+    dir.delete();
+    done();
+  });
+
   it(".createFile()", (done) => {
     const dir = Dir.tmpDir();
     const file_base = randomFile();
@@ -252,8 +258,34 @@ describe("Dir", () => {
     });
     dir.delete();
   });
-  // TODO: adding test for that
-  // it(".watch() .unwatch", done => {
-  //   done();
-  // });
+
+  it(".watch() .unwatch()", async () => {
+    // skipping macos
+    if (process.platform === "darwin") return;
+    const track: any[] = [];
+    const dir = Dir.tmpDir();
+    dir.watch((...args) => track.push(args));
+    await wait(100);
+    const sub_dir = dir.createDir("hi");
+    await wait(100);
+    sub_dir.delete();
+    await wait(100);
+    dir.unwatch();
+    await wait(100);
+    sub_dir.create();
+    await wait(100);
+    sub_dir.delete();
+    assert.deepEqual(
+      [track[0]?.slice(0, 2), track[1]?.slice(0, 2), track[2]],
+      [
+        ["addDir", dir.path],
+        ["addDir", sub_dir.path],
+        ["unlinkDir", sub_dir.path],
+      ]
+    );
+  });
 });
+
+function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}

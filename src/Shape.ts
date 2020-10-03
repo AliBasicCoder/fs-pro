@@ -37,7 +37,7 @@ function createShapeInst(
   const eventRegister = createEventRegister(eventsListeners);
   eventRegister(parentDir);
   for (const key in shapeObj) {
-    if (key === "__name") continue;
+    if (key === "__name" || key === "__rest") continue;
     if (Object.prototype.hasOwnProperty.call(shapeObj, key)) {
       const element = shapeObj[key];
       if (isFileType(element)) {

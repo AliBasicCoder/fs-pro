@@ -1,18 +1,22 @@
 import * as FS from "fs";
-import {
+import { Stats, BigIntOptions, PathLike, BigIntStats, StatOptions } from "fs";
+import * as PATH from "path";
+import { File } from "./file";
+import { Dir } from "./dir";
+import { fsProErr } from "./fsProErr";
+import { FSWatcher, WatchOptions } from "chokidar";
+
+export {
   FSWatcher,
   Stats,
   BigIntOptions,
   PathLike,
   BigIntStats,
   StatOptions,
-} from "fs";
-import * as PATH from "path";
-import { File } from "./file";
-import { Dir } from "./dir";
-import { fsProErr } from "./fsProErr";
+  WatchOptions,
+};
 
-export { FSWatcher, Stats, BigIntOptions, PathLike, BigIntStats, StatOptions };
+export type WatchListener = (e: string, path: string) => any;
 
 export type DirForeachOptions = {
   /** if true will loop recursively */
@@ -40,11 +44,7 @@ export type fsObjType = {
   mkTempFile: () => string;
   mkTempDir: () => string;
   // watcher must follow node-watch api
-  watch: (
-    filename: string | string[],
-    options: WatchOptions,
-    callback: (e: string, file: string) => any
-  ) => FS.FSWatcher;
+  watch: (path: string, options: WatchOptions) => FSWatcher;
 };
 
 export type pathObjType = {
@@ -133,45 +133,3 @@ export type errArr = {
 };
 
 export const isErrArr = (obj?: any): obj is errArr => obj.arr && obj.push;
-
-// copied from node-watch https://npmjs.com/package/delete
-
-export type WatchOptions = {
-  /**
-   * Indicates whether the process should continue to run as long as files are being watched.
-   * @default true
-   */
-  persistent?: boolean;
-
-  /**
-   * Indicates whether all subdirectories should be watched, or only the current directory. This applies when a
-   * directory is specified, and only on supported platforms.
-   *
-   * @default false
-   */
-  recursive?: boolean;
-
-  /**
-   * Specifies the character encoding to be used for the filename passed to the listener.
-   * @default 'utf8'
-   */
-  encoding?: string;
-
-  /**
-   * Only files which pass this filter (when it returns `true`) will be sent to the listener.
-   */
-  filter?: RegExp | ((file: string) => boolean);
-
-  /**
-   * Delay time of the callback function.
-   * @default 200
-   */
-  delay?: number;
-};
-
-export interface ImprovedFSWatcher extends FS.FSWatcher {
-  /**
-   * Returns `true` if the watcher has been closed.
-   */
-  isClosed(): boolean;
-}
