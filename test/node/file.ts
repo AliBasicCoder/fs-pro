@@ -187,7 +187,6 @@ describe("File", () => {
     file.moveTo(dist_dir.path);
     checkData(file, file.name, dist_dir.path);
     assert.equal(existsSync(file.path), true);
-    file.delete();
     dist_dir.delete();
     done();
   });
@@ -211,7 +210,7 @@ describe("File", () => {
   });
 
   // TODO: find a way to this test
-  it(".watch() .unWatch()", async () => {
+  it(".watch() .unwatch()", async () => {
     const file = File.tmpFile();
     const track: any[] = [];
     file.watch((e) => track.push(e));
