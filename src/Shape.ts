@@ -195,7 +195,7 @@ export class Shape<T extends ShapeObj> {
    * every key in the object passed in is an identifier for the file or dir
    * @NOTE DO NOT use these keys any where inside the shape "__dir", "__name"
    * "__rest", "__isFile", "__isDir"
-   * @example
+   * @example ```js
    * const shape = new Shape({
    *   // for adding files use Shape.File with the file name
    *   some_file: Shape.File("some_file.txt"),
@@ -213,6 +213,7 @@ export class Shape<T extends ShapeObj> {
    *   // must follow the given shape
    *   __rest: Shape.File("*.txt"),
    * });
+   * ```
    * @param shape the shape
    */
   constructor(shape: T) {
@@ -224,10 +225,11 @@ export class Shape<T extends ShapeObj> {
    * @NOTE file regex are different than normal regex
    * 1. Shape every convert any "*" to ".*" (unless it's backslashed)
    * 2. it splits the regex by "|" and test every one separately (unless it's backslashed)
-   * @example
+   * @example ```js
    * const shape = new Shape({
    *   some_file: Shape.File("file_name")
    * });
+   * ```
    * @param str the filename or match regex
    * @param dfCont file default content (content will be added on creation)
    * @param validator a function used to validate the file
@@ -247,7 +249,7 @@ export class Shape<T extends ShapeObj> {
 
   /**
    * use this method to define a directory
-   * @example
+   * @example ```js
    * const shape = new Shape({
    *   // example for defining a Dir including only files the match
    *   // the Shape.File passed in
@@ -258,6 +260,7 @@ export class Shape<T extends ShapeObj> {
    *     // ...
    *   }),
    * });
+   * ```
    * @param str the directory name
    * @param fileTypeOrShapeObj file type of the Shape Obj
    */

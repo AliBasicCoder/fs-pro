@@ -41,7 +41,7 @@ function checkIfOverwrites(element: Plugin["plugin"][0], pluginName: string) {
  * plugins is a way to add methods to the core class like File, Dir, etc...
  * @param pluginWrapper the plugin
  * @param allowPluginOverwrite if `true` will allow provided plugin to overwrite any method added by any plugin
- * @example
+ * @example ```js
  * addPlugin({
  *   name: "xml",
  *   plugin: [
@@ -54,6 +54,7 @@ function checkIfOverwrites(element: Plugin["plugin"][0], pluginName: string) {
  *       isStatic: false
  *     }]
  *  });
+ * ```
  */
 export function addPlugin(
   pluginWrapper: Plugin,

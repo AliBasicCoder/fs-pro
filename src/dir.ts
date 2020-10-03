@@ -71,25 +71,28 @@ export class Dir {
   }
   /**
    * create a dir in the tmp directory
-   * @example
+   * @example ```js
    * const dir = Dir.tmpDir();
    * console.log(dir.path) // => "'/tmp/tmp-132576-Rlxque0XmU45'"
+   * ```
    */
   static tmpDir() {
     return new Dir(tmpDir());
   }
   /**
    * reads the directory
-   * @example
+   * @example ```js
    * console.log(dir.read()) // => ["hello_world.txt", "file2.txt"]
+   * ```
    */
   read() {
     return readdirSync(this.path);
   }
   /**
    * reads te directory and convert it to File and Dir objects
-   * @example
+   * @example ```js
    * dir.readResolve().forEach(console.log);
+   * ```
    */
   readResolve() {
     return this.read().map((path) => {
@@ -102,11 +105,12 @@ export class Dir {
    * loops through every thing inside the directory
    * @param callback the callback
    * @param options options
-   * @example
+   * @example ```js
    * // console logs every thing's path (file or dir)
    * dir.forEach(thing => console.log(thing.path));
    * // console logs every thing's path (file or dir) recursively
    * dir.forEach(thing => console.log(thing.path), { recursive: true });
+   * ```
    */
   forEach(
     callback: (fileOrDir: File | Dir) => any,
@@ -123,11 +127,12 @@ export class Dir {
    * loops through every file inside the directory
    * @param callback the callback
    * @param options options
-   * @example
+   * @example ```js
    * // console logs every file's path
-   * dir.forEachFile(file => console.log(file.path))
+   * dir.forEachFile(file => console.log(file.path));
    * // console logs every file's path
-   * dir.forEachFile(file => console.log(file.path), { recursive: true })
+   * dir.forEachFile(file => console.log(file.path), { recursive: true });
+   * ```
    */
   forEachFile(callback: (file: File) => any, options: DirForeachOptions = {}) {
     this.readResolve().forEach((thing) => {
@@ -141,11 +146,12 @@ export class Dir {
    * loops through every directory inside the directory
    * @param callback the callback
    * @param options options
-   * @example
+   * @example ```js
    * // console logs every directory's path
    * dir.forEachDir(dir => console.log(dir.path))
    * // console logs every directory's path
    * dir.forEachDir(dir => console.log(dir.path), { recursive: true })
+   * ```
    */
   forEachDir(callback: (dir: Dir) => any, options: DirForeachOptions = {}) {
     this.readResolve().forEach((thing) => {
@@ -158,8 +164,9 @@ export class Dir {
   }
   /**
    * creates the directory (if it doesn't exits)
-   * @example
+   * @example ```js
    * dir.create();
+   * ```
    */
   create() {
     if (!existsSync(this.path)) mkdirSync(this.path);
@@ -170,13 +177,14 @@ export class Dir {
    * @param filename the file you want to create
    * @param createParents create parent directories if doesn't exits
    * @NOTE use ONLY forward slash of filename
-   * @example
+   * @example ```js
    * const file = dir.createFile("hello_world.txt");
    * file.write("hello world");
    * // ...
    * const file2 = dir.createFile("some_dir/hello_world.txt", true);
    * file2.write("hello world");
    * //...
+   * ```
    */
   createFile(filename: string, createParents?: boolean) {
     if (createParents) {
@@ -193,13 +201,14 @@ export class Dir {
    * create a directory inside the directory
    * @param dirname the name of the directory
    * @param createParents create parent directories if doesn't exits
-   * @example
+   * @example ```js
    * const subDir = dir.createDir("hello");
    * subDir.createFile("hello_world.txt");
    * // ...
    * const subDir2 = dir.createDir("foo/bar/hello", true);
    * subDir2.createFile("hello_world.txt");
    * // ...
+   * ```
    */
   createDir(dirname: string, createParents?: boolean) {
     if (createParents) {
@@ -216,11 +225,12 @@ export class Dir {
    * watches the directory
    * @param optionsOrListener options
    * @param maybeListener the function will be called when a file changes
-   * @example
+   * @example ```js
    * dir.watch({}, (e, path) => {
    *    if (e === "update") console.log(`${path} have been updated`);
    *    if(e === "remove") console.log(`${path} have been removed`);
    * })
+   * ```
    */
   watch(options: WatchOptions, listener?: WatchListener): FSWatcher;
   watch(listener?: WatchListener): FSWatcher;
@@ -250,8 +260,9 @@ export class Dir {
   /**
    * delete every thing (where it's a file or a folder) that matches the regex passed in
    * @param regex the regex
-   * @example
+   * @example ```js
    * dir.deleteMatch(/some/); // delete every thing called some
+   * ```
    */
   deleteMath(regex: RegExp) {
     this.read().forEach((fileOrDir) => {
@@ -269,8 +280,9 @@ export class Dir {
   /**
    * delete every file the matches the regex passed in
    * @param regex the regex
-   * @example
+   * @example ```js
    * dir.deleteMatchFile(/.*\.js$/); // delete every js file
+   * ```
    */
   deleteMatchFile(regex: RegExp) {
     this.read().forEach((fileOrDir) => {
@@ -285,8 +297,9 @@ export class Dir {
   /**
    * deletes every directory the matches the regex in the dir and sub dir
    * @param regex the regex
-   * @example
+   * @example ```js
    * dir.deleteMatchDir(/node_modules/) // delete every node_modules in the dir
+   * ```
    */
   deleteMatchDir(regex: RegExp) {
     this.read().forEach((fileOrDir) => {
@@ -315,8 +328,9 @@ export class Dir {
   /**
    * rename the directory
    * @param newName the newName
-   * @example
+   * @example ```js
    * dir.rename("newName");
+   * ```
    */
   rename(newName: string) {
     const newPath = join(this.parentDirectory, newName);
@@ -334,16 +348,18 @@ export class Dir {
   }
   /**
    * gets a file inside the directory
-   * @example
+   * @example ```js
    * myDir.getFile("myFile.txt").read() //...
+   * ```
    */
   getFile(path: string) {
     return new File(this.path, path);
   }
   /**
    * gets a folder inside the directory
-   * @example
+   * @example ```js
    * myDir.getDir("myChildDir").read() //...
+   * ```
    */
   getDir(path: string) {
     return new Dir(this.path, path);
@@ -353,13 +369,14 @@ export class Dir {
    * @param destination the destination folder
    * @param rename rename the folder copy
    * @param isRelative if true resolves the destination path based on the dir path
-   * @example
+   * @example ```js
    * // copy directory to "/home/some_dir"
    * dir.copyTo("/home/some_dir")
    * // copy directory to "/home/some_dir" an rename the directory's copy name to "new-name"
    * dir.copyTo("/home/some_dir", "new_name")
    * // copy directory to "../some_dir" (path is resolved passed on folder's location)
    * dir.copyTo("../some_dir", null, true)
+   * ```
    */
   copyTo(destination: string, rename?: null | string, isRelative?: boolean) {
     const dest = isRelative
@@ -374,13 +391,14 @@ export class Dir {
    * @param destination the destination folder
    * @param rename rename the folder
    * @param isRelative if true resolves the destination path based on the dir path
-   * @example
+   * @example ```js
    * // move directory to "/home/some_dir"
    * dir.moveTo("/home/some_dir")
    * // move directory to "/home/some_dir" an rename the directory to "new-name"
    * dir.moveTo("/home/some_dir", "new_name")
    * // move directory to "../some_dir" (path is resolved passed on folder's location)
    * dir.moveTo("../some_dir", null, true)
+   * ```
    */
   moveTo(destination: string, rename?: null | string, isRelative?: boolean) {
     const dest = isRelative

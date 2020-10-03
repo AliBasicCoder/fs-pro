@@ -61,10 +61,11 @@ export class File {
   /**
    * @NOTE the path you pass will passed to path.join
    * @param args the paths
-   * @example
+   * @example ```js
    * const file = new File(__dirname, "./some.txt");
    * file.write("hello world");
    * // ...
+   * ```
    */
   constructor(...args: string[]) {
     this.path = join(...args);
@@ -85,10 +86,11 @@ export class File {
    * write some data into the file
    * @param data the data to write
    * @NOTE if you pass an object it will be automatically convert to json
-   * @example
+   * @example ```js
    * file.write("hello world");
    * file.write(Buffer.from("hello world"));
    * file.write({ hello: "world" });
+   * ```
    */
   write(data: Buffer | string | obj<any>) {
     if (Buffer.isBuffer(data) || typeof data === "string") {
@@ -98,15 +100,17 @@ export class File {
   }
   /**
    * reads the file
-   * @example
+   * @example ```js
    * // this will print the line index followed by "| "
    * file.read("\n", (str, i) => console.log(`${i}| ${str}`))
+   * ```
    */
   read(splitter: string, callback: (str: string, index: number) => void): this;
   /**
    * reads the file
-   * @example
+   * @example ```js
    * file.read().toString() // => "hello world
+   * ```
    */
   read(): Buffer;
   read(splitter?: string, callback?: (str: string, index: number) => void) {
@@ -118,8 +122,9 @@ export class File {
   /**
    * append some data to the file
    * @param data data to append
-   * @example
+   * @example ```js
    * file.append("hello").append("world").read() // => hello world
+   * ```
    */
   append(data: string | Buffer) {
     appendFileSync(this.path, data);
@@ -131,8 +136,9 @@ export class File {
    * result
    * @param splitter the string to split the file by
    * @param callback the callback
-   * @example
+   * @example ```js
    * file.overwrite("\n", (str, i) => `${i}| ${str}`);
+   * ```
    */
   overwrite(
     splitter: string,
@@ -150,8 +156,9 @@ export class File {
    * passed
    * @param splitter the splitter string
    * @param index the index
-   * @example
+   * @example ```js
    * file.getIndex("\n", 24) // gets the line 24
+   * ```
    */
   getIndex(splitter: string, index: number) {
     return this.splitBy(splitter)[index];
@@ -162,8 +169,9 @@ export class File {
    * @param splitter the splitter
    * @param start the start index
    * @param end the end index
-   * @example
+   * @example ```js
    * file.getIndexBetween("\n", 10, 13) // gets the lines between line 10 and 13 (not including 13)
+   * ```
    */
   getIndexBetween(splitter: string, start: number, end?: number) {
     return this.splitBy(splitter).slice(start, end);
@@ -172,35 +180,39 @@ export class File {
    * split the file content into an array
    * @param separator the string to split by
    * @param limit A value used to limit the number of elements returned in the array
-   * @example
+   * @example ```js
    * // example of getting the lines of a file
    * file.splitBy("\n").forEach(console.log);
+   * ```
    */
   splitBy(separator: string | RegExp, limit?: number) {
     return this.read().toString().split(separator, limit);
   }
   /**
    * creates a read stream for the file
-   * @example
+   * @example ```js
    * // example of copying file content via streams
    * fileX.createReadStream().pipe(fileY.createWriteStream());
+   * ```
    */
   createReadStream() {
     return createReadStream(this.path);
   }
   /**
    * creates a write stream for the file
-   * @example
+   * @example ```js
    * // example of copying file content via streams:
    * fileX.createReadStream().pipe(fileY.createWriteStream());
+   * ```
    */
   createWriteStream() {
     return createWriteStream(this.path);
   }
   /**
    * reads the file as json
-   * @example
+   * @example ```js
    * JsonFile.json() // => { hello: "world" }
+   * ```
    */
   json<T extends obj<any> | any[]>(): T {
     return JSON.parse(this.read().toString());
@@ -217,10 +229,11 @@ export class File {
   /**
    * watches the file
    * @param listener the function the will be called when the file changes
-   * @example
+   * @example ```js
    * file.watch(function (e, stat) {
    *    console.log(`the file size is: ${stat.size}`);
    * });
+   * ```
    */
   watch(listener?: (this: File, e: string, stat: Stats) => any) {
     this.watcher = watch(this.path, {});
@@ -248,9 +261,10 @@ export class File {
   }
   /**
    * delete the file
-   * @example
+   * @example ```js
    * file.delete();
    * fs.existsSync(file.path) // => false
+   * ```
    */
   delete() {
     unlinkSync(this.path);
@@ -260,7 +274,7 @@ export class File {
    * @param destination the destination to copy the file to
    * @param rename rename the file to another name
    * @param isRelative resolves the destination path based the file path
-   * @example
+   * @example ```js
    * // copy to absolute path
    * const newFile = file.copyTo("/home/some_dir");
    * // copy to a path relative to file path
@@ -270,6 +284,7 @@ export class File {
    * const newFile = file.copyTo("../some_dir", "newName.txt", true);
    *
    * newFile.write("hello world");
+   * ```
    */
   copyTo(destination: string, rename?: null | string, isRelative?: boolean) {
     const dest = isRelative
@@ -283,7 +298,7 @@ export class File {
    * @param destination the destination to copy the file to
    * @param rename rename the file to another name
    * @param isRelative resolves the destination path based the file path
-   * @example
+   * @example ```js
    * // move to absolute path
    * file.moveTo("/home/some_dir");
    * // move to a path relative to file path
@@ -294,6 +309,7 @@ export class File {
    *
    * file.write("hello world");
    * // ...
+   * ```
    */
   moveTo(destination: string, rename?: null | string, isRelative?: boolean) {
     const dest = isRelative
@@ -312,8 +328,9 @@ export class File {
   /**
    * rename the file
    * @param newName the newName
-   * @example
+   * @example ```js
    * file.rename("newName.txt");
+   * ```
    */
   rename(newName: string) {
     const newPath = join(this.directory, newName);
@@ -330,8 +347,9 @@ export class File {
   /**
    * changes the mode of the file
    * @param mode the mode
-   * @example
+   * @example ```js
    * file.chmod(0o400 + 0o200 + 0o100); // gives the owner read, write and execute permissions
+   * ```
    */
   chmod(mode: number) {
     chmodSync(this.path, mode);
@@ -345,13 +363,14 @@ export class File {
    * validates the file using the validator
    * @NOTE if an error happens in file.validator file.validate will handel it
    * an return an array of errors
-   * @example
+   * @example ```js
    * // validate a json file
    * file.validator = function () {
    *    JSON.parse(this.read.toString())
    * }
    * const errors = file.validate();
    * if (errors.length) console.log("file isn't valid")
+   * ```
    */
   validate(): Error[] {
     if (!this.validator) throw new Error("please set validator first");
@@ -366,13 +385,14 @@ export class File {
   /**
    * safer from validate (cause it will return true if there's no "validator")
    * @NOTE it will return true if validator property is undefined
-   * @example
+   * @example ```js
    * // validate a json file
    * file.validator = function () {
    *    JSON.parse(this.read.toString())
    * }
    * const errors = file.validate();
    * if (errors.length) console.log("file isn't valid")
+   * ```
    */
   valid(): boolean {
     if (!this.validator) return true;
