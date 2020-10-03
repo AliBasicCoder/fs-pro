@@ -209,19 +209,24 @@ describe("File", () => {
     done();
   });
 
-  // TODO: find a way to this test
-  it(".watch() .unwatch()", async () => {
+  it(".watch() .unwatch()", (done) => {
     const file = File.tmpFile();
     const track: any[] = [];
     file.watch((e) => track.push(e));
-    await wait(100);
-    file.write("hello world");
-    await wait(100);
-    file.unwatch();
-    await wait(100);
-    file.write("hello world2");
-    await wait(100);
-    assert.deepEqual(track, ["add", "change"]);
+    wait(100)
+      .then(() => {
+        file.write("hello world");
+        return wait(100);
+      })
+      .then(() => {
+        file.unwatch();
+        return wait(100);
+      })
+      .then(() => file.write("hello world2"))
+      .then(() => {
+        assert.deepEqual(track, ["add", "change"]);
+        done();
+      });
   });
 });
 
