@@ -226,7 +226,8 @@ describe("File", () => {
       .then(() => {
         assert.deepEqual(track, ["add", "change"]);
         done();
-      });
+      })
+      .catch((err) => done(err));
   });
 });
 
