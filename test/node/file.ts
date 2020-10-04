@@ -212,8 +212,10 @@ describe("File", () => {
   it(".watch() .unwatch()", (done) => {
     const file = File.tmpFile();
     const track: any[] = [];
-    file.watch((e) => track.push(e));
-    wait(100)
+    new Promise((resolve) => {
+      file.watch((e) => track.push(e));
+      resolve(wait(100));
+    })
       .then(() => {
         file.write("hello world");
         return wait(100);
