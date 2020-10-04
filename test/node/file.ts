@@ -210,9 +210,10 @@ describe("File", () => {
   });
 
   it(".watch() .unwatch()", (done) => {
-    const file = File.tmpFile();
+    let file: File;
     const track: any[] = [];
     new Promise((resolve) => {
+      file = File.tmpFile();
       file.watch((e) => track.push(e));
       resolve(wait(100));
     })
