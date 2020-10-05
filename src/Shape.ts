@@ -9,6 +9,7 @@ import {
   errArr,
   isErrArr,
   ShapeObjWithoutName,
+  name_sym,
 } from "./types";
 import { Dir } from "./dir";
 import { File } from "./file";
@@ -37,7 +38,7 @@ function createShapeInst(
   const eventRegister = createEventRegister(eventsListeners);
   eventRegister(parentDir);
   for (const key in shapeObj) {
-    if (key === "__name" || key === "__rest") continue;
+    if (key === "__rest") continue;
     if (Object.prototype.hasOwnProperty.call(shapeObj, key)) {
       const element = shapeObj[key];
       if (isFileType(element)) {
@@ -51,11 +52,11 @@ function createShapeInst(
         eventRegister(dir);
         result[key] = dir;
       } else {
-        if (!element.__name)
+        if (!element[name_sym])
           throw new Error(`directory with key ${key} missing name`);
         result[key] = createShapeInst(
           element,
-          join(parentDir.path, element.__name),
+          join(parentDir.path, element[name_sym] || ""),
           eventsListeners
         );
       }
@@ -150,13 +151,13 @@ function validate(path: string, shapeObj: ShapeObj, crash: boolean = false) {
   const errs = errArray(crash);
   const namesChecked: string[] = [];
   for (const key in shapeObj) {
-    if (key === "__name" || key === "__rest") continue;
+    if (key === "__rest") continue;
     if (Object.prototype.hasOwnProperty.call(shapeObj, key)) {
       const element = shapeObj[key];
       const name =
         isDirType(element) || isFileType(element)
           ? element.str
-          : element.__name || "";
+          : element[name_sym] || "";
       const elementPath = join(path, name);
       if (!existsSync(elementPath)) {
         errs.push(
@@ -193,7 +194,7 @@ export class Shape<T extends ShapeObj> {
    * the Shape instance reference is a JS object the references the Shape instance
    * the Shape constructor takes the Shape of your directory
    * every key in the object passed in is an identifier for the file or dir
-   * @NOTE DO NOT use these keys any where inside the shape "__dir", "__name"
+   * @NOTE DO NOT use these keys any where inside the shape "__dir",
    * "__rest", "__isFile", "__isDir"
    * @example ```js
    * const shape = new Shape({
@@ -265,7 +266,10 @@ export class Shape<T extends ShapeObj> {
    * @param fileTypeOrShapeObj file type of the Shape Obj
    */
   static Dir(str: string, fileType: fileType): dirType;
-  static Dir(str: string, shapeObj: ShapeObjWithoutName): ShapeObj;
+  static Dir<T extends string, K extends ShapeObjWithoutName>(
+    str: T,
+    shapeObj: K
+  ): K & { [name_sym]: T };
   static Dir(
     str: string,
     fileTypeOrShapeObj: fileType | ShapeObjWithoutName
@@ -279,7 +283,7 @@ export class Shape<T extends ShapeObj> {
     } else {
       // @ts-ignore
       return {
-        __name: str,
+        [name_sym]: str,
         ...fileTypeOrShapeObj,
       };
     }
@@ -303,8 +307,9 @@ type switchToShapeInstRef<T extends ShapeObj> = {
     ? File
     : T[K] extends dirType
     ? Dir
-    : // @ts-ignore
-      switchToShapeInstRef<T[K]>;
+    : T[K] extends ShapeObj
+    ? switchToShapeInstRef<T[K]>
+    : null;
 } & {
   __dir: Dir;
 };

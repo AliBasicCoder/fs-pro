@@ -106,9 +106,11 @@ export type dirType = {
   fileType: fileType;
 };
 
-export type ShapeObj = { [key: string]: ShapeObj | fileType | dirType } & {
-  __rest?: ShapeObj | fileType | dirType;
-  __name?: string;
+export const name_sym = Symbol("__name");
+
+export type ShapeObj = {
+  [key: string]: ShapeObj | fileType | dirType;
+  [name_sym]?: string;
 };
 
 export type ShapeObjWithoutName = {
