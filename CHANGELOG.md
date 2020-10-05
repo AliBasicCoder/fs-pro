@@ -42,3 +42,9 @@ a breaking changes version
 - Adding private property "watcher" to File
 - Changing API for File.watch() and Dir.watch()
 - Fixing Bug found in Shape.createShapeInst()
+
+## v3.3.0 Oct 5, 2020
+
+**Fix:**
+
+- Shape typing issues
