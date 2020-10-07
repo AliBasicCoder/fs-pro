@@ -9,17 +9,12 @@ import {
   statSync,
   watch,
   tmpDir,
-} from "./fs";
-import { join, parse } from "./path";
-import { File } from "./file";
+} from "./fs.ts";
+import { join, parse } from "./path.ts";
+import { File } from "./file.ts";
 // will be replaced with an import from node-watch
-import {
-  WatchOptions,
-  DirForeachOptions,
-  FSWatcher,
-  WatchListener,
-} from "./types";
-import { fsProErr } from "./fsProErr";
+import type { DirForeachOptions, FSWatcher, WatchListener } from "./types.ts";
+import { fsProErr } from "./fsProErr.ts";
 
 /** the Dir Class is used to help you work with files */
 export class Dir {
@@ -223,7 +218,6 @@ export class Dir {
   }
   /**
    * watches the directory
-   * @param optionsOrListener options
    * @param maybeListener the function will be called when a file changes
    * @example ```js
    * dir.watch({}, (e, path) => {
@@ -232,19 +226,12 @@ export class Dir {
    * })
    * ```
    */
-  watch(options: WatchOptions, listener?: WatchListener): FSWatcher;
-  watch(listener?: WatchListener): FSWatcher;
-  watch(
-    optionsOrListener?: WatchOptions | WatchListener,
-    maybeListener?: WatchListener
-  ) {
-    const options = typeof optionsOrListener === "object" && optionsOrListener;
-    const listener =
-      typeof optionsOrListener === "function"
-        ? optionsOrListener
-        : maybeListener;
-    this.watcher = watch(this.path, options || {});
-    if (listener) this.watcher.on("all", listener);
+  watch(listener?: WatchListener) {
+    this.watcher = watch(this.path);
+    if (listener) {
+      if (typeof Deno === "undefined") this.watcher.on("all", listener);
+      else this.watcher.on("change", listener);
+    }
     return this.watcher;
   }
   /** stops watching the directory */

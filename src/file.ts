@@ -1,8 +1,6 @@
 import {
   appendFileSync,
   copyFileSync,
-  createReadStream,
-  createWriteStream,
   existsSync,
   readFileSync,
   renameSync,
@@ -13,10 +11,12 @@ import {
   statSync,
   tmpFile,
   watch,
-} from "./fs";
-import { join, parse } from "./path";
-import { FSWatcher, obj, Stats } from "./types";
-import { fsProErr } from "./fsProErr";
+} from "./fs.ts";
+import { join, parse } from "./path.ts";
+import type { FSWatcher, obj, Stats, BufferType, BufferClass } from "./types.ts";
+import { fsProErr } from "./fsProErr.ts";
+
+let Buffer: BufferClass;
 
 /** the File Class is used to help you work with files */
 export class File {
@@ -34,7 +34,7 @@ export class File {
   /** the directory of the file */
   directory: string;
   /** the default content of the file written when you call .create() */
-  defaultContent?: string | Buffer;
+  defaultContent?: string | BufferType;
   private watcher?: FSWatcher;
   /** a function to validate the file content */
   validator?: (this: File) => Error[] | void;
@@ -92,7 +92,7 @@ export class File {
    * file.write({ hello: "world" });
    * ```
    */
-  write(data: Buffer | string | obj<any>) {
+  write(data: BufferType | string | obj<any>) {
     if (Buffer.isBuffer(data) || typeof data === "string") {
       writeFileSync(this.path, data);
     } else writeFileSync(this.path, JSON.stringify(data));
@@ -112,7 +112,7 @@ export class File {
    * file.read().toString() // => "hello world
    * ```
    */
-  read(): Buffer;
+  read(): BufferType;
   read(splitter?: string, callback?: (str: string, index: number) => void) {
     if (splitter && callback) {
       this.splitBy(splitter).forEach(callback);
@@ -126,7 +126,7 @@ export class File {
    * file.append("hello").append("world").read() // => hello world
    * ```
    */
-  append(data: string | Buffer) {
+  append(data: string | BufferType) {
     appendFileSync(this.path, data);
     return this;
   }
@@ -188,26 +188,26 @@ export class File {
   splitBy(separator: string | RegExp, limit?: number) {
     return this.read().toString().split(separator, limit);
   }
-  /**
-   * creates a read stream for the file
-   * @example ```js
-   * // example of copying file content via streams
-   * fileX.createReadStream().pipe(fileY.createWriteStream());
-   * ```
-   */
-  createReadStream() {
-    return createReadStream(this.path);
-  }
-  /**
-   * creates a write stream for the file
-   * @example ```js
-   * // example of copying file content via streams:
-   * fileX.createReadStream().pipe(fileY.createWriteStream());
-   * ```
-   */
-  createWriteStream() {
-    return createWriteStream(this.path);
-  }
+  // /**
+  //  * creates a read stream for the file
+  //  * @example ```js
+  //  * // example of copying file content via streams
+  //  * fileX.createReadStream().pipe(fileY.createWriteStream());
+  //  * ```
+  //  */
+  // createReadStream() {
+  //   return createReadStream(this.path);
+  // }
+  // /**
+  //  * creates a write stream for the file
+  //  * @example ```js
+  //  * // example of copying file content via streams:
+  //  * fileX.createReadStream().pipe(fileY.createWriteStream());
+  //  * ```
+  //  */
+  // createWriteStream() {
+  //   return createWriteStream(this.path);
+  // }
   /**
    * reads the file as json
    * @example ```js
@@ -236,8 +236,11 @@ export class File {
    * ```
    */
   watch(listener?: (this: File, e: string, stat: Stats) => any) {
-    this.watcher = watch(this.path, {});
-    if (listener) this.watcher.on("all", listener.bind(this));
+    this.watcher = watch(this.path);
+    if (listener) {
+      if (typeof Deno === "undefined") this.watcher.on("all", listener);
+      else this.watcher.on("change", listener);
+    }
     return this;
   }
   /** stops watching the file */

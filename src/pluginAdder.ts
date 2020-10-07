@@ -1,5 +1,13 @@
-import * as index from "./index";
-import { Plugin } from "./types";
+import { Dir } from "./dir.ts";
+import { File } from "./file.ts";
+import { Shape } from "./Shape.ts";
+import { Plugin } from "./types.ts";
+
+const index = {
+  File,
+  Dir,
+  Shape,
+};
 
 const native_methods = {
   File: {

@@ -10,12 +10,13 @@ import {
   isErrArr,
   ShapeObjWithoutName,
   name_sym,
-} from "./types";
-import { Dir } from "./dir";
-import { File } from "./file";
-import { join } from "./path";
-import { fsProErr } from "./fsProErr";
-import { existsSync } from "./fs";
+  BufferType
+} from "./types.ts";
+import { Dir } from "./dir.ts";
+import { File } from "./file.ts";
+import { join } from "./path.ts";
+import { fsProErr } from "./fsProErr.ts";
+import { existsSync } from "./fs.ts";
 
 function createEventRegister(eventsListeners?: createEvents) {
   return (thing: File | Dir) => {
@@ -237,7 +238,7 @@ export class Shape<T extends ShapeObj> {
    */
   static File(
     str: string,
-    dfCont?: string | Buffer,
+    dfCont?: string | BufferType,
     validator?: fileType["validator"]
   ): fileType {
     return {

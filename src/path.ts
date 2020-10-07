@@ -1,4 +1,4 @@
-import { pathObjType } from "./types";
+import type { pathObjType } from "./types.ts";
 
 let path: pathObjType;
 

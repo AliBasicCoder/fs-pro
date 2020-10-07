@@ -7,5 +7,7 @@
     "forceConsistentCasingInFileNames": true,
     "outDir": "types",
     "declaration": true
-  }
+  },
+  "include": ["src/**/*", "test/node/**/*"],
+  "exclude": ["mod.ts", "test/deno", "node_modules"]
 }
