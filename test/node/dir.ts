@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { File, Dir } from "../../src/index";
+import { File, Dir } from "./fs-pro";
 import { join } from "path";
 import { existsSync, rmdirSync } from "fs";
 import * as os from "os";
@@ -173,7 +173,7 @@ describe("Dir", () => {
   });
   it(".forEach(), .forEachFile(), .forEachDir()", (done) => {
     function callback(ind: number) {
-      return (thing: File | Dir) => {
+      return (thing: any) => {
         if (thing instanceof Dir) called[ind].dir++;
         if (thing instanceof File) called[ind].file++;
       };

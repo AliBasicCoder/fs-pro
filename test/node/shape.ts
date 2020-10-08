@@ -1,7 +1,7 @@
 import * as assert from "assert";
 import { existsSync, statSync } from "fs";
 import { join } from "path";
-import { Dir, Shape, File } from "../../src/index";
+import { Dir, Shape, File } from "./fs-pro";
 
 function existsAndType(...paths: string[]) {
   const path = join(...paths);

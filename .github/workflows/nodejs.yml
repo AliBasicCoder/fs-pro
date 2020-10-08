@@ -1,4 +1,4 @@
-name: Test CI
+name: Node.js CI
 
 on:
   push:
@@ -47,6 +47,7 @@ jobs:
           node-version: 12
       - run: yarn install --frozen-lockfile
       - run: yarn build
+      - run: cat dist/fs-pro.d.ts
       - run: yarn test
         env:
           CI: true
@@ -56,7 +57,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: justjavac/deno-ci
+      - uses: denolib/setup-deno@v2
       - run: deno test -A --unstable test/deno/
 
   test_macos_deno:
@@ -64,7 +65,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: justjavac/deno-ci
+      - uses: denolib/setup-deno@v2
       - run: deno test -A --unstable test/deno/
 
   test_windows_deno:
@@ -72,5 +73,5 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: justjavac/deno-ci
+      - uses: denolib/setup-deno@v2
       - run: deno test -A --unstable test/deno/

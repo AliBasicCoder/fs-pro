@@ -1,8 +1,13 @@
-import * as assert from "assert";
-import { File, addPlugin } from "./fs-pro";
+import {
+  assertEquals,
+  assertThrows,
+  assert,
+} from "https://deno.land/std@0.73.0/testing/asserts.ts";
+import { addPlugin, File } from "../../mod.ts";
 
-describe("addPlugin", () => {
-  it("addPlugin normal plugin", (done) => {
+Deno.test({
+  name: "addPlugin: addPlugin normal plugin",
+  fn() {
     addPlugin({
       name: "xml",
       plugin: [
@@ -28,38 +33,41 @@ describe("addPlugin", () => {
         },
       ],
     });
-    const file = new File("some_thing.txt").create();
+    const file = File.tmpFile();
     // @ts-ignore
-    assert.equal(typeof file.xml, "function");
+    assertEquals(typeof file.xml, "function");
     // @ts-ignore
-    assert.equal(file.xml(), "the size is 0");
+    assertEquals(file.xml(), "the size is 0");
     // @ts-ignore
-    assert.equal(typeof File.st, "function");
+    assertEquals(typeof File.st, "function");
     // @ts-ignore
-    assert.equal(File.st(), "hello there");
-    file.delete();
-    done();
-  });
+    assertEquals(File.st(), "hello there");
+  },
+});
 
-  it("errors when overwriting native methods", (done) => {
-    assert.throws(() => {
+Deno.test({
+  name: "addPlugin: errors when overwriting native methods",
+  fn() {
+    assertThrows(() => {
       addPlugin({
         name: "test",
         plugin: [
           {
             className: "File",
-            methodName: "write",
+            methodName: "overwrite",
             isStatic: false,
             func() {},
           },
         ],
       });
     });
-    done();
-  });
+  },
+});
 
-  it("errors when overwriting methods added by other plugins", (done) => {
-    assert.throws(() => {
+Deno.test({
+  name: "addPlugin: errors when overwriting methods added by other plugins",
+  fn() {
+    assertThrows(() => {
       addPlugin({
         name: "test_2",
         plugin: [
@@ -72,14 +80,17 @@ describe("addPlugin", () => {
         ],
       });
     });
-    done();
-  });
+  },
+});
 
-  it("allow overwriting methods added by other plugins when set to true", (done) => {
-    assert.doesNotThrow(() => {
+Deno.test({
+  name:
+    "addPlugin: allow overwriting methods added by other plugins when set to true",
+  fn() {
+    try {
       addPlugin(
         {
-          name: "test_2",
+          name: "test_3",
           plugin: [
             {
               className: "File",
@@ -91,7 +102,8 @@ describe("addPlugin", () => {
         },
         true
       );
-    });
-    done();
-  });
+    } catch (error) {
+      assert(true);
+    }
+  },
 });

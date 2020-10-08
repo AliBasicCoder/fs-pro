@@ -5,6 +5,7 @@ import { setFs } from "./src/fs.ts";
 import { setPath } from "./src/path.ts";
 import type { Stats } from "./src/types.ts";
 import { buffer } from "./src/buffer.ts";
+import { addPlugin } from "./src/pluginAdder.ts";
 import { Buffer } from "https://x.nest.land/node_buffer@1.1.0/mod.ts";
 import { join, parse } from "https://deno.land/std@0.73.0/path/mod.ts";
 import {
@@ -20,7 +21,7 @@ import {
   mkdirSync,
   readdirSync,
   rmdirSync,
-  watch
+  watch,
 } from "https://raw.githubusercontent.com/denoland/deno/master/std/node/fs.ts";
 
 setFs({
@@ -51,11 +52,11 @@ setFs({
   },
   mkTempFile() {
     return Deno.makeTempFileSync();
-  }
+  },
 });
 
 setPath({ join, parse });
 
 buffer.setBuffer(Buffer);
 
-export { File, Dir, Shape, setFs, Buffer };
+export { File, Dir, Shape, setFs, Buffer, addPlugin };

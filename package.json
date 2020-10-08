@@ -2,7 +2,7 @@
   "name": "fs-pro",
   "version": "3.3.0",
   "description": "working with files easily",
-  "main": "dist/fs-pro.min.js",
+  "main": "dist/fs-pro.js",
   "types": "dist/fs-pro.d.ts",
   "repository": "https://github.com/AliBasicCoder/fs-pro.git",
   "author": "ali_ahmed",
@@ -11,7 +11,7 @@
   "scripts": {
     "docs": "typedoc --out ../fs-pro-docs/website --ignoreCompilerErrors && cd ../fs-pro-docs && csso website/assets/css/main.css --output website/assets/css/main.css && git add . && git commit -a -m \"new version\" && git push origin master",
     "lint": "eslint src/*.ts",
-    "build": "webpack && dts-bundle --configJson dts-bundle.json && rimraf types",
+    "build": "webpack && node tools/rm && dts-bundle --configJson dts-bundle.json && rimraf types",
     "git": "git add . && git commit -a -m \"new version\" && git push origin master",
     "test": "mocha -r ts-node/register ./test/node/*.ts",
     "cpublish": "yarn build && yarn test && yarn lint dist/*.d.ts --fix && yarn docs && yarn publish"
