@@ -40,8 +40,6 @@ see the full docs [here](https://fs-pro-docs.herokuapp.com/)
   - [getIndex](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#getindex)
   - [getIndexBetween](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#getindexbetween)
   - [splitBy](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#splitby)
-  - [createReadStream](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#createreadstream)
-  - [createWriteStream](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#createwritestream)
   - [json](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#json)
   - [create](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#create)
   - [watch](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#watch)
@@ -175,6 +173,38 @@ shapeInstRef.some_shaped_dir.file_1.write("hello world");
 
 ## Creating plugins
 
+```ts
+import { Plugin } from "fs-pro/types";
+import { addPlugin } from "fs-pro";
+
+const myPlugin: Plugin = {
+  name: "your-plugin-name",
+  required: [anyRequiredPlugin] // optional
+  plugin: [
+    {
+      methodName: "myMethod",
+      className: "File", // could be the name of any class in the library (File or Dir or Shape)
+      isStatic: false, // if true the method you add will be static
+      func(...myArgs: any[]){
+        // your code...
+      }
+    }
+  ]
+}
+
+export default myPlugin
+```
+
+## Using Plugins
+
+```ts
+import { addPlugin } from "fs-pro";
+import myPlugin from "./my-plugin";
+
+addPlugin(myPlugin);
+```
+
+<!--
 first you will need at a folder like this one
 
 ```
@@ -237,7 +267,7 @@ import { addPlugin } from "fs-pro";
 import myPlugin from "my-plugin";
 
 addPlugin(myPlugin);
-```
+``` -->
 
 ## Licence
 
