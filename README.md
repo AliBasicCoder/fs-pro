@@ -112,6 +112,18 @@ via yarn:
 yarn add fs-pro
 ```
 
+via deno.land
+
+```
+import * as fsPro from "http://deno.land/x/fs_pro@version/mod.ts";
+```
+
+via nest.land
+
+```
+import * as fsPro from "https://x.nest.land/fs-pro@version/mod.ts";
+```
+
 ## Usage
 
 ```js
