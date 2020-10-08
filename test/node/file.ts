@@ -3,8 +3,8 @@ import { Dir, File } from "../../src/index";
 import * as os from "os";
 import {
   checkData,
-  isReadableStream,
-  isWritableStream,
+  // isReadableStream,
+  // isWritableStream,
   randomFile,
 } from "./shared";
 import { readFileSync, existsSync, statSync, unlinkSync } from "fs";
