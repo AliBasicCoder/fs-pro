@@ -4,6 +4,7 @@ import { addPlugin } from "./pluginAdder.ts";
 import { setFs } from "./fs.ts";
 import { setPath } from "./path.ts";
 import { Shape } from "./Shape.ts";
+import { buffer } from "./buffer.ts";
 import { watch, WatchOptions } from "chokidar";
 import {
   appendFileSync,
@@ -38,8 +39,8 @@ setFs({
   rmdirSync,
   // @ts-ignore
   readFileSync,
-  watch(path: string, options?: WatchOptions) {
-    return watch(path, options);
+  watch(path: string) {
+    return watch(path);
   },
   mkTempDir() {
     return dirSync().name;
@@ -50,5 +51,8 @@ setFs({
 });
 
 setPath({ join, parse });
+
+// @ts-ignore
+buffer.setBuffer(Buffer);
 
 export { File, Dir, addPlugin, setFs, Shape };

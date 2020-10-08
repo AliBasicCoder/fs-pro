@@ -4,7 +4,7 @@ import { Shape } from "./src/Shape.ts";
 import { setFs } from "./src/fs.ts";
 import { setPath } from "./src/path.ts";
 import type { Stats } from "./src/types.ts";
-// import { setBuffer } from "./src/buffer.ts";
+import { buffer } from "./src/buffer.ts";
 import { Buffer } from "https://x.nest.land/node_buffer@1.1.0/mod.ts";
 import { join, parse } from "https://deno.land/std@0.73.0/path/mod.ts";
 import {
@@ -55,5 +55,7 @@ setFs({
 });
 
 setPath({ join, parse });
+
+buffer.setBuffer(Buffer);
 
 export { File, Dir, Shape, setFs, Buffer };

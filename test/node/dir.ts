@@ -264,7 +264,7 @@ describe("Dir", () => {
     if (process.platform === "darwin") return;
     const track: any[] = [];
     const dir = Dir.tmpDir();
-    dir.watch((...args) => track.push(args));
+    dir.watch((...args: any[]) => track.push(args));
     await wait(100);
     const sub_dir = dir.createDir("hi");
     await wait(100);

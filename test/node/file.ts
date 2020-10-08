@@ -191,23 +191,23 @@ describe("File", () => {
     done();
   });
 
-  it(".createReadStream()", (done) => {
-    const file = File.tmpFile();
-    const stream = file.createReadStream();
-    assert.equal(isReadableStream(stream), true);
-    stream.close();
-    file.delete();
-    done();
-  });
+  // it(".createReadStream()", (done) => {
+  //   const file = File.tmpFile();
+  //   const stream = file.createReadStream();
+  //   assert.equal(isReadableStream(stream), true);
+  //   stream.close();
+  //   file.delete();
+  //   done();
+  // });
 
-  it(".createWriteStream()", (done) => {
-    const file = File.tmpFile();
-    const stream = file.createWriteStream();
-    assert.equal(isWritableStream(stream), true);
-    stream.close();
-    file.delete();
-    done();
-  });
+  // it(".createWriteStream()", (done) => {
+  //   const file = File.tmpFile();
+  //   const stream = file.createWriteStream();
+  //   assert.equal(isWritableStream(stream), true);
+  //   stream.close();
+  //   file.delete();
+  //   done();
+  // });
 
   it(".watch() .unwatch()", (done) => {
     let file: File;

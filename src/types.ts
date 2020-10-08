@@ -36,7 +36,7 @@ export type fsObjType = {
   rmdirSync(path: string, options?: { recursive?: boolean }): void;
   mkTempFile: () => string;
   mkTempDir: () => string;
-  watch: (path: string) => FSWatcher;
+  watch: (path: string, listener?: Function) => FSWatcher;
 };
 
 export type pathObjType = {

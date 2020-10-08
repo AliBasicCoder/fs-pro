@@ -15,8 +15,11 @@ import {
 import { join, parse } from "./path.ts";
 import type { FSWatcher, obj, Stats, BufferType, BufferClass } from "./types.ts";
 import { fsProErr } from "./fsProErr.ts";
+import { buffer } from "./buffer.ts";
 
 let Buffer: BufferClass;
+
+buffer.listen((buf) => Buffer = buf);
 
 /** the File Class is used to help you work with files */
 export class File {
@@ -235,12 +238,11 @@ export class File {
    * });
    * ```
    */
-  watch(listener?: (this: File, e: string, stat: Stats) => any) {
-    this.watcher = watch(this.path);
-    if (listener) {
-      if (typeof Deno === "undefined") this.watcher.on("all", listener);
-      else this.watcher.on("change", listener);
-    }
+  watch(listener?: (this: File, e: string, stat?: Stats) => any) {
+    this.watcher = watch(this.path, listener);
+    // @ts-ignore
+    if (listener && typeof Deno === "undefined")
+      this.watcher.on("all", listener);
     return this;
   }
   /** stops watching the file */
