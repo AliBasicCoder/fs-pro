@@ -5,7 +5,7 @@ import { setFs } from "./fs.ts";
 import { setPath } from "./path.ts";
 import { Shape } from "./Shape.ts";
 import { buffer } from "./buffer.ts";
-import { watch, WatchOptions } from "chokidar";
+import { watch } from "chokidar";
 import {
   appendFileSync,
   copyFileSync,
@@ -19,7 +19,7 @@ import {
   mkdirSync,
   readdirSync,
   rmdirSync,
-  readFileSync
+  readFileSync,
 } from "fs";
 import { join, parse } from "path";
 import { fileSync, dirSync } from "tmp";
