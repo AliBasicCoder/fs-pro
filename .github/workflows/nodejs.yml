@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Test CI
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [master]
 
 jobs:
-  build_windows:
+  test_windows_node:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
@@ -21,7 +21,7 @@ jobs:
         env:
           CI: true
 
-  build_macos:
+  test_macos_node:
     runs-on: macos-latest
 
     steps:
@@ -36,7 +36,7 @@ jobs:
         env:
           CI: true
 
-  build_ubuntu:
+  test_ubuntu_node:
     runs-on: ubuntu-latest
 
     steps:
@@ -50,3 +50,27 @@ jobs:
       - run: yarn test
         env:
           CI: true
+
+  test_ubuntu_deno:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: justjavac/deno-ci
+      - run: deno test -A --unstable test/deno/
+
+  test_macos_deno:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: justjavac/deno-ci
+      - run: deno test -A --unstable test/deno/
+
+  test_windows_deno:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: justjavac/deno-ci
+      - run: deno test -A --unstable test/deno/
