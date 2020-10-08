@@ -1,14 +1,34 @@
-import * as index from "./index";
-import { Plugin } from "./types";
+import { Dir } from "./dir.ts";
+import { File } from "./file.ts";
+import { Shape } from "./Shape.ts";
+import type { Plugin } from "./types.ts";
+
+const index = {
+  File,
+  Dir,
+  Shape,
+};
+
+function getStaticMethods(cl: any) {
+  return Object.getOwnPropertyNames(cl).slice(0, 2).slice(0, 1);
+}
+
+function getMethods(cl: any) {
+  return Object.getOwnPropertyNames(cl.prototype).slice(1);
+}
 
 const native_methods = {
   File: {
-    static: Object.keys(index.File),
-    inst: Object.keys(index.File.prototype),
+    static: getStaticMethods(index.File),
+    inst: getMethods(index.File),
   },
   Dir: {
-    static: Object.keys(index.Dir),
-    inst: Object.keys(index.Dir.prototype),
+    static: getStaticMethods(index.Dir),
+    inst: getMethods(index.Dir),
+  },
+  Shape: {
+    static: getStaticMethods(index.Shape),
+    inst: getMethods(index.Shape),
   },
 };
 

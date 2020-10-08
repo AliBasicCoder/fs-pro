@@ -48,3 +48,14 @@ a breaking changes version
 **Fix:**
 
 - Shape typing issues
+
+## v3.4.0 Oct 8, 2020
+
+**Remove:**
+
+- File.createReadStream()
+- File.createWriteStream()
+
+**Improvements:**
+
+- Support Deno

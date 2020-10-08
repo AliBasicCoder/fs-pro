@@ -1,11 +1,7 @@
-import {
+import type {
   fsObjType,
-  Stats,
-  BigIntOptions,
-  PathLike,
-  BigIntStats,
-  StatOptions,
-} from "./types";
+  Stats
+} from "./types.ts";
 
 let fs: fsObjType;
 
@@ -29,17 +25,17 @@ export function copyFileSync(...args: Parameters<fsObjType["copyFileSync"]>) {
   return fs.copyFileSync(...args);
 }
 
-export function createReadStream(
-  ...args: Parameters<fsObjType["createReadStream"]>
-) {
-  return fs.createReadStream(...args);
-}
+// export function createReadStream(
+//   ...args: Parameters<fsObjType["createReadStream"]>
+// ) {
+//   return fs.createReadStream(...args);
+// }
 
-export function createWriteStream(
-  ...args: Parameters<fsObjType["createWriteStream"]>
-) {
-  return fs.createWriteStream(...args);
-}
+// export function createWriteStream(
+//   ...args: Parameters<fsObjType["createWriteStream"]>
+// ) {
+//   return fs.createWriteStream(...args);
+// }
 
 export function existsSync(...args: Parameters<fsObjType["existsSync"]>) {
   return fs.existsSync(...args);
@@ -69,14 +65,7 @@ export function unlinkSync(...args: Parameters<fsObjType["unlinkSync"]>) {
   return fs.unlinkSync(...args);
 }
 
-function statSync(path: PathLike): Stats;
-function statSync(path: PathLike, options: BigIntOptions): BigIntStats;
-function statSync(path: PathLike, options: StatOptions): Stats | BigIntStats;
-function statSync(
-  path: PathLike,
-  options?: BigIntOptions | StatOptions
-): Stats | BigIntStats {
-  if (options) return fs.statSync(path, options);
+function statSync(path: string): Stats {
   return fs.statSync(path);
 }
 

@@ -6,6 +6,9 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "types",
-    "declaration": true
-  }
+    "declaration": true,
+    "allowJs": true
+  },
+  "include": ["src/**/*", "test/node/**/*"],
+  "exclude": ["mod.ts", "test/deno", "node_modules"]
 }

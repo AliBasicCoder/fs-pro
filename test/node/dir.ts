@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { File, Dir } from "../../src/index";
+import { File, Dir } from "./fs-pro";
 import { join } from "path";
 import { existsSync, rmdirSync } from "fs";
 import * as os from "os";
@@ -173,7 +173,7 @@ describe("Dir", () => {
   });
   it(".forEach(), .forEachFile(), .forEachDir()", (done) => {
     function callback(ind: number) {
-      return (thing: File | Dir) => {
+      return (thing: any) => {
         if (thing instanceof Dir) called[ind].dir++;
         if (thing instanceof File) called[ind].file++;
       };
@@ -264,7 +264,7 @@ describe("Dir", () => {
     if (process.platform === "darwin") return;
     const track: any[] = [];
     const dir = Dir.tmpDir();
-    dir.watch((...args) => track.push(args));
+    dir.watch((...args: any[]) => track.push(args));
     await wait(100);
     const sub_dir = dir.createDir("hi");
     await wait(100);

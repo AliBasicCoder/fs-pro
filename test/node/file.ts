@@ -1,10 +1,10 @@
 import * as assert from "assert";
-import { Dir, File } from "../../src/index";
+import { Dir, File, FileType } from "./fs-pro";
 import * as os from "os";
 import {
   checkData,
-  isReadableStream,
-  isWritableStream,
+  // isReadableStream,
+  // isWritableStream,
   randomFile,
 } from "./shared";
 import { readFileSync, existsSync, statSync, unlinkSync } from "fs";
@@ -90,6 +90,7 @@ describe("File", () => {
     assert.equal(file.read().toString(), JSON.stringify({ hello: "world" }));
     file.write("some\nline\nthing");
     let res = "";
+    // @ts-ignore
     file.read("\n", (str, i) => (res += `${i + 1}| ${str}\n`));
     assert.equal(res, "1| some\n2| line\n3| thing\n");
     file.delete();
@@ -98,6 +99,7 @@ describe("File", () => {
 
   it(".overwrite()", (done) => {
     const file = File.tmpFile().write("some\nline\nthing");
+    // @ts-ignore
     file.overwrite("\n", (str, i) => `${i + 1}| ${str}\n`);
     assert.equal(file.read().toString(), "1| some\n2| line\n3| thing\n");
     file.delete();
@@ -191,29 +193,30 @@ describe("File", () => {
     done();
   });
 
-  it(".createReadStream()", (done) => {
-    const file = File.tmpFile();
-    const stream = file.createReadStream();
-    assert.equal(isReadableStream(stream), true);
-    stream.close();
-    file.delete();
-    done();
-  });
+  // it(".createReadStream()", (done) => {
+  //   const file = File.tmpFile();
+  //   const stream = file.createReadStream();
+  //   assert.equal(isReadableStream(stream), true);
+  //   stream.close();
+  //   file.delete();
+  //   done();
+  // });
 
-  it(".createWriteStream()", (done) => {
-    const file = File.tmpFile();
-    const stream = file.createWriteStream();
-    assert.equal(isWritableStream(stream), true);
-    stream.close();
-    file.delete();
-    done();
-  });
+  // it(".createWriteStream()", (done) => {
+  //   const file = File.tmpFile();
+  //   const stream = file.createWriteStream();
+  //   assert.equal(isWritableStream(stream), true);
+  //   stream.close();
+  //   file.delete();
+  //   done();
+  // });
 
   it(".watch() .unwatch()", (done) => {
-    let file: File;
+    let file: FileType;
     const track: any[] = [];
     new Promise((resolve) => {
       file = File.tmpFile();
+      // @ts-ignore
       file.watch((e) => track.push(e));
       resolve(wait(100));
     })

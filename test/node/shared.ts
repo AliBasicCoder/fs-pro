@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { File, Dir } from "../../src/index";
+import { FileType, DirType } from "./fs-pro";
 import { join, parse } from "path";
 import { EventEmitter } from "events";
 
@@ -9,7 +9,7 @@ export const randomDir = () =>
 export const randomFile = () =>
   `file_${Math.random().toString().replace(".", "")}`;
 
-export const checkData = (file: File, name: string, someDir: string) => {
+export const checkData = (file: FileType, name: string, someDir: string) => {
   assert.equal(file.path, join(someDir, name));
   assert.equal(file.name, name);
   assert.equal(file.extension, "");
@@ -18,7 +18,7 @@ export const checkData = (file: File, name: string, someDir: string) => {
   assert.equal(file.directory, someDir);
 };
 
-export function checkDataDir(dir: Dir, parent: string, name: string) {
+export function checkDataDir(dir: DirType, parent: string, name: string) {
   assert.equal(dir.path, join(parent, name));
   assert.equal(dir.name, name);
   assert.equal(dir.root, parse(parent).root);

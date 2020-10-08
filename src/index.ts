@@ -1,18 +1,46 @@
-import { Dir } from "./dir";
-import { File } from "./file";
-import { addPlugin } from "./pluginAdder";
-import { setFs } from "./fs";
-import { setPath } from "./path";
-import { Shape } from "./Shape";
-import { watch, WatchOptions } from "chokidar";
-import * as fs from "fs";
-import * as path from "path";
+import { Dir } from "./dir.ts";
+import { File } from "./file.ts";
+import { addPlugin } from "./pluginAdder.ts";
+import { setFs } from "./fs.ts";
+import { setPath } from "./path.ts";
+import { Shape } from "./Shape.ts";
+import { buffer } from "./buffer.ts";
+import { watch } from "chokidar";
+import {
+  appendFileSync,
+  copyFileSync,
+  existsSync,
+  renameSync,
+  writeFileSync,
+  chmodSync,
+  lstatSync,
+  unlinkSync,
+  statSync,
+  mkdirSync,
+  readdirSync,
+  rmdirSync,
+  readFileSync,
+} from "fs";
+import { join, parse } from "path";
 import { fileSync, dirSync } from "tmp";
 
 setFs({
-  ...fs,
-  watch(path: string, options?: WatchOptions) {
-    return watch(path, options);
+  appendFileSync,
+  copyFileSync,
+  existsSync,
+  renameSync,
+  writeFileSync,
+  chmodSync,
+  lstatSync,
+  unlinkSync,
+  statSync,
+  mkdirSync,
+  readdirSync,
+  rmdirSync,
+  // @ts-ignore
+  readFileSync,
+  watch(path: string) {
+    return watch(path);
   },
   mkTempDir() {
     return dirSync().name;
@@ -22,6 +50,9 @@ setFs({
   },
 });
 
-setPath(path);
+setPath({ join, parse });
 
-export { File, Dir, addPlugin, setFs, setPath, Shape };
+// @ts-ignore
+buffer.setBuffer(Buffer);
+
+export { File, Dir, addPlugin, setFs, Shape };

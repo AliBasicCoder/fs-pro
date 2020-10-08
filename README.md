@@ -2,6 +2,7 @@
 
 ![fs pro logo](https://github.com/AliBasicCoder/fs-pro/blob/master/fsProNewLogo.svg?raw=true)
 
+[![nest badge](https://nest.land/badge-large.svg)](https://nest.land/package/fs-pro)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/10435d4146374b0c834b6b1afe60d0b3)](https://app.codacy.com/manual/AliBasicCoder/fs-pro?utm_source=github.com&utm_medium=referral&utm_content=AliBasicCoder/fs-pro&utm_campaign=Badge_Grade_Dashboard)
 [![npm](https://img.shields.io/npm/v/fs-pro)](https://npmjs.com/package/fs-pro)
 [![npm](https://img.shields.io/npm/dm/fs-pro)](https://npmjs.com/package/fs-pro)
@@ -14,6 +15,7 @@ see the full docs [here](https://fs-pro-docs.herokuapp.com/)
 
 ## Features
 
+- works on both node and deno
 - you don't have to get the path of the file or directory every single time you want to do something with it
 - Strong typed and documented in the code
 - provides a method to parse json files [.json\(\)](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#json)
@@ -40,8 +42,6 @@ see the full docs [here](https://fs-pro-docs.herokuapp.com/)
   - [getIndex](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#getindex)
   - [getIndexBetween](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#getindexbetween)
   - [splitBy](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#splitby)
-  - [createReadStream](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#createreadstream)
-  - [createWriteStream](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#createwritestream)
   - [json](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#json)
   - [create](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#create)
   - [watch](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#watch)
@@ -175,6 +175,38 @@ shapeInstRef.some_shaped_dir.file_1.write("hello world");
 
 ## Creating plugins
 
+```ts
+import { Plugin } from "fs-pro/types";
+import { addPlugin } from "fs-pro";
+
+const myPlugin: Plugin = {
+  name: "your-plugin-name",
+  required: [anyRequiredPlugin] // optional
+  plugin: [
+    {
+      methodName: "myMethod",
+      className: "File", // could be the name of any class in the library (File or Dir or Shape)
+      isStatic: false, // if true the method you add will be static
+      func(...myArgs: any[]){
+        // your code...
+      }
+    }
+  ]
+}
+
+export default myPlugin
+```
+
+## Using Plugins
+
+```ts
+import { addPlugin } from "fs-pro";
+import myPlugin from "./my-plugin";
+
+addPlugin(myPlugin);
+```
+
+<!--
 first you will need at a folder like this one
 
 ```
@@ -237,7 +269,7 @@ import { addPlugin } from "fs-pro";
 import myPlugin from "my-plugin";
 
 addPlugin(myPlugin);
-```
+``` -->
 
 ## Licence
 

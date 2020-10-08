@@ -4,7 +4,7 @@ const nodeExternals = require("webpack-node-externals");
 module.exports = {
   entry: "./src/index",
   output: {
-    filename: "fs-pro.min.js",
+    filename: "fs-pro.js",
     path: path.join(__dirname, "dist"),
     libraryTarget: "commonjs",
   },
