@@ -2,6 +2,12 @@ import { assertEquals } from "https://deno.land/std@0.73.0/testing/asserts.ts";
 import type { File, Dir } from "../../mod.ts";
 import { join, parse } from "https://deno.land/std@0.73.0/path/mod.ts";
 
+export function fillArray<T>(arr: T[], times: number, func: (times: number) => T) {
+  for (let i = 0; i <= times; i++) {
+    arr.push(func(times));
+  }
+}
+
 export const randomDir = () =>
   `dir_${Math.random().toString().replace(".", "")}`;
 
