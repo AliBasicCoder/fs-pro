@@ -1,4 +1,4 @@
-import "../../dist/fs-pro.d";
+import "../../dist/fs-pro";
 import type {
   File as FileType,
   Dir as DirType,

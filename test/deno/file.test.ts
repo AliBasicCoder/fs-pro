@@ -1,6 +1,6 @@
-import { parse, join } from "https://deno.land/std@0.73.0/path/mod.ts";
-import { assertEquals } from "https://deno.land/std@0.73.0/testing/asserts.ts";
-import { existsSync } from "https://deno.land/std@0.73.0/node/fs.ts";
+import { parse, join } from "https://deno.land/std@0.74.0/path/mod.ts";
+import { assertEquals } from "https://deno.land/std@0.74.0/testing/asserts.ts";
+import { existsSync } from "https://deno.land/std@0.74.0/node/fs.ts";
 import { File, Buffer, Dir } from "../../mod.ts";
 import { checkFileData, randomFile } from "./shared.ts";
 
@@ -68,7 +68,7 @@ Deno.test({
     let res = "";
     file.overwrite("\n", (str, i) => (res += `${i + 1}| ${str}\n`));
     assertEquals(res, "1| some\n2| line\n3| thing\n");
-  }
+  },
 });
 
 Deno.test({
@@ -99,12 +99,12 @@ Deno.test({
 });
 
 Deno.test({
-  name: "File.json()", 
+  name: "File.json()",
   fn() {
     const file = File.tmpFile();
     file.write({ hello: "world" });
     assertEquals(file.json(), { hello: "world" });
-  }
+  },
 });
 
 Deno.test({
@@ -120,7 +120,7 @@ Deno.test({
     assertEquals(errors.length, 0);
     assertEquals(called, 1);
     assertEquals(file.valid(), true);
-  }
+  },
 });
 
 // ignoring .getIndex and .getIndexBetween
@@ -131,7 +131,7 @@ Deno.test({
     const file = File.tmpFile();
     file.write("hello ").append("world");
     assertEquals(file.read().toString(), "hello world");
-  }
+  },
 });
 
 Deno.test({
@@ -139,7 +139,7 @@ Deno.test({
   fn() {
     const file = File.tmpFile().write("hello world");
     assertEquals(file.splitBy(" "), ["hello", "world"]);
-  }
+  },
 });
 
 // ignoring .stats for now
@@ -152,7 +152,7 @@ Deno.test({
     file.rename(new_name);
     checkFileData(file, join(tmp_dir, new_name));
     assertEquals(existsSync(file.path), true);
-  }
+  },
 });
 
 Deno.test({
@@ -164,7 +164,7 @@ Deno.test({
     const file_copy = original_file.copyTo(dest_dir.path);
     checkFileData(file_copy, join(dest_dir.path, original_file.base));
     assertEquals(file_copy.exits(), true);
-  }
+  },
 });
 
 Deno.test({
@@ -177,7 +177,7 @@ Deno.test({
     const file_copy = original_file.copyTo(dest_dir.path, file_copy_base);
     checkFileData(file_copy, join(dest_dir.path, file_copy_base));
     assertEquals(file_copy.exits(), true);
-  }
+  },
 });
 
 Deno.test({
@@ -189,11 +189,11 @@ Deno.test({
     const file_copy = original_file.copyTo(dest_dir.name, null, true);
     checkFileData(file_copy, join(dest_dir.path, original_file.base));
     assertEquals(file_copy.exits(), true);
-  }
+  },
 });
 
 Deno.test({
-  name: "File.copyTo() isRelative and rename", 
+  name: "File.copyTo() isRelative and rename",
   fn() {
     const original_file = File.tmpFile().create();
     const dest_dir = Dir.tmpDir();
@@ -201,7 +201,7 @@ Deno.test({
     const file_copy = original_file.copyTo(dest_dir.name, file_copy_base, true);
     checkFileData(file_copy, join(dest_dir.path, file_copy_base));
     assertEquals(file_copy.exits(), true);
-  }
+  },
 });
 
 Deno.test({
@@ -212,7 +212,7 @@ Deno.test({
     file.moveTo(dist_dir.path);
     checkFileData(file, join(dist_dir.path, file.base));
     assertEquals(existsSync(file.path), true);
-  }
+  },
 });
 
 // ignoring .watch() .unwatch() for now

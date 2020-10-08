@@ -7,7 +7,7 @@ import type { Stats } from "./src/types.ts";
 import { buffer } from "./src/buffer.ts";
 import { addPlugin } from "./src/pluginAdder.ts";
 import { Buffer } from "https://x.nest.land/node_buffer@1.1.0/mod.ts";
-import { join, parse } from "https://deno.land/std@0.73.0/path/mod.ts";
+import { join, parse } from "https://deno.land/std@0.74.0/path/mod.ts";
 import {
   appendFileSync,
   copyFileSync,
@@ -22,7 +22,7 @@ import {
   readdirSync,
   rmdirSync,
   watch,
-} from "https://raw.githubusercontent.com/denoland/deno/master/std/node/fs.ts";
+} from "https://deno.land/std@0.74.0/node/fs.ts";
 
 setFs({
   appendFileSync,

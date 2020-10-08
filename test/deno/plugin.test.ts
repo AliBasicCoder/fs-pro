@@ -2,7 +2,7 @@ import {
   assertEquals,
   assertThrows,
   assert,
-} from "https://deno.land/std@0.73.0/testing/asserts.ts";
+} from "https://deno.land/std@0.74.0/testing/asserts.ts";
 import { addPlugin, File } from "../../mod.ts";
 
 Deno.test({
