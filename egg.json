@@ -1,0 +1,12 @@
+{
+  "name": "fs-pro",
+  "description": "module help you work with files",
+  "stable": false,
+  "files": ["./src/**/*", "./README.md", "./mod.ts", "./mod.ts"],
+  "repository": "https://github.com/AliBasicCoder/fs-pro",
+  "entry": "/mod.ts",
+  "version": "3.4.0",
+  "checkTests": "deno test -A --unstable test/deno/",
+  "checkAll": true,
+  "unlisted": false
+}

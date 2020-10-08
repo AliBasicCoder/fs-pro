@@ -2,6 +2,7 @@
 
 ![fs pro logo](https://github.com/AliBasicCoder/fs-pro/blob/master/fsProNewLogo.svg?raw=true)
 
+[![nest badge](https://nest.land/badge-large.svg)](https://nest.land/package/fs-pro)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/10435d4146374b0c834b6b1afe60d0b3)](https://app.codacy.com/manual/AliBasicCoder/fs-pro?utm_source=github.com&utm_medium=referral&utm_content=AliBasicCoder/fs-pro&utm_campaign=Badge_Grade_Dashboard)
 [![npm](https://img.shields.io/npm/v/fs-pro)](https://npmjs.com/package/fs-pro)
 [![npm](https://img.shields.io/npm/dm/fs-pro)](https://npmjs.com/package/fs-pro)
@@ -14,6 +15,7 @@ see the full docs [here](https://fs-pro-docs.herokuapp.com/)
 
 ## Features
 
+- works on both node and deno
 - you don't have to get the path of the file or directory every single time you want to do something with it
 - Strong typed and documented in the code
 - provides a method to parse json files [.json\(\)](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#json)
