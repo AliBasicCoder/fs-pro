@@ -41,5 +41,14 @@ log2(
   "addPlugin",
   3
 );
+log2(
+  "https://fs-pro-docs.herokuapp.com/modules/_src_pluginadder_.html#getplugintrack",
+  "getPluginTrack"
+);
+
+log2(
+  "https://fs-pro-docs.herokuapp.com/modules/_src_pluginadder_.html#getplugintrackformatted",
+  "getPluginTrackFormatted"
+);
 
 log2("https://fs-pro-docs.herokuapp.com/modules/_src_fs_.html#setfs", "setFs");

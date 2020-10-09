@@ -59,3 +59,11 @@ a breaking changes version
 **Improvements:**
 
 - Support Deno
+
+## v3.5.0 Oct 9, 2020
+
+**Added:**
+
+- getPluginTrack
+- getPluginTrackFormatted
+- "desc" property for plugins and plugins' methods
