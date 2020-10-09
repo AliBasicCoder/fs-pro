@@ -5,7 +5,7 @@
   "files": ["./src/**/*", "./README.md", "./mod.ts"],
   "repository": "https://github.com/AliBasicCoder/fs-pro",
   "entry": "./mod.ts",
-  "version": "3.4.1",
+  "version": "3.4.2",
   "checkTests": "deno test -A --unstable test/deno/",
   "checkAll": true,
   "unlisted": false
