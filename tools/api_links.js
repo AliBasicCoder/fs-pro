@@ -31,7 +31,7 @@ Object.keys(new Dir(__dirname)).forEach(log(dir_link));
 Object.keys(Dir.prototype).forEach(log(dir_link));
 Object.keys(Dir).forEach(log(dir_link));
 
-log(shape_link, Shape, 2);
+log2(shape_link, "Shape", 2);
 Object.keys(new Shape({})).forEach(log(shape_link));
 Object.keys(Shape.prototype).forEach(log(shape_link));
 Object.keys(Shape).forEach(log(shape_link));

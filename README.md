@@ -174,6 +174,9 @@ shapeInstRef.some_shaped_dir.file_1.write("hello world");
   - [copyTo](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#copyto)
   - [moveTo](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#moveto)
   - [tmpDir](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#tmpdir)
+
+- [Shape](https://fs-pro-docs.herokuapp.com/classes/_src_shape_.shape.html)
+
   - [shapeObj](https://fs-pro-docs.herokuapp.com/classes/_src_shape_.shape.html#shapeobj)
   - [createShapeInst](https://fs-pro-docs.herokuapp.com/classes/_src_shape_.shape.html#createshapeinst)
   - [validate](https://fs-pro-docs.herokuapp.com/classes/_src_shape_.shape.html#validate)
