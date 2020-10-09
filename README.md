@@ -184,6 +184,8 @@ shapeInstRef.some_shaped_dir.file_1.write("hello world");
   - [Dir](https://fs-pro-docs.herokuapp.com/classes/_src_shape_.shape.html#dir)
 
 - [addPlugin](https://fs-pro-docs.herokuapp.com/modules/_src_pluginadder_.html#addplugin)
+- [getPluginTrack](https://fs-pro-docs.herokuapp.com/modules/_src_pluginadder_.html#getplugintrack)
+- [getPluginTrackFormatted](https://fs-pro-docs.herokuapp.com/modules/_src_pluginadder_.html#getplugintrackformatted)
 - [setFs](https://fs-pro-docs.herokuapp.com/modules/_src_fs_.html#setfs)
 
 ## Creating plugins

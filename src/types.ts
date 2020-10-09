@@ -1,6 +1,7 @@
 import type { File } from "./file.ts";
 import type { Dir } from "./dir.ts";
 import type { fsProErr } from "./fsProErr.ts";
+import type { Shape } from "./Shape.ts";
 
 export type FSWatcher = {
   on(event: string, callback: Function): void;
@@ -60,26 +61,49 @@ export type objAny = obj<any>;
 
 /**
  * @param A the className
- * @param B the actual class type
+ * @param B the actual class inst type
+ * @@param C the Class type
  */
-export interface PluginData<A, B> {
-  /** the name of the method */
-  methodName: string;
-  /** if true will add the method to the static ones */
-  isStatic: boolean;
-  /** the class to add to it */
-  className: A;
-  /** the actual method (use the function keyword) */
-  func: (this: B, ...args: any[]) => any;
-}
+export type PluginData<A, B, C> =
+  | {
+      /** the name of the method */
+      methodName: string;
+      /** if true will add the method to the static ones */
+      isStatic: false;
+      /** the class to add to it */
+      className: A;
+      /** description for your method */
+      desc?: string;
+      /** the actual method (use the function keyword) */
+      func: (this: B, ...args: any[]) => any;
+    }
+  | {
+      /** the name of the method */
+      methodName: string;
+      /** if true will add the method to the static ones */
+      isStatic: true;
+      /** the class to add to it */
+      className: A;
+      /** description for your method */
+      desc?: string;
+      /** the actual method (use the function keyword) */
+      func: (this: C, ...args: any[]) => any;
+    };
+
 /** the Plugin interface */
 export interface Plugin {
   /** the name of the plugin */
   name: string;
   /** any required plugins (will be loaded by order passed) */
   requires?: Plugin[];
+  /** description for your plugin */
+  desc?: string;
   /** the actual plugin */
-  plugin: (PluginData<"File", File> | PluginData<"Dir", Dir>)[];
+  plugin: (
+    | PluginData<"File", File, typeof File>
+    | PluginData<"Dir", Dir, typeof Dir>
+    | PluginData<"Shape", Shape<any>, typeof Shape>
+  )[];
 }
 
 export interface validateOptions {
@@ -224,7 +248,12 @@ export interface BufferType extends Uint8Array {
 
   fill(value: valueType, encoding?: string): this;
   fill(value: valueType, offset?: number, encoding?: string): this;
-  fill(value: valueType, offset?: number, end?: number, encoding?: string): this;
+  fill(
+    value: valueType,
+    offset?: number,
+    end?: number,
+    encoding?: string
+  ): this;
 
   includes(value: valueType, encoding?: string): boolean;
   includes(value: valueType, byteOffset?: number): boolean;
@@ -248,7 +277,12 @@ export interface BufferType extends Uint8Array {
   write(string: string, encoding?: string): number;
   write(string: string, offset?: number, length?: number): number;
   write(string: string, offset?: number, encoding?: string): number;
-  write(string: string, offset?: number, length?: number, encoding?: string): number;
+  write(
+    string: string,
+    offset?: number,
+    length?: number,
+    encoding?: string
+  ): number;
 
   swap16(): this;
   swap32(): this;

@@ -37,6 +37,7 @@ const track: {
   methodName: string;
   className: string;
   isStatic: boolean;
+  desc?: string;
 }[] = [];
 
 const addedPlugins: string[] = [];
@@ -50,7 +51,7 @@ function checkIfOverwrites(element: Plugin["plugin"][0], pluginName: string) {
       element.isStatic === isStatic
     )
       throw new Error(
-        `Plugin ${pluginName} tries to overwrite ${className}.${methodName}() added by plugin: ${pluginName}`
+        `Plugin "${pluginName}" tries to overwrite ${className}.${methodName}() added by plugin "${track[i].pluginName}"`
       );
   }
   return -1;
@@ -85,7 +86,9 @@ export function addPlugin(
     requires.forEach((rq) => addPlugin(rq));
   }
   // prevent addPlugin form loading a plugin twice
-  if (addedPlugins.includes(pluginWrapper.name)) return;
+  if (addedPlugins.includes(pluginWrapper.name)) {
+    throw new Error(`Plugin ${pluginWrapper.name} already loaded`);
+  }
   for (let i = 0; i < plugin.length; i++) {
     const element = plugin[i];
     if (element.isStatic) {
@@ -110,7 +113,69 @@ export function addPlugin(
       className: element.className,
       methodName: element.methodName,
       isStatic: element.isStatic,
+      desc: element.desc,
     });
   }
   addedPlugins.push(pluginWrapper.name);
+}
+
+/**
+ * returns a track of added methods
+ */
+export function getPluginTrack() {
+  return track;
+}
+
+/**
+ * returns a track of added plugin
+ * @param sort sort the plugins methods
+ * if `sort` is true the methods will be sorted as following
+ *
+ * static method for File then non-static methods for File
+ * then the same for Dir then Shape
+ */
+export function getPluginTrackFormatted(sort?: boolean) {
+  const res: {
+    name: string;
+    methods: {
+      className: string;
+      desc?: string;
+      isStatic: boolean;
+      methodName: string;
+    }[];
+  }[] = [];
+  let lastName: string = "";
+  for (const item of track) {
+    if (item.pluginName !== lastName) {
+      res.push({
+        name: item.pluginName,
+        methods: [],
+      });
+    }
+    res[res.length - 1].methods.push({
+      className: item.className,
+      methodName: item.methodName,
+      desc: item.desc,
+      isStatic: item.isStatic,
+    });
+    lastName = item.pluginName;
+  }
+  if (sort) {
+    for (const plg of res) {
+      plg.methods.sort((a, b) => {
+        if (a.className === b.className) {
+          if (a.isStatic === b.isStatic) return 0;
+          if (a.isStatic && !b.isStatic) return -1;
+          if (!a.isStatic && b.isStatic) return 1;
+        }
+        const arr = ["File", "Dir", "Shape"];
+        for (const item of arr) {
+          if (a.className === item) return -1;
+          if (b.className === item) return 1;
+        }
+        return 0;
+      });
+    }
+  }
+  return res;
 }
