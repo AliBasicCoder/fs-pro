@@ -5,7 +5,7 @@ const file_link =
   "https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html";
 const dir_link = "https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html";
 const shape_link =
-  "https://fs-pro-docs.herokuapp.com/classes/_src_shape.shape.html";
+  "https://fs-pro-docs.herokuapp.com/classes/_src_shape_.shape.html";
 
 function log(link) {
   return (item) => {
@@ -13,17 +13,33 @@ function log(link) {
   };
 }
 
-console.log(`- [File](${file_link})\n`);
+function log2(link, name, br = 0) {
+  console.log(
+    `${br >= 2 ? "\n" : ""}- [${name}](${link})${
+      br === 1 || br === 2 ? "\n" : ""
+    }`
+  );
+}
+
+log2(file_link, "File", 1);
 Object.keys(new File(__dirname, "test-file")).forEach(log(file_link));
 Object.keys(File.prototype).forEach(log(file_link));
 Object.keys(File).forEach(log(file_link));
 
-console.log(`\n- [Dir](${dir_link})\n`);
+log2(dir_link, "Dir", 2);
 Object.keys(new Dir(__dirname)).forEach(log(dir_link));
 Object.keys(Dir.prototype).forEach(log(dir_link));
 Object.keys(Dir).forEach(log(dir_link));
 
-console.log(`\n- [Shape](${shape_link})\n`);
+log(shape_link, Shape, 2);
 Object.keys(new Shape({})).forEach(log(shape_link));
 Object.keys(Shape.prototype).forEach(log(shape_link));
 Object.keys(Shape).forEach(log(shape_link));
+
+log2(
+  "https://fs-pro-docs.herokuapp.com/modules/_src_pluginadder_.html#addplugin",
+  "addPlugin",
+  3
+);
+
+log2("https://fs-pro-docs.herokuapp.com/modules/_src_fs_.html#setfs", "setFs");
