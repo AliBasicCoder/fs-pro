@@ -1,6 +1,10 @@
 import { Dir } from "./dir.ts";
 import { File } from "./file.ts";
-import { addPlugin } from "./pluginAdder.ts";
+import {
+  addPlugin,
+  getPluginTrack,
+  getPluginTrackFormatted,
+} from "./pluginAdder.ts";
 import { setFs } from "./fs.ts";
 import { setPath } from "./path.ts";
 import { Shape } from "./Shape.ts";
@@ -55,4 +59,12 @@ setPath({ join, parse });
 // @ts-ignore
 buffer.setBuffer(Buffer);
 
-export { File, Dir, addPlugin, setFs, Shape };
+export {
+  File,
+  Dir,
+  addPlugin,
+  setFs,
+  Shape,
+  getPluginTrack,
+  getPluginTrackFormatted,
+};

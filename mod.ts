@@ -5,7 +5,11 @@ import { setFs } from "./src/fs.ts";
 import { setPath } from "./src/path.ts";
 import type { Stats } from "./src/types.ts";
 import { buffer } from "./src/buffer.ts";
-import { addPlugin } from "./src/pluginAdder.ts";
+import {
+  addPlugin,
+  getPluginTrack,
+  getPluginTrackFormatted,
+} from "./src/pluginAdder.ts";
 import { Buffer } from "https://x.nest.land/node_buffer@1.1.0/mod.ts";
 import { join, parse } from "https://deno.land/std@0.74.0/path/mod.ts";
 import {
@@ -59,4 +63,13 @@ setPath({ join, parse });
 
 buffer.setBuffer(Buffer);
 
-export { File, Dir, Shape, setFs, Buffer, addPlugin };
+export {
+  File,
+  Dir,
+  Shape,
+  setFs,
+  Buffer,
+  addPlugin,
+  getPluginTrack,
+  getPluginTrackFormatted,
+};
