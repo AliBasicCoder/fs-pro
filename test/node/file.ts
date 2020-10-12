@@ -97,6 +97,13 @@ describe("File", () => {
     done();
   });
 
+  it(".text()", (done) => {
+    const file = File.tmpFile().write("hello world");
+    assert.equal(file.text(), "hello world");
+    file.delete();
+    done();
+  });
+
   it(".overwrite()", (done) => {
     const file = File.tmpFile().write("some\nline\nthing");
     // @ts-ignore
@@ -193,25 +200,22 @@ describe("File", () => {
     done();
   });
 
-  // it(".createReadStream()", (done) => {
-  //   const file = File.tmpFile();
-  //   const stream = file.createReadStream();
-  //   assert.equal(isReadableStream(stream), true);
-  //   stream.close();
-  //   file.delete();
-  //   done();
-  // });
-
-  // it(".createWriteStream()", (done) => {
-  //   const file = File.tmpFile();
-  //   const stream = file.createWriteStream();
-  //   assert.equal(isWritableStream(stream), true);
-  //   stream.close();
-  //   file.delete();
-  //   done();
-  // });
+  it(".open() .close()", (done) => {
+    const file = File.tmpFile();
+    const fd = file.open();
+    assert.equal(typeof fd, "number");
+    // TODO: find a way to see if it's open or not
+    file.close();
+    // TODO: find a way to see if it's open or not
+    file.delete();
+    done();
+  });
 
   it(".watch() .unwatch()", (done) => {
+    if (process.platform === "darwin") {
+      done();
+      return;
+    }
     let file: FileType;
     const track: any[] = [];
     new Promise((resolve) => {

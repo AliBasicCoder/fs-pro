@@ -10,7 +10,7 @@ import {
   isErrArr,
   ShapeObjWithoutName,
   name_sym,
-  BufferType
+  BufferType,
 } from "./types.ts";
 import { Dir } from "./dir.ts";
 import { File } from "./file.ts";
@@ -54,7 +54,7 @@ function createShapeInst(
         result[key] = dir;
       } else {
         if (!element[name_sym])
-          throw new Error(`directory with key ${key} missing name`);
+          throw new Error(`Use Shape.Dir() instead of raw object in ${key}`);
         result[key] = createShapeInst(
           element,
           join(parentDir.path, element[name_sym] || ""),

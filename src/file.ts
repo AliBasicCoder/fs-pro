@@ -11,15 +11,23 @@ import {
   statSync,
   tmpFile,
   watch,
+  openSync,
+  closeSync,
 } from "./fs.ts";
 import { join, parse } from "./path.ts";
-import type { FSWatcher, obj, Stats, BufferType, BufferClass } from "./types.ts";
+import type {
+  FSWatcher,
+  obj,
+  Stats,
+  BufferType,
+  BufferClass,
+} from "./types.ts";
 import { fsProErr } from "./fsProErr.ts";
 import { buffer } from "./buffer.ts";
 
 let Buffer: BufferClass;
 
-buffer.listen((buf) => Buffer = buf);
+buffer.listen((buf) => (Buffer = buf));
 
 /** the File Class is used to help you work with files */
 export class File {
@@ -38,6 +46,8 @@ export class File {
   directory: string;
   /** the default content of the file written when you call .create() */
   defaultContent?: string | BufferType;
+  fd?: number;
+  /** the fs watcher */
   private watcher?: FSWatcher;
   /** a function to validate the file content */
   validator?: (this: File) => Error[] | void;
@@ -122,6 +132,10 @@ export class File {
       return this;
     } else return readFileSync(this.path);
   }
+  /** reads the file as text */
+  text() {
+    return this.read().toString();
+  }
   /**
    * append some data to the file
    * @param data data to append
@@ -191,26 +205,6 @@ export class File {
   splitBy(separator: string | RegExp, limit?: number) {
     return this.read().toString().split(separator, limit);
   }
-  // /**
-  //  * creates a read stream for the file
-  //  * @example ```js
-  //  * // example of copying file content via streams
-  //  * fileX.createReadStream().pipe(fileY.createWriteStream());
-  //  * ```
-  //  */
-  // createReadStream() {
-  //   return createReadStream(this.path);
-  // }
-  // /**
-  //  * creates a write stream for the file
-  //  * @example ```js
-  //  * // example of copying file content via streams:
-  //  * fileX.createReadStream().pipe(fileY.createWriteStream());
-  //  * ```
-  //  */
-  // createWriteStream() {
-  //   return createWriteStream(this.path);
-  // }
   /**
    * reads the file as json
    * @example ```js
@@ -402,5 +396,18 @@ export class File {
   valid(): boolean {
     if (!this.validator) return true;
     return this.validate().length === 0;
+  }
+  /**
+   * opens the file
+   * @param flags see https://nodejs.org/api/fs.html#fs_file_system_flags
+   */
+  open(flags?: string) {
+    this.fd = openSync(this.path, flags);
+    return this.fd;
+  }
+  /** closes the file */
+  close() {
+    if (this.fd) closeSync(this.fd);
+    return this;
   }
 }

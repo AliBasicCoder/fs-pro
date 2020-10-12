@@ -67,3 +67,10 @@ a breaking changes version
 - getPluginTrack
 - getPluginTrackFormatted
 - "desc" property for plugins and plugins' methods
+
+## v3.6.0 Oct 12, 2020
+
+**Added:**
+
+- File.close()
+- File.open()
