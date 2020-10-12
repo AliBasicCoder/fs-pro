@@ -11,6 +11,8 @@ import {
   statSync,
   tmpFile,
   watch,
+  openSync,
+  closeSync,
 } from "./fs.ts";
 import { join, parse } from "./path.ts";
 import type {
@@ -44,6 +46,8 @@ export class File {
   directory: string;
   /** the default content of the file written when you call .create() */
   defaultContent?: string | BufferType;
+  fd?: number;
+  /** the fs watcher */
   private watcher?: FSWatcher;
   /** a function to validate the file content */
   validator?: (this: File) => Error[] | void;
@@ -388,5 +392,18 @@ export class File {
   valid(): boolean {
     if (!this.validator) return true;
     return this.validate().length === 0;
+  }
+  /**
+   * opens the file
+   * @param flags see https://nodejs.org/api/fs.html#fs_file_system_flags
+   */
+  open(flags?: string) {
+    this.fd = openSync(this.path, flags);
+    return this.fd;
+  }
+  /** closes the file */
+  close() {
+    if (this.fd) closeSync(this.fd);
+    return this;
   }
 }

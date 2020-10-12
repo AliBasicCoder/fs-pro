@@ -38,6 +38,8 @@ export type fsObjType = {
   mkTempFile: () => string;
   mkTempDir: () => string;
   watch: (path: string, listener?: Function) => FSWatcher;
+  openSync: (path: string, flags?: string) => number;
+  closeSync: (fd: number) => void;
 };
 
 export type pathObjType = {

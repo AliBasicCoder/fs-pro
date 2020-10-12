@@ -24,6 +24,8 @@ import {
   readdirSync,
   rmdirSync,
   readFileSync,
+  openSync,
+  closeSync,
 } from "fs";
 import { join, parse } from "path";
 import { fileSync, dirSync } from "tmp";
@@ -41,6 +43,8 @@ setFs({
   mkdirSync,
   readdirSync,
   rmdirSync,
+  openSync,
+  closeSync,
   // @ts-ignore
   readFileSync,
   watch(path: string) {

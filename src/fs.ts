@@ -1,7 +1,4 @@
-import type {
-  fsObjType,
-  Stats
-} from "./types.ts";
+import type { fsObjType, Stats } from "./types.ts";
 
 let fs: fsObjType;
 
@@ -93,4 +90,12 @@ export function tmpFile() {
 
 export function tmpDir() {
   return fs.mkTempDir();
+}
+
+export function openSync(...args: Parameters<fsObjType["openSync"]>) {
+  return fs.openSync(...args);
+}
+
+export function closeSync(...args: Parameters<fsObjType["closeSync"]>) {
+  return fs.closeSync(...args);
 }
