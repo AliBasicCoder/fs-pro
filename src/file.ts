@@ -132,6 +132,10 @@ export class File {
       return this;
     } else return readFileSync(this.path);
   }
+  /** reads the file as text */
+  text() {
+    return this.read().toString();
+  }
   /**
    * append some data to the file
    * @param data data to append
