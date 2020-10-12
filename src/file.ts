@@ -13,13 +13,19 @@ import {
   watch,
 } from "./fs.ts";
 import { join, parse } from "./path.ts";
-import type { FSWatcher, obj, Stats, BufferType, BufferClass } from "./types.ts";
+import type {
+  FSWatcher,
+  obj,
+  Stats,
+  BufferType,
+  BufferClass,
+} from "./types.ts";
 import { fsProErr } from "./fsProErr.ts";
 import { buffer } from "./buffer.ts";
 
 let Buffer: BufferClass;
 
-buffer.listen((buf) => Buffer = buf);
+buffer.listen((buf) => (Buffer = buf));
 
 /** the File Class is used to help you work with files */
 export class File {
@@ -191,26 +197,6 @@ export class File {
   splitBy(separator: string | RegExp, limit?: number) {
     return this.read().toString().split(separator, limit);
   }
-  // /**
-  //  * creates a read stream for the file
-  //  * @example ```js
-  //  * // example of copying file content via streams
-  //  * fileX.createReadStream().pipe(fileY.createWriteStream());
-  //  * ```
-  //  */
-  // createReadStream() {
-  //   return createReadStream(this.path);
-  // }
-  // /**
-  //  * creates a write stream for the file
-  //  * @example ```js
-  //  * // example of copying file content via streams:
-  //  * fileX.createReadStream().pipe(fileY.createWriteStream());
-  //  * ```
-  //  */
-  // createWriteStream() {
-  //   return createWriteStream(this.path);
-  // }
   /**
    * reads the file as json
    * @example ```js
