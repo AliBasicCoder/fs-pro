@@ -61,6 +61,15 @@ Deno.test({
 });
 
 Deno.test({
+  name: "File.text()",
+  fn() {
+    const file = File.tmpFile();
+    Deno.writeTextFileSync(file.path, "hello world");
+    assertEquals(file.text(), "hello world");
+  },
+});
+
+Deno.test({
   name: "File.overwrite()",
   fn() {
     const file = File.tmpFile();
@@ -212,6 +221,18 @@ Deno.test({
     file.moveTo(dist_dir.path);
     checkFileData(file, join(dist_dir.path, file.base));
     assertEquals(existsSync(file.path), true);
+  },
+});
+
+Deno.test({
+  name: "File.open() and File.close()",
+  fn() {
+    const file = File.tmpFile();
+    const fd = file.open();
+    assertEquals(typeof fd, "number");
+    assertEquals(Deno.resources()[fd], "fsFile");
+    file.close();
+    assertEquals(Deno.resources()[fd], undefined);
   },
 });
 
