@@ -43,7 +43,9 @@ setFs({
   mkdirSync,
   readdirSync,
   rmdirSync,
-  openSync,
+  openSync(path, flag) {
+    return openSync(path, flag || "r");
+  },
   closeSync,
   // @ts-ignore
   readFileSync,
