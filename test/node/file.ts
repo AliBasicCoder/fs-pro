@@ -206,12 +206,16 @@ describe("File", () => {
     assert.equal(typeof fd, "number");
     // TODO: find a way to see if it's open or not
     file.close();
-    // TODO: find a way to see if it's open or not    
+    // TODO: find a way to see if it's open or not
     file.delete();
     done();
   });
 
   it(".watch() .unwatch()", (done) => {
+    if (process.platform === "darwin") {
+      done();
+      return;
+    }
     let file: FileType;
     const track: any[] = [];
     new Promise((resolve) => {
