@@ -1,6 +1,8 @@
-# fs-pro
+# fs pro
 
-![fs pro logo](https://github.com/AliBasicCoder/fs-pro/blob/master/fsProNewLogo.svg?raw=true)
+<!-- ![fs pro logo](https://github.com/AliBasicCoder/fs-pro/blob/master/fsProNewLogo.svg?raw=true) -->
+
+> A small package to manage your files and folders easily
 
 [![nest badge](https://nest.land/badge-large.svg)](https://nest.land/package/fs-pro)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/10435d4146374b0c834b6b1afe60d0b3)](https://app.codacy.com/manual/AliBasicCoder/fs-pro?utm_source=github.com&utm_medium=referral&utm_content=AliBasicCoder/fs-pro&utm_campaign=Badge_Grade_Dashboard)
@@ -9,9 +11,18 @@
 [![npm bundle size](https://img.shields.io/bundlephobia/minzip/fs-pro)](https://npmjs.com/package/fs-pro)
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/AliBasicCoder/fs-pro/Node.js%20CI)](https://github.com/AliBasicCoder/fs-pro/actions?query=workflow%3A%22Node.js+CI%22)
 
-a library to work with files as objects
+see the API documentation [here](https://fs-pro-docs.herokuapp.com/)
 
-see the full docs [here](https://fs-pro-docs.herokuapp.com/)
+---
+
+## Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Api links](#api)
+- [Creating plugins](#creating-plugins)
+- [Using Plugins](#using-plugins)
 
 ## Features
 
@@ -143,6 +154,8 @@ shapeInstRef.some_shaped_dir.file_1.write("hello world");
   - [exits](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#exits)
   - [validate](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#validate)
   - [valid](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#valid)
+  - [open](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#open)
+  - [close](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#close)
   - [tmpFile](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#tmpfile)
 
 - [Dir](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html)

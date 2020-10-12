@@ -12,7 +12,6 @@ import {
 } from "./fs.ts";
 import { join, parse } from "./path.ts";
 import { File } from "./file.ts";
-// will be replaced with an import from node-watch
 import type { DirForeachOptions, FSWatcher, WatchListener } from "./types.ts";
 import { fsProErr } from "./fsProErr.ts";
 
