@@ -25,6 +25,8 @@ import {
   mkdirSync,
   readdirSync,
   rmdirSync,
+  openSync,
+  closeSync,
   watch,
 } from "https://deno.land/std@0.74.0/node/fs.ts";
 
@@ -40,6 +42,8 @@ setFs({
   readdirSync,
   rmdirSync,
   watch,
+  openSync,
+  closeSync,
   lstatSync(path: string): Stats {
     // @ts-ignore
     return lstatSync(path);
