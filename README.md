@@ -35,6 +35,7 @@ see the API documentation [here](https://fs-pro-docs.herokuapp.com/)
 - will delete the whole dir when you use the [delete](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#delete) method
 - provide advanced watching methods see [Dir.watch method](https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#watch) and [File.watch method](https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#watch)
 - you could add any method you like on any class you like via plugins see [how to create plugins](#creating%20plugins) and [addPlugin](https://fs-pro-docs.herokuapp.com/modules/_src_pluginadder_.html#addplugin)
+- see first party plugins at [plugins folder](https://github.com/AliBasicCoder/fs-pro/tree/master/plugins)
 
 ## Installation
 

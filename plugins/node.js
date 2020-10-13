@@ -1,3 +1,4 @@
+// this adds file and dir missing methods for node
 const { createReadStream, createWriteStream } = require("fs");
 
 const plg = {
