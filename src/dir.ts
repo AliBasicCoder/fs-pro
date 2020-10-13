@@ -12,11 +12,16 @@ import {
 } from "./fs.ts";
 import { join, parse } from "./path.ts";
 import { File } from "./file.ts";
-import type { DirForeachOptions, FSWatcher, WatchListener } from "./types.ts";
+import type {
+  DirForeachOptions,
+  FSWatcher,
+  WatchListener,
+  obj,
+} from "./types.ts";
 import { fsProErr } from "./fsProErr.ts";
 
 /** the Dir Class is used to help you work with files */
-export class Dir {
+export class Dir<T extends obj<Function> = {}> {
   [Symbol.toStringTag]: string = "Dir";
   /** the name of the directory */
   name: string;
@@ -28,6 +33,20 @@ export class Dir {
   parentDirectory: string;
 
   private watcher?: FSWatcher;
+  /**
+   * added is way for access methods added by plugins with typing
+   * @example ``js
+   * // let's assume that there a method called "hi" added by a plugin
+   * const dir = new Dir<{
+   *  hi: () => void
+   * }>("my_dir");
+   * dir.added.hi();
+   * ``
+   */
+  get added(): T {
+    // @ts-ignore
+    return Dir.prototype;
+  }
   /** the size of the file */
   get size() {
     return this.stat().size;

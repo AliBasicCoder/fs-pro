@@ -30,7 +30,7 @@ let Buffer: BufferClass;
 buffer.listen((buf) => (Buffer = buf));
 
 /** the File Class is used to help you work with files */
-export class File {
+export class File<T extends obj<Function> = {}> {
   [Symbol.toStringTag]: string = "File";
   /** the name of the file without the extension */
   name: string;
@@ -51,6 +51,20 @@ export class File {
   private watcher?: FSWatcher;
   /** a function to validate the file content */
   validator?: (this: File) => Error[] | void;
+  /**
+   * added is way for access methods added by plugins with typing
+   * @example ``js
+   * // let's assume that there a method called "hi" added by a plugin
+   * const file = new File<{
+   *  hi: () => void
+   * }>("my_dir");
+   * file.added.hi();
+   * ``
+   */
+  get added(): T {
+    // @ts-ignore
+    return File.prototype;
+  }
   /** the size of the file */
   get size() {
     return this.stat().size;
