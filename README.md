@@ -204,7 +204,11 @@ shapeInstRef.some_shaped_dir.file_1.write("hello world");
 ## Creating plugins
 
 ```ts
+// on node
 import { Plugin } from "fs-pro/types";
+// on deno
+import { Plugin } from "deno.land/x/fs_pro/src/types.ts";
+
 import { addPlugin } from "fs-pro";
 
 const myPlugin: Plugin = {
@@ -232,6 +236,14 @@ import { addPlugin } from "fs-pro";
 import myPlugin from "./my-plugin";
 
 addPlugin(myPlugin);
+
+// assuming the plugin added a method call hi on File
+// the Same applies for Dir
+const file = new File<{
+  hi(): void;
+}>(..);
+
+file.added.hi();
 ```
 
 <!--
