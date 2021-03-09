@@ -1,8 +1,8 @@
 import { parse, join } from "https://deno.land/std@0.74.0/path/mod.ts";
 import { assertEquals } from "https://deno.land/std@0.74.0/testing/asserts.ts";
-import { existsSync } from "https://deno.land/std@0.74.0/node/fs.ts";
+import { existsSync, statSync } from "https://deno.land/std@0.74.0/node/fs.ts";
 import { File, Buffer, Dir } from "../../mod.ts";
-import { checkFileData, randomFile } from "./shared.ts";
+import { checkFileData, randomFile, customEqual } from "./shared.ts";
 
 const tmp_dir: string = parse(Deno.makeTempDirSync()).dir;
 
@@ -61,11 +61,25 @@ Deno.test({
 });
 
 Deno.test({
+  name: "File.read() -- complex",
+  fn() {
+    const file = File.tmpFile();
+    file.write("hello world");
+    assertEquals(file.read(6).toString(), "world");
+    assertEquals(file.read(6, 3).toString(), "wor");
+    assertEquals(file.read(undefined, 5).toString(), "hello");
+  },
+});
+
+Deno.test({
   name: "File.text()",
   fn() {
     const file = File.tmpFile();
     Deno.writeTextFileSync(file.path, "hello world");
     assertEquals(file.text(), "hello world");
+    assertEquals(file.text(6), "world");
+    assertEquals(file.text(6, 3), "wor");
+    assertEquals(file.text(undefined, 5), "hello");
   },
 });
 
@@ -104,6 +118,48 @@ Deno.test({
     const file = File.tmpFile();
     file.write({ hello: "world" });
     assertEquals(JSON.parse(file.read().toString()), { hello: "world" });
+  },
+});
+
+Deno.test({
+  name: "File.write() complex",
+  fn() {
+    const file = File.tmpFile();
+    file.write("hello world");
+    file.write("123", 2);
+    assertEquals(file.text(), "he123 world");
+    file.write("hello world");
+    file.write("12345", 0, 3, 2);
+    assertEquals(file.text(), "345lo world");
+  },
+});
+
+Deno.test({
+  name: "File.truncate()",
+  fn() {
+    const file = File.tmpFile().write("hello world");
+    file.truncate();
+    assertEquals(file.read().length, 0);
+  },
+});
+
+Deno.test({
+  name: "File.link()",
+  fn() {
+    const file = File.tmpFile().write("hello world");
+    const link = join(tmp_dir, randomFile());
+    file.link(link);
+    assertEquals(Deno.readTextFileSync(link), "hello world");
+  },
+});
+
+Deno.test({
+  name: "File.symlink()",
+  fn() {
+    const file = File.tmpFile().write("hello world");
+    const link = join(tmp_dir, randomFile());
+    file.symlink(link);
+    assertEquals(Deno.readTextFileSync(link), "hello world");
   },
 });
 
@@ -151,7 +207,13 @@ Deno.test({
   },
 });
 
-// ignoring .stats for now
+Deno.test({
+  name: "File.stat()",
+  fn() {
+    const file = File.tmpFile();
+    customEqual(file.stat(), statSync(file.path));
+  },
+});
 
 Deno.test({
   name: "File.rename()",

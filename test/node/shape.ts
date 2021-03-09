@@ -22,7 +22,7 @@ describe("Shape", () => {
     __rest: Shape.File("rest[0-9]{3}.txt|*.any"),
   });
 
-  it(".createShapeInst", (done) => {
+  it(".createShapeInst", () => {
     const target_dir = Dir.tmpDir();
     const shapeInstRef = shape.createShapeInst(target_dir.path);
 
@@ -51,27 +51,20 @@ describe("Shape", () => {
     assert.equal(shapeInstRef.some_dir.__dir instanceof Dir, true);
     assert.equal(shapeInstRef.some_dir.some_dir_2 instanceof Dir, true);
     assert.equal(shapeInstRef.some_dir.some_file_2 instanceof File, true);
-
-    target_dir.delete();
-    done();
   });
 
-  it(".validate() empty folder", (done) => {
+  it(".validate() empty folder", () => {
     const target_dir = Dir.tmpDir();
     assert.equal(shape.validate(target_dir.path).arr.length, 3);
-    target_dir.delete();
-    done();
   });
 
-  it(".validate() correct folder", (done) => {
+  it(".validate() correct folder", () => {
     const target_dir = Dir.tmpDir();
     shape.createShapeInst(target_dir.path);
     assert.equal(shape.validate(target_dir.path).arr.length, 0);
-    target_dir.delete();
-    done();
   });
 
-  it(".validate() __rest", (done) => {
+  it(".validate() __rest", () => {
     const target_dir = Dir.tmpDir();
     shape.createShapeInst(target_dir.path);
 
@@ -80,7 +73,5 @@ describe("Shape", () => {
     target_dir.getDir("some_dir").createFile("some_thing.txt");
 
     assert.equal(shape.validate(target_dir.path).arr.length, 0);
-    target_dir.delete();
-    done();
   });
 });

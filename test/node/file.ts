@@ -7,47 +7,40 @@ import {
   // isWritableStream,
   randomFile,
 } from "./shared";
-import { readFileSync, existsSync, statSync, unlinkSync } from "fs";
+import { readFileSync, existsSync, statSync } from "fs";
 
 describe("File", () => {
-  it("have right data", (done) => {
+  it("have right data", () => {
     const file_base = randomFile();
     const file = new File(__dirname, file_base);
     checkData(file, file_base, __dirname);
-    done();
   });
 
-  it(".create()", (done) => {
+  it(".create()", () => {
     const file = new File(os.tmpdir(), randomFile());
     file.create();
     assert.equal(existsSync(file.path), true);
-    unlinkSync(file.path);
-    done();
   });
 
-  it(".exits()", (done) => {
+  it(".exits()", () => {
     const file = new File(os.tmpdir(), randomFile());
-    assert.equal(file.exits(), existsSync(file.path));
-
-    const file2 = new File(os.tmpdir(), randomFile());
-    assert.equal(file2.exits(), existsSync(file2.path));
-    done();
+    assert.equal(file.exits(), false);
+    file.create();
+    assert.equal(file.exits(), true);
   });
 
-  it(".delete()", (done) => {
+  it(".delete()", () => {
     const file = new File(os.tmpdir(), randomFile()).create();
     file.delete();
     assert.equal(existsSync(file.path), false);
-    done();
   });
 
-  it("File.tmpFile()", (done) => {
+  it("File.tmpFile()", () => {
     const file = File.tmpFile();
     checkData(file, file.name, os.tmpdir());
-    done();
   });
 
-  it(".write()", (done) => {
+  it(".write()", () => {
     const file = File.tmpFile();
     // string writes
     file.write("hello world");
@@ -59,19 +52,22 @@ describe("File", () => {
     const obj = { hello: "world" };
     file.write(obj);
     assert.equal(readFileSync(file.path, "utf8"), JSON.stringify(obj));
-    file.delete();
-    done();
+    // complex writes
+    file.write("hello world");
+    file.write("123", 2);
+    assert.equal(file.text(), "he123 world");
+    file.write("hello world");
+    file.write("12345", 0, 3, 2);
+    assert.equal(file.text(), "345lo world");
   });
 
-  it(".json()", (done) => {
+  it(".json()", () => {
     const file = File.tmpFile();
     file.write({ hello: "world" });
     assert.deepEqual(file.json(), { hello: "world" });
-    file.delete();
-    done();
   });
 
-  it(".validate() and file.valid()", (done) => {
+  it(".validate() and file.valid()", () => {
     const file = File.tmpFile().write({ hello: "world" });
     let called = 0;
     file.validator = function () {
@@ -81,85 +77,69 @@ describe("File", () => {
     file.validate();
     assert.equal(called, 1);
     assert.equal(file.valid(), true);
-    file.delete();
-    done();
   });
 
-  it(".read()", (done) => {
+  it(".read()", () => {
     const file = File.tmpFile().write({ hello: "world" });
     assert.equal(file.read().toString(), JSON.stringify({ hello: "world" }));
-    file.write("some\nline\nthing");
-    let res = "";
-    // @ts-ignore
-    file.read("\n", (str, i) => (res += `${i + 1}| ${str}\n`));
-    assert.equal(res, "1| some\n2| line\n3| thing\n");
-    file.delete();
-    done();
+    // complex
+    file.write("hello world");
+    assert.equal(file.read(6).toString(), "world");
+    assert.equal(file.read(6, 3).toString(), "wor");
+    assert.equal(file.read(0, 5).toString(), "hello");
   });
 
-  it(".text()", (done) => {
+  it(".text()", () => {
     const file = File.tmpFile().write("hello world");
     assert.equal(file.text(), "hello world");
-    file.delete();
-    done();
+    assert.equal(file.text(), "hello world");
+    assert.equal(file.text(6), "world");
+    assert.equal(file.text(6, 3), "wor");
+    assert.equal(file.text(0, 5), "hello");
   });
 
-  it(".overwrite()", (done) => {
+  it(".overwrite()", () => {
     const file = File.tmpFile().write("some\nline\nthing");
     // @ts-ignore
     file.overwrite("\n", (str, i) => `${i + 1}| ${str}\n`);
     assert.equal(file.read().toString(), "1| some\n2| line\n3| thing\n");
-    file.delete();
-    done();
   });
 
-  it(".getIndex()", (done) => {
+  it(".getIndex()", () => {
     const file = File.tmpFile().write("1| some\n");
     assert.equal(file.getIndex("\n", 0), "1| some");
-    file.delete();
-    done();
   });
 
-  it(".getIndexBetween()", (done) => {
+  it(".getIndexBetween()", () => {
     const file = File.tmpFile().write("1| some\n");
     assert.deepEqual(file.getIndexBetween("\n", 0, 1), ["1| some"]);
-    file.delete();
-    done();
   });
 
-  it(".append()", (done) => {
+  it(".append()", () => {
     const file = File.tmpFile();
     file.write("hello ").append("world");
     assert.equal(file.read().toString(), "hello world");
-    file.delete();
-    done();
   });
 
-  it(".splitBy()", (done) => {
+  it(".splitBy()", () => {
     const file = File.tmpFile().write("hello world");
     assert.deepEqual(file.splitBy(" "), ["hello", "world"]);
-    file.delete();
-    done();
   });
 
-  it(".stats()", (done) => {
+  it(".stat()", () => {
     const file = File.tmpFile().create();
     assert.deepEqual(file.stat(), statSync(file.path));
-    file.delete();
-    done();
   });
 
-  it(".rename()", (done) => {
+  it(".rename()", () => {
     const file = File.tmpFile().create();
     const new_name = randomFile();
     file.rename(new_name);
     checkData(file, new_name, os.tmpdir());
     assert.equal(existsSync(file.path), true);
-    file.delete();
-    done();
   });
 
-  it(".copyTo()", (done) => {
+  it(".copyTo()", () => {
     const original_file = File.tmpFile().create();
     const dest_dir = Dir.tmpDir();
 
@@ -183,32 +163,22 @@ describe("File", () => {
     const copy4 = original_file.copyTo(dest_dir.name, copy4_base, true);
     checkData(copy4, copy4_base, dest_dir.path);
     assert.equal(existsSync(copy4.path), true);
-    copy4.delete();
-
-    dest_dir.delete();
-    original_file.delete();
-    done();
   });
 
-  it(".moveTo()", (done) => {
+  it(".moveTo()", () => {
     const file = File.tmpFile();
     const dist_dir = Dir.tmpDir();
     file.moveTo(dist_dir.path);
     checkData(file, file.name, dist_dir.path);
     assert.equal(existsSync(file.path), true);
-    dist_dir.delete();
-    done();
   });
 
-  it(".open() .close()", (done) => {
+  it(".open() .close()", () => {
     const file = File.tmpFile();
     const fd = file.open();
     assert.equal(typeof fd, "number");
     // TODO: find a way to see if it's open or not
     file.close();
-    // TODO: find a way to see if it's open or not
-    file.delete();
-    done();
   });
 
   it(".watch() .unwatch()", (done) => {

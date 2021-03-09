@@ -35,7 +35,25 @@ setFs({
   copyFileSync,
   existsSync,
   renameSync,
-  writeFileSync,
+  writeFileSync(path, data, position, length, offset) {
+    if (offset || length || position) {
+      const file = Deno.openSync(path, {
+        read: true,
+        write: true,
+        create: true,
+      });
+      if (position !== undefined)
+        Deno.seekSync(file.rid, position, Deno.SeekMode.Start);
+      const toWrite = (typeof data === "string"
+        ? new TextEncoder().encode(data)
+        : data
+      ).slice(offset, !offset || !length ? undefined : offset + length);
+      file.writeSync(toWrite);
+      Deno.close(file.rid);
+    } else {
+      return writeFileSync(path, data);
+    }
+  },
   chmodSync,
   unlinkSync,
   mkdirSync,
@@ -44,15 +62,27 @@ setFs({
   watch,
   openSync,
   closeSync,
-  lstatSync(path: string): Stats {
+  lstatSync(path): Stats {
     // @ts-ignore
     return lstatSync(path);
   },
-  statSync(path: string): Stats {
+  statSync(path): Stats {
     // @ts-ignore
     return statSync(path);
   },
-  readFileSync(path: string) {
+  readFileSync(path, position, length) {
+    if (length || position) {
+      const file = Deno.openSync(path, { read: true });
+      const buffer_len =
+        length !== undefined
+          ? length
+          : Deno.statSync(path).size - (position || 0);
+      const buffer = new Uint8Array(buffer_len);
+      if (position) Deno.seekSync(file.rid, position, Deno.SeekMode.Start);
+      file.readSync(buffer);
+      Deno.close(file.rid);
+      return Buffer.from(buffer);
+    }
     return Buffer.from(Deno.readFileSync(path));
   },
   mkTempDir() {
@@ -61,6 +91,9 @@ setFs({
   mkTempFile() {
     return Deno.makeTempFileSync();
   },
+  linkSync: Deno.linkSync,
+  symlinkSync: Deno.symlinkSync,
+  truncateSync: Deno.truncateSync,
 });
 
 setPath({ join, parse });

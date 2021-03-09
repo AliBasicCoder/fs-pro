@@ -1,6 +1,6 @@
 import { assertEquals } from "https://deno.land/std@0.74.0/testing/asserts.ts";
 import { parse, join } from "https://deno.land/std@0.74.0/path/mod.ts";
-import { existsSync } from "https://deno.land/std@0.74.0/node/fs.ts";
+import { existsSync, statSync } from "https://deno.land/std@0.74.0/node/fs.ts";
 import { Dir, File } from "../../mod.ts";
 import {
   checkDirData,
@@ -8,6 +8,7 @@ import {
   randomFile,
   checkFileData,
   fillArray,
+  customEqual,
 } from "./shared.ts";
 
 const tmp_dir: string = parse(Deno.makeTempDirSync()).dir;
@@ -157,7 +158,13 @@ Deno.test({
   },
 });
 
-// ignoring stats for now
+Deno.test({
+  name: "Dir.stat()",
+  fn() {
+    const dir = Dir.tmpDir();
+    customEqual(dir.stat(), statSync(dir.path));
+  },
+});
 
 Deno.test({
   name: "Dir.deleteMach()",

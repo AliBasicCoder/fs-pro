@@ -15,16 +15,16 @@ import { File } from "./file.ts";
 import type { DirForeachOptions, FSWatcher, WatchListener } from "./types.ts";
 import { fsProErr } from "./fsProErr.ts";
 
-/** the Dir Class is used to help you work with files */
+/** the Dir Class is used to help you work with folders */
 export class Dir {
   [Symbol.toStringTag]: string = "Dir";
   /** the name of the directory */
   name: string;
-  /** the root of the file */
+  /** the root of the directory */
   root: string;
-  /** the path of the file */
+  /** the path of the directory */
   path: string;
-  /** the directory of the file */
+  /** the parent directory of the directory */
   parentDirectory: string;
 
   private watcher?: FSWatcher;

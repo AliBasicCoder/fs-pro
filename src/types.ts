@@ -23,11 +23,23 @@ export type fsObjType = {
   // createReadStream: typeof FS.createReadStream;
   // createWriteStream: typeof FS.createWriteStream;
   existsSync(path: string): boolean;
-  readFileSync(path: string): BufferType;
+  readFileSync(
+    path: string,
+    position?: number,
+    length?: number,
+    buffer?: BufferType | TypedArray | DataView,
+    offset?: number
+  ): BufferType;
   renameSync(oldPath: string, newPath: string): void;
   // unwatchFile: typeof FS.unwatchFile;
   // watchFile: typeof FS.watchFile;
-  writeFileSync(path: string, data: string | Uint8Array): void;
+  writeFileSync(
+    path: string,
+    data: string | Uint8Array,
+    position?: number,
+    length?: number,
+    offset?: number
+  ): void;
   chmodSync(path: string, mode: number | string): void;
   lstatSync(path: string): Stats;
   unlinkSync(path: string): void;
@@ -40,6 +52,9 @@ export type fsObjType = {
   watch: (path: string, listener?: Function) => FSWatcher;
   openSync: (path: string, flags?: string) => number;
   closeSync: (fd: number) => void;
+  linkSync(existingPath: string, newPath: string): void;
+  symlinkSync(existingPath: string, newPath: string): void;
+  truncateSync(path: string, offset?: number): void;
 };
 
 export type pathObjType = {
@@ -195,7 +210,7 @@ export interface StatsBase<T> {
 
 // copied from https://nest.land/package/node_buffer/files/index.ts (version 1.1.0)
 
-type TypedArray =
+export type TypedArray =
   | Int8Array
   | Uint8Array
   | Int16Array

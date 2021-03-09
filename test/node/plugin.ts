@@ -1,8 +1,9 @@
 import * as assert from "assert";
 import { File, addPlugin } from "./fs-pro";
+import * as os from "os";
 
 describe("addPlugin", () => {
-  it("addPlugin normal plugin", (done) => {
+  it("addPlugin normal plugin", () => {
     addPlugin({
       name: "xml",
       plugin: [
@@ -28,7 +29,7 @@ describe("addPlugin", () => {
         },
       ],
     });
-    const file = new File("some_thing.txt").create();
+    const file = new File(os.tmpdir(), "some_thing.txt").create();
     // @ts-ignore
     assert.equal(typeof file.xml, "function");
     // @ts-ignore
@@ -37,11 +38,9 @@ describe("addPlugin", () => {
     assert.equal(typeof File.st, "function");
     // @ts-ignore
     assert.equal(File.st(), "hello there");
-    file.delete();
-    done();
   });
 
-  it("errors when overwriting native methods", (done) => {
+  it("errors when overwriting native methods", () => {
     assert.throws(() => {
       addPlugin({
         name: "test",
@@ -55,10 +54,9 @@ describe("addPlugin", () => {
         ],
       });
     });
-    done();
   });
 
-  it("errors when overwriting methods added by other plugins", (done) => {
+  it("errors when overwriting methods added by other plugins", () => {
     assert.throws(() => {
       addPlugin({
         name: "test_2",
@@ -72,10 +70,9 @@ describe("addPlugin", () => {
         ],
       });
     });
-    done();
   });
 
-  it("allow overwriting methods added by other plugins when set to true", (done) => {
+  it("allow overwriting methods added by other plugins when set to true", () => {
     assert.doesNotThrow(() => {
       addPlugin(
         {
@@ -92,6 +89,5 @@ describe("addPlugin", () => {
         true
       );
     });
-    done();
   });
 });

@@ -39,3 +39,26 @@ export function isWritableStream(test: any) {
     typeof test.end === "function"
   );
 }
+
+export function customEqual(actual: any, expected: any) {
+  if (Object.keys(actual).length !== Object.keys(expected).length) {
+    throw new Error("Assertion Error: properties missing");
+  }
+  for (const key in expected) {
+    // @ts-ignore
+    const expectedKey = expected[key];
+    // @ts-ignore
+    const actualKey = actual[key];
+    if (typeof expectedKey === "function") continue;
+
+    if (
+      expectedKey instanceof Date
+        ? expectedKey.getTime() !== actualKey.getTime()
+        : actualKey !== expectedKey
+    ) {
+      throw new Error(
+        `Assertion Error: property "${key}" doesn't match ${actualKey} !== ${expectedKey}`
+      );
+    }
+  }
+}

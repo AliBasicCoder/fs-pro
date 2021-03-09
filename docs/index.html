@@ -77,7 +77,7 @@
 					<a href="https://npmjs.com/package/fs-pro"><img src="https://img.shields.io/npm/dm/fs-pro" alt="npm"></a>
 					<a href="https://npmjs.com/package/fs-pro"><img src="https://img.shields.io/bundlephobia/minzip/fs-pro" alt="npm bundle size"></a>
 				<a href="https://github.com/AliBasicCoder/fs-pro/actions?query=workflow%3A%22Node.js+CI%22"><img src="https://img.shields.io/github/workflow/status/AliBasicCoder/fs-pro/Node.js%20CI" alt="GitHub Workflow Status"></a></p>
-				<p>see the API documentation <a href="https://fs-pro-docs.herokuapp.com/">here</a></p>
+				<p>see the API documentation <a href="https://alibasiccoder.github.io/fs-pro/">here</a></p>
 				<hr>
 				<a href="#table-of-contents" id="table-of-contents" style="color: inherit; text-decoration: none;">
 					<h2>Table of Contents</h2>
@@ -97,12 +97,12 @@
 					<li>works on both node and deno</li>
 					<li>you don&#39;t have to get the path of the file or directory every single time you want to do something with it</li>
 					<li>Strong typed and documented in the code</li>
-					<li>provides a method to parse json files <a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#json">.json()</a></li>
-					<li>object will be automatically be stringified to json when you use the <a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#write">write</a> method</li>
-					<li>have a file structure system see <a href="https://fs-pro-docs.herokuapp.com/classes/_src_shape.shape.html">Shape</a></li>
-					<li>will delete the whole dir when you use the <a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#delete">delete</a> method</li>
-					<li>provide advanced watching methods see <a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#watch">Dir.watch method</a> and <a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#watch">File.watch method</a></li>
-					<li>you could add any method you like on any class you like via plugins see <a href="#creating%20plugins">how to create plugins</a> and <a href="https://fs-pro-docs.herokuapp.com/modules/_src_pluginadder_.html#addplugin">addPlugin</a></li>
+					<li>provides a method to parse json files <a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#json">.json()</a></li>
+					<li>object will be automatically be stringified to json when you use the <a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#write">write</a> method</li>
+					<li>have a file structure system see <a href="https://alibasiccoder.github.io/fs-pro/classes/_src_shape.shape.html">Shape</a></li>
+					<li>will delete the whole dir when you use the <a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html#delete">delete</a> method</li>
+					<li>provide advanced watching methods see <a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html#watch">Dir.watch method</a> and <a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#watch">File.watch method</a></li>
+					<li>you could add any method you like on any class you like via plugins see <a href="#creating%20plugins">how to create plugins</a> and <a href="https://alibasiccoder.github.io/fs-pro/modules/_src_pluginadder_.html#addplugin">addPlugin</a></li>
 				</ul>
 				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
 					<h2>Installation</h2>
@@ -175,87 +175,87 @@ shapeInstRef.some_shaped_dir.file_1.write(<span class="hljs-string">"hello world
 					<h2>Api</h2>
 				</a>
 				<ul>
-					<li><p><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html">File</a></p>
+					<li><p><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html">File</a></p>
 						<ul>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#path">path</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#name">name</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#base">base</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#extension">extension</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#directory">directory</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#root">root</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#write">write</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#read">read</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#append">append</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#overwrite">overwrite</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#getindex">getIndex</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#getindexbetween">getIndexBetween</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#splitby">splitBy</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#json">json</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#create">create</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#watch">watch</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#unwatch">unwatch</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#stat">stat</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#lstat">lstat</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#delete">delete</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#copyto">copyTo</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#moveto">moveTo</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#rename">rename</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#chmod">chmod</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#exits">exits</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#validate">validate</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#valid">valid</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#open">open</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#close">close</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#tmpfile">tmpFile</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#path">path</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#name">name</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#base">base</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#extension">extension</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#directory">directory</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#root">root</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#write">write</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#read">read</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#append">append</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#overwrite">overwrite</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#getindex">getIndex</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#getindexbetween">getIndexBetween</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#splitby">splitBy</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#json">json</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#create">create</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#watch">watch</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#unwatch">unwatch</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#stat">stat</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#lstat">lstat</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#delete">delete</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#copyto">copyTo</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#moveto">moveTo</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#rename">rename</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#chmod">chmod</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#exits">exits</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#validate">validate</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#valid">valid</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#open">open</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#close">close</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html#tmpfile">tmpFile</a></li>
 						</ul>
 					</li>
-					<li><p><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html">Dir</a></p>
+					<li><p><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html">Dir</a></p>
 						<ul>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#path">path</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#name">name</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#parentdirectory">parentDirectory</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#root">root</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#read">read</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#readresolve">readResolve</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#foreach">forEach</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#foreachfile">forEachFile</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#foreachdir">forEachDir</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#create">create</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#createfile">createFile</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#createdir">createDir</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#watch">watch</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#unwatch">unwatch</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#delete">delete</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#deletemath">deleteMath</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#deletematchfile">deleteMatchFile</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#deletematchdir">deleteMatchDir</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#stat">stat</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#lstat">lstat</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#rename">rename</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#exits">exits</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#getfile">getFile</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#getdir">getDir</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#copyto">copyTo</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#moveto">moveTo</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#tmpdir">tmpDir</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html#path">path</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html#name">name</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html#parentdirectory">parentDirectory</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html#root">root</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html#read">read</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html#readresolve">readResolve</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html#foreach">forEach</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html#foreachfile">forEachFile</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html#foreachdir">forEachDir</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html#create">create</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html#createfile">createFile</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html#createdir">createDir</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html#watch">watch</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html#unwatch">unwatch</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html#delete">delete</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html#deletemath">deleteMath</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html#deletematchfile">deleteMatchFile</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html#deletematchdir">deleteMatchDir</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html#stat">stat</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html#lstat">lstat</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html#rename">rename</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html#exits">exits</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html#getfile">getFile</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html#getdir">getDir</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html#copyto">copyTo</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html#moveto">moveTo</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html#tmpdir">tmpDir</a></li>
 						</ul>
 					</li>
-					<li><p><a href="https://fs-pro-docs.herokuapp.com/classes/_src_shape_.shape.html">Shape</a></p>
+					<li><p><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_shape_.shape.html">Shape</a></p>
 						<ul>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_shape_.shape.html#shapeobj">shapeObj</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_shape_.shape.html#createshapeinst">createShapeInst</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_shape_.shape.html#validate">validate</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_shape_.shape.html#file">File</a></li>
-							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_shape_.shape.html#dir">Dir</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_shape_.shape.html#shapeobj">shapeObj</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_shape_.shape.html#createshapeinst">createShapeInst</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_shape_.shape.html#validate">validate</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_shape_.shape.html#file">File</a></li>
+							<li><a href="https://alibasiccoder.github.io/fs-pro/classes/_src_shape_.shape.html#dir">Dir</a></li>
 						</ul>
 					</li>
-					<li><p><a href="https://fs-pro-docs.herokuapp.com/modules/_src_pluginadder_.html#addplugin">addPlugin</a></p>
+					<li><p><a href="https://alibasiccoder.github.io/fs-pro/modules/_src_pluginadder_.html#addplugin">addPlugin</a></p>
 					</li>
-					<li><p><a href="https://fs-pro-docs.herokuapp.com/modules/_src_pluginadder_.html#getplugintrack">getPluginTrack</a></p>
+					<li><p><a href="https://alibasiccoder.github.io/fs-pro/modules/_src_pluginadder_.html#getplugintrack">getPluginTrack</a></p>
 					</li>
-					<li><p><a href="https://fs-pro-docs.herokuapp.com/modules/_src_pluginadder_.html#getplugintrackformatted">getPluginTrackFormatted</a></p>
+					<li><p><a href="https://alibasiccoder.github.io/fs-pro/modules/_src_pluginadder_.html#getplugintrackformatted">getPluginTrackFormatted</a></p>
 					</li>
-					<li><p><a href="https://fs-pro-docs.herokuapp.com/modules/_src_fs_.html#setfs">setFs</a></p>
+					<li><p><a href="https://alibasiccoder.github.io/fs-pro/modules/_src_fs_.html#setfs">setFs</a></p>
 					</li>
 				</ul>
 				<a href="#creating-plugins" id="creating-plugins" style="color: inherit; text-decoration: none;">

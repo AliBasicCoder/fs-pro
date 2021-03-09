@@ -26,6 +26,11 @@ import {
   readFileSync,
   openSync,
   closeSync,
+  symlinkSync,
+  linkSync,
+  truncateSync,
+  readSync,
+  writeSync,
 } from "fs";
 import { join, parse } from "path";
 import { fileSync, dirSync } from "tmp";
@@ -35,7 +40,22 @@ setFs({
   copyFileSync,
   existsSync,
   renameSync,
-  writeFileSync,
+  writeFileSync(path, data, position, length, offset) {
+    if (offset || length || position) {
+      position = position ?? 0;
+      offset = offset ?? 0;
+      data = Buffer.from(data);
+      length = length ?? data.length;
+
+      if (!existsSync(path)) writeFileSync(path, "");
+      const fd = openSync(path, "r+");
+      // @ts-ignore
+      writeSync(fd, data, offset, length, position);
+      closeSync(fd);
+    } else {
+      return writeFileSync(path, data);
+    }
+  },
   chmodSync,
   lstatSync,
   unlinkSync,
@@ -48,7 +68,31 @@ setFs({
   },
   closeSync,
   // @ts-ignore
-  readFileSync,
+  readFileSync(path, position = 0, length, buffer, offset) {
+    if (
+      position !== 0 ||
+      length !== undefined ||
+      buffer !== undefined ||
+      offset !== undefined
+    ) {
+      const fd = openSync(path, "r");
+      const fileLength = length ?? statSync(path).size;
+      const target = buffer || Buffer.alloc(length ?? fileLength - position);
+
+      readSync(
+        fd,
+        target,
+        buffer ? offset || 0 : 0,
+        length ?? fileLength - position,
+        position
+      );
+      closeSync(fd);
+
+      return target;
+    } else {
+      return readFileSync(path);
+    }
+  },
   watch(path: string) {
     return watch(path);
   },
@@ -58,6 +102,9 @@ setFs({
   mkTempFile() {
     return fileSync().name;
   },
+  symlinkSync,
+  linkSync,
+  truncateSync,
 });
 
 setPath({ join, parse });
