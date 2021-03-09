@@ -20,8 +20,8 @@ function fillArray<T>(arr: T[], times: number, func: (times: number) => T) {
 describe("Dir", () => {
   it("have right data", () => {
     const name = randomDir();
-    const dir = new Dir(__dirname, name);
-    checkDataDir(dir, __dirname, name);
+    const dir = new Dir(os.tmpdir(), name);
+    checkDataDir(dir, os.tmpdir(), name);
   });
 
   it(".create()", () => {
@@ -30,7 +30,7 @@ describe("Dir", () => {
   });
 
   it(".exits()", () => {
-    const dir = new Dir(__dirname, randomDir());
+    const dir = new Dir(os.tmpdir(), randomDir());
     assert.equal(dir.exits(), false);
     dir.create();
     assert.equal(dir.exits(), true);

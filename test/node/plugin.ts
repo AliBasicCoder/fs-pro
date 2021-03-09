@@ -1,5 +1,6 @@
 import * as assert from "assert";
 import { File, addPlugin } from "./fs-pro";
+import * as os from "os";
 
 describe("addPlugin", () => {
   it("addPlugin normal plugin", () => {
@@ -28,7 +29,7 @@ describe("addPlugin", () => {
         },
       ],
     });
-    const file = new File("some_thing.txt").create();
+    const file = new File(os.tmpdir(), "some_thing.txt").create();
     // @ts-ignore
     assert.equal(typeof file.xml, "function");
     // @ts-ignore
