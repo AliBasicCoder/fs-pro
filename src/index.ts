@@ -44,6 +44,7 @@ setFs({
     if (offset || length || position) {
       if (!existsSync(path)) writeFileSync(path, "");
       const fd = openSync(path, "r+");
+      // @ts-ignore
       writeSync(fd, data, offset, length, position);
       closeSync(fd);
     } else {
@@ -61,15 +62,28 @@ setFs({
     return openSync(path, flag || "r");
   },
   closeSync,
-  readFileSync(path, position, length, buffer, offset) {
-    if (position || length || buffer || offset) {
-      length = length ?? statSync(path).size;
-      position = position ?? 0;
+  // @ts-ignore
+  readFileSync(path, position = 0, length, buffer, offset) {
+    if (
+      position !== 0 ||
+      length !== undefined ||
+      buffer !== undefined ||
+      offset !== undefined
+    ) {
       const fd = openSync(path, "r");
-      // @ts-ignore
-      const target = buffer || Buffer.alloc(length - position);
-      readSync(fd, target, buffer ? offset : 0, length, position);
+      const fileLength = length ?? statSync(path).size;
+      const target = buffer || Buffer.alloc(length ?? fileLength - position);
+
+      readSync(
+        fd,
+        target,
+        buffer ? offset || 0 : 0,
+        length ?? fileLength - position,
+        position
+      );
       closeSync(fd);
+
+      return target;
     } else {
       return readFileSync(path);
     }

@@ -138,6 +138,7 @@ export class File {
     buffer?: BufferType | TypedArray | DataView,
     offset?: number
   ): BufferType {
+    // @ts-ignore
     if (typeof Deno !== "undefined" && (offset || buffer))
       throw new Error("offset and buffer are NOT ALLOWED on Deno");
     return readFileSync(this.path, position, length, buffer, offset);
