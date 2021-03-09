@@ -96,12 +96,19 @@ export class File {
       throw new fsProErr("STF", this.path);
     }
   }
+  /**
+   * create a file in the tmp directory with a random name
+   * very useful for testing
+   */
   static tmpFile() {
     return new File(tmpFile());
   }
   /**
    * write some data into the file
    * @param data the data to write
+   * @param position Specifies where to begin writing to the file
+   * @param length The number of bytes to write
+   * @param offset The position in buffer to start writing from it to the file
    * @NOTE if you pass an object it will be automatically convert to json
    * @example ```js
    * file.write("hello world");

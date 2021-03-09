@@ -20,11 +20,11 @@ export class Dir {
   [Symbol.toStringTag]: string = "Dir";
   /** the name of the directory */
   name: string;
-  /** the root of the file */
+  /** the root of the directory */
   root: string;
-  /** the path of the file */
+  /** the path of the directory */
   path: string;
-  /** the directory of the file */
+  /** the parent directory of the directory */
   parentDirectory: string;
 
   private watcher?: FSWatcher;

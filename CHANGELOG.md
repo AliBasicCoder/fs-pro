@@ -74,3 +74,17 @@ a breaking changes version
 
 - File.close()
 - File.open()
+
+## v3.7.0 Mar 9, 2021
+
+**Added:**
+
+- File.link()
+- File.symlink()
+- File.truncate()
+- File.read(position?: number, length?: number, buffer?: BufferType | TypedArray | DataView, offset?: number) overwrite
+- File.write(data: BufferType | string | obj<any>, position?: number, length?: number, offset?: number) overwrite
+
+**Removed:**
+
+- File.read(splitter: string, callback: Function) overwrite
