@@ -91,12 +91,9 @@ setFs({
   mkTempFile() {
     return Deno.makeTempFileSync();
   },
-  linkSync(origin, target) {
-    // @ts-ignore
-    return Deno.linkSync(origin, target);
-  },
-  symlinkSync() {},
-  truncateSync() {},
+  linkSync: Deno.linkSync,
+  symlinkSync: Deno.symlinkSync,
+  truncateSync: Deno.truncateSync,
 });
 
 setPath({ join, parse });

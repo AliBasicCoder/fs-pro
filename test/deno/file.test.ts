@@ -1,6 +1,6 @@
 import { parse, join } from "https://deno.land/std@0.74.0/path/mod.ts";
 import { assertEquals } from "https://deno.land/std@0.74.0/testing/asserts.ts";
-import { existsSync } from "https://deno.land/std@0.74.0/node/fs.ts";
+import { existsSync, statSync } from "https://deno.land/std@0.74.0/node/fs.ts";
 import { File, Buffer, Dir } from "../../mod.ts";
 import { checkFileData, randomFile } from "./shared.ts";
 
@@ -207,7 +207,34 @@ Deno.test({
   },
 });
 
-// ignoring .stats for now
+Deno.test({
+  name: "File.stat()",
+  fn() {
+    const file = File.tmpFile();
+    const actual = file.stat();
+    const expected = statSync(file.path);
+    if (Object.keys(actual).length !== Object.keys(expected).length) {
+      throw new Error("Assertion Error: properties missing");
+    }
+    for (const key in expected) {
+      // @ts-ignore
+      const expectedKey = expected[key];
+      // @ts-ignore
+      const actualKey = actual[key];
+      if (typeof expectedKey === "function") continue;
+
+      if (
+        expectedKey instanceof Date
+          ? expectedKey.getTime() !== actualKey.getTime()
+          : actualKey !== expectedKey
+      ) {
+        throw new Error(
+          `Assertion Error: property "${key}" doesn't match ${actualKey} !== ${expectedKey}`
+        );
+      }
+    }
+  },
+});
 
 Deno.test({
   name: "File.rename()",
