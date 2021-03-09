@@ -36,9 +36,9 @@ export type fsObjType = {
   writeFileSync(
     path: string,
     data: string | Uint8Array,
-    offset?: number,
+    position?: number,
     length?: number,
-    position?: number
+    offset?: number
   ): void;
   chmodSync(path: string, mode: number | string): void;
   lstatSync(path: string): Stats;

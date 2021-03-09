@@ -111,14 +111,14 @@ export class File {
    */
   write(
     data: BufferType | string | obj<any>,
-    offset?: number,
+    position?: number,
     length?: number,
-    position?: number
+    offset?: number
   ) {
     if (Buffer.isBuffer(data) || typeof data === "string") {
-      writeFileSync(this.path, data, offset, length, position);
+      writeFileSync(this.path, data, position, length, offset);
     } else {
-      writeFileSync(this.path, JSON.stringify(data), offset, length, position);
+      writeFileSync(this.path, JSON.stringify(data), position, length, offset);
     }
     return this;
   }
@@ -142,9 +142,13 @@ export class File {
       throw new Error("offset and buffer are NOT ALLOWED on Deno");
     return readFileSync(this.path, position, length, buffer, offset);
   }
-  /** reads the file as text */
-  text() {
-    return this.read().toString();
+  /**
+   * reads file as text
+   * @param position Specifies where to begin reading from in the file
+   * @param length The number of bytes to read
+   */
+  text(position?: number, length?: number) {
+    return this.read(position, length).toString();
   }
   /**
    * append some data to the file

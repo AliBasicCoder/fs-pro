@@ -35,7 +35,7 @@ setFs({
   copyFileSync,
   existsSync,
   renameSync,
-  writeFileSync(path, data, offset, length, position) {
+  writeFileSync(path, data, position, length, offset) {
     if (offset || length || position) {
       const file = Deno.openSync(path, {
         read: true,
