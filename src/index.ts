@@ -42,6 +42,11 @@ setFs({
   renameSync,
   writeFileSync(path, data, position, length, offset) {
     if (offset || length || position) {
+      position = position ?? 0;
+      offset = offset ?? 0;
+      data = Buffer.from(data);
+      length = length ?? data.length;
+
       if (!existsSync(path)) writeFileSync(path, "");
       const fd = openSync(path, "r+");
       // @ts-ignore
