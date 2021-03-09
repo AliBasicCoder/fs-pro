@@ -1,0 +1,453 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>fs-pro</title>
+	<meta name="description" content="Documentation for fs-pro">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">fs-pro</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1>fs-pro</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#fs-pro" id="fs-pro" style="color: inherit; text-decoration: none;">
+					<h1>fs pro</h1>
+				</a>
+				<!-- ![fs pro logo](https://github.com/AliBasicCoder/fs-pro/blob/master/fsProNewLogo.svg?raw=true) -->
+				<blockquote>
+					<p>A small package to manage your files and folders easily</p>
+				</blockquote>
+				<p><a href="https://nest.land/package/fs-pro"><img src="https://nest.land/badge-large.svg" alt="nest badge"></a>
+					<a href="https://app.codacy.com/manual/AliBasicCoder/fs-pro?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AliBasicCoder/fs-pro&amp;utm_campaign=Badge_Grade_Dashboard"><img src="https://api.codacy.com/project/badge/Grade/10435d4146374b0c834b6b1afe60d0b3" alt="Codacy Badge"></a>
+					<a href="https://npmjs.com/package/fs-pro"><img src="https://img.shields.io/npm/v/fs-pro" alt="npm"></a>
+					<a href="https://npmjs.com/package/fs-pro"><img src="https://img.shields.io/npm/dm/fs-pro" alt="npm"></a>
+					<a href="https://npmjs.com/package/fs-pro"><img src="https://img.shields.io/bundlephobia/minzip/fs-pro" alt="npm bundle size"></a>
+				<a href="https://github.com/AliBasicCoder/fs-pro/actions?query=workflow%3A%22Node.js+CI%22"><img src="https://img.shields.io/github/workflow/status/AliBasicCoder/fs-pro/Node.js%20CI" alt="GitHub Workflow Status"></a></p>
+				<p>see the API documentation <a href="https://fs-pro-docs.herokuapp.com/">here</a></p>
+				<hr>
+				<a href="#table-of-contents" id="table-of-contents" style="color: inherit; text-decoration: none;">
+					<h2>Table of Contents</h2>
+				</a>
+				<ul>
+					<li><a href="#features">Features</a></li>
+					<li><a href="#installation">Installation</a></li>
+					<li><a href="#usage">Usage</a></li>
+					<li><a href="#api">Api links</a></li>
+					<li><a href="#creating-plugins">Creating plugins</a></li>
+					<li><a href="#using-plugins">Using Plugins</a></li>
+				</ul>
+				<a href="#features" id="features" style="color: inherit; text-decoration: none;">
+					<h2>Features</h2>
+				</a>
+				<ul>
+					<li>works on both node and deno</li>
+					<li>you don&#39;t have to get the path of the file or directory every single time you want to do something with it</li>
+					<li>Strong typed and documented in the code</li>
+					<li>provides a method to parse json files <a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#json">.json()</a></li>
+					<li>object will be automatically be stringified to json when you use the <a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#write">write</a> method</li>
+					<li>have a file structure system see <a href="https://fs-pro-docs.herokuapp.com/classes/_src_shape.shape.html">Shape</a></li>
+					<li>will delete the whole dir when you use the <a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#delete">delete</a> method</li>
+					<li>provide advanced watching methods see <a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#watch">Dir.watch method</a> and <a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#watch">File.watch method</a></li>
+					<li>you could add any method you like on any class you like via plugins see <a href="#creating%20plugins">how to create plugins</a> and <a href="https://fs-pro-docs.herokuapp.com/modules/_src_pluginadder_.html#addplugin">addPlugin</a></li>
+				</ul>
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h2>Installation</h2>
+				</a>
+				<p>via npm:</p>
+				<pre><code><span class="hljs-built_in">npm</span> i fs-pro</code></pre><p>via yarn:</p>
+				<pre><code>yarn <span class="hljs-keyword">add</span><span class="bash"> fs-pro</span></code></pre><p>via deno.land</p>
+				<pre><code><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> fsPro <span class="hljs-keyword">from</span> <span class="hljs-string">"http://deno.land/x/fs_pro@version/mod.ts"</span>;</code></pre><p>via nest.land</p>
+				<pre><code><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> fsPro <span class="hljs-keyword">from</span> <span class="hljs-string">"https://x.nest.land/fs-pro@version/mod.ts"</span>;</code></pre>
+				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+					<h2>Usage</h2>
+				</a>
+				<pre><code class="language-js"><span class="hljs-keyword">import</span> { File, Dir, Shape } <span class="hljs-keyword">from</span> <span class="hljs-string">"fs-pro"</span>;
+
+<span class="hljs-comment">// creating a file object</span>
+<span class="hljs-keyword">const</span> file = <span class="hljs-keyword">new</span> File(__dirname, <span class="hljs-string">"hello_world.txt"</span>);
+<span class="hljs-comment">// creating a directory object</span>
+<span class="hljs-keyword">const</span> dir = <span class="hljs-keyword">new</span> Dir(__dirname, <span class="hljs-string">"some_dir"</span>);
+
+file
+  <span class="hljs-comment">// writing to the file</span>
+  .write(<span class="hljs-string">"hello "</span>);
+  <span class="hljs-comment">// append content to the file</span>
+  .append(<span class="hljs-string">"world"</span>);
+
+<span class="hljs-built_in">console</span>.log(file.read().toString()) <span class="hljs-comment">// =&gt; "hello world"</span>
+<span class="hljs-comment">// and there's much more in the docs</span>
+
+dir
+  <span class="hljs-comment">// create the directory (in the actual hard disk aka file system)</span>
+  .create()
+  <span class="hljs-comment">// creating a directory in the directory</span>
+  .createDir(<span class="hljs-string">"sub_dir"</span>);
+  <span class="hljs-comment">// creating a file in the directory (this create a file object)</span>
+  .createFile(<span class="hljs-string">"text.txt"</span>)
+<span class="hljs-comment">// and there's much more in the docs</span>
+
+<span class="hljs-comment">// the Shape class is a class that helps you manage your directory</span>
+<span class="hljs-comment">// the Shape instance (or inst for short) is the Shape applied to a directory</span>
+<span class="hljs-comment">// the Shape instance reference is a JS object the references the Shape instance</span>
+<span class="hljs-comment">// the Shape constructor takes the Shape of your directory</span>
+<span class="hljs-comment">// every key in the object passed in is an identifier for the file or dir</span>
+<span class="hljs-keyword">const</span> shape = <span class="hljs-keyword">new</span> Shape({
+  <span class="hljs-comment">// for adding files use Shape.File with the file name</span>
+  <span class="hljs-attr">some_file</span>: Shape.File(<span class="hljs-string">"some_file.txt"</span>),
+  <span class="hljs-comment">// for adding a directory of files use Shape.Dir with</span>
+  <span class="hljs-comment">// the dir name and file name regex (a custom type of regex to test if the filename matches it)</span>
+  <span class="hljs-comment">// see Shape.File doc for more information about filename regex</span>
+  <span class="hljs-attr">some_dir</span>: Shape.Dir(<span class="hljs-string">"some_dir"</span>, Shape.File(<span class="hljs-string">"test[0-9]{3}.txt|*.any"</span>)),
+  <span class="hljs-comment">// for adding a shaped folder use Shape.Dir with the directory name</span>
+  <span class="hljs-comment">// and the shape of it</span>
+  <span class="hljs-attr">some_shaped_dir</span>: Shape.Dir(<span class="hljs-string">"shaped_dir"</span>, {
+    <span class="hljs-attr">file_1</span>: Shape.File(<span class="hljs-string">"file_1.txt"</span>),
+    <span class="hljs-comment">// ...</span>
+  }),
+  <span class="hljs-comment">// __rest tells Shape that any thing not mentioned</span>
+  <span class="hljs-comment">// must follow the given shape</span>
+  <span class="hljs-attr">__rest</span>: Shape.File(<span class="hljs-string">"*.txt"</span>),
+});
+
+<span class="hljs-keyword">const</span> shapeInstRef = shape.createShapeInst(target_dir);
+
+shapeInstRef.some_file.write(<span class="hljs-string">"hello world"</span>);
+
+shapeInstRef.some_dir.createFile(<span class="hljs-string">"test100.txt"</span>);
+
+shapeInstRef.some_shaped_dir.file_1.write(<span class="hljs-string">"hello world"</span>);
+</code></pre>
+				<a href="#api" id="api" style="color: inherit; text-decoration: none;">
+					<h2>Api</h2>
+				</a>
+				<ul>
+					<li><p><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html">File</a></p>
+						<ul>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#path">path</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#name">name</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#base">base</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#extension">extension</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#directory">directory</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#root">root</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#write">write</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#read">read</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#append">append</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#overwrite">overwrite</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#getindex">getIndex</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#getindexbetween">getIndexBetween</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#splitby">splitBy</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#json">json</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#create">create</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#watch">watch</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#unwatch">unwatch</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#stat">stat</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#lstat">lstat</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#delete">delete</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#copyto">copyTo</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#moveto">moveTo</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#rename">rename</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#chmod">chmod</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#exits">exits</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#validate">validate</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#valid">valid</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#open">open</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#close">close</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_file_.file.html#tmpfile">tmpFile</a></li>
+						</ul>
+					</li>
+					<li><p><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html">Dir</a></p>
+						<ul>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#path">path</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#name">name</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#parentdirectory">parentDirectory</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#root">root</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#read">read</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#readresolve">readResolve</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#foreach">forEach</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#foreachfile">forEachFile</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#foreachdir">forEachDir</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#create">create</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#createfile">createFile</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#createdir">createDir</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#watch">watch</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#unwatch">unwatch</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#delete">delete</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#deletemath">deleteMath</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#deletematchfile">deleteMatchFile</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#deletematchdir">deleteMatchDir</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#stat">stat</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#lstat">lstat</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#rename">rename</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#exits">exits</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#getfile">getFile</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#getdir">getDir</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#copyto">copyTo</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#moveto">moveTo</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_dir_.dir.html#tmpdir">tmpDir</a></li>
+						</ul>
+					</li>
+					<li><p><a href="https://fs-pro-docs.herokuapp.com/classes/_src_shape_.shape.html">Shape</a></p>
+						<ul>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_shape_.shape.html#shapeobj">shapeObj</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_shape_.shape.html#createshapeinst">createShapeInst</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_shape_.shape.html#validate">validate</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_shape_.shape.html#file">File</a></li>
+							<li><a href="https://fs-pro-docs.herokuapp.com/classes/_src_shape_.shape.html#dir">Dir</a></li>
+						</ul>
+					</li>
+					<li><p><a href="https://fs-pro-docs.herokuapp.com/modules/_src_pluginadder_.html#addplugin">addPlugin</a></p>
+					</li>
+					<li><p><a href="https://fs-pro-docs.herokuapp.com/modules/_src_pluginadder_.html#getplugintrack">getPluginTrack</a></p>
+					</li>
+					<li><p><a href="https://fs-pro-docs.herokuapp.com/modules/_src_pluginadder_.html#getplugintrackformatted">getPluginTrackFormatted</a></p>
+					</li>
+					<li><p><a href="https://fs-pro-docs.herokuapp.com/modules/_src_fs_.html#setfs">setFs</a></p>
+					</li>
+				</ul>
+				<a href="#creating-plugins" id="creating-plugins" style="color: inherit; text-decoration: none;">
+					<h2>Creating plugins</h2>
+				</a>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { Plugin } <span class="hljs-keyword">from</span> <span class="hljs-string">"fs-pro/types"</span>;
+<span class="hljs-keyword">import</span> { addPlugin } <span class="hljs-keyword">from</span> <span class="hljs-string">"fs-pro"</span>;
+
+<span class="hljs-keyword">const</span> myPlugin: Plugin = {
+  name: <span class="hljs-string">"your-plugin-name"</span>,
+  required: [anyRequiredPlugin] <span class="hljs-comment">// optional</span>
+  plugin: [
+    {
+      methodName: <span class="hljs-string">"myMethod"</span>,
+      className: <span class="hljs-string">"File"</span>, <span class="hljs-comment">// could be the name of any class in the library (File or Dir or Shape)</span>
+      isStatic: <span class="hljs-literal">false</span>, <span class="hljs-comment">// if true the method you add will be static</span>
+      func(...myArgs: <span class="hljs-built_in">any</span>[]){
+        <span class="hljs-comment">// your code...</span>
+      }
+    }
+  ]
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> myPlugin</code></pre>
+				<a href="#using-plugins" id="using-plugins" style="color: inherit; text-decoration: none;">
+					<h2>Using Plugins</h2>
+				</a>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { addPlugin } <span class="hljs-keyword">from</span> <span class="hljs-string">"fs-pro"</span>;
+<span class="hljs-keyword">import</span> myPlugin <span class="hljs-keyword">from</span> <span class="hljs-string">"./my-plugin"</span>;
+
+addPlugin(myPlugin);</code></pre>
+				<!--
+first you will need at a folder like this one
+
+```
+|
+|__ index.ts (optional but recommend)
+|__ index.d.ts
+|__ package.json
+```
+
+in the index.ts
+
+```ts
+import { Plugin } from "fs-pro/types";
+
+const myPlugin: Plugin = {
+  name: "your-plugin-name",
+  required: [anyRequiredPlugin] // optional
+  plugin: [
+    {
+      methodName: "myMethod",
+      className: "File", // could be the name of any class in the library (File or Dir or Shape)
+      isStatic: false, // if true the method you add will be static
+      func(...myArgs: any[]){
+        // your code...
+      }
+    }
+  ]
+}
+
+export default myPlugin
+
+```
+
+in index.d.ts
+
+```ts
+import * as fsPro from "fs-pro";
+
+declare global {
+  namespace fsPro {
+    interface File /* or any class you to add methods to */ {
+      myMethod(...myArgs: any[]): any;
+    }
+  }
+}
+
+declare module "my-plugin" {
+  import { Plugin } from "fs-pro/types";
+
+  const xmlPlugin: Plugin;
+
+  export default xmlPlugin;
+}
+```
+
+## Using Plugins
+
+```ts
+import { addPlugin } from "fs-pro";
+import myPlugin from "my-plugin";
+
+addPlugin(myPlugin);
+``` -->
+				<a href="#licence" id="licence" style="color: inherit; text-decoration: none;">
+					<h2>Licence</h2>
+				</a>
+				<p>copyright (c) AliBasicCoder 2020</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_src_shape_.html">&quot;src/<wbr>Shape&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_src_buffer_.html">&quot;src/buffer&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_src_dir_.html">&quot;src/dir&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_src_file_.html">&quot;src/file&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_src_fs_.html">&quot;src/fs&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_src_fsproerr_.html">&quot;src/fs<wbr>Pro<wbr>Err&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_src_index_.html">&quot;src/index&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_src_path_.html">&quot;src/path&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_src_pluginadder_.html">&quot;src/plugin<wbr>Adder&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_src_types_.html">&quot;src/types&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_test_node_dir_.html">&quot;test/node/dir&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_test_node_file_.html">&quot;test/node/file&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_test_node_fs_pro_.html">&quot;test/node/fs-<wbr>pro&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_test_node_plugin_.html">&quot;test/node/plugin&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_test_node_shape_.html">&quot;test/node/shape&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_test_node_shared_.html">&quot;test/node/shared&quot;</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
