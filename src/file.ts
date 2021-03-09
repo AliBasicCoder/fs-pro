@@ -111,9 +111,24 @@ export class File {
    * @param offset The position in buffer to start writing from it to the file
    * @NOTE if you pass an object it will be automatically convert to json
    * @example ```js
+   * // writing strings
    * file.write("hello world");
+   * // writing buffer
    * file.write(Buffer.from("hello world"));
+   * // writing js object (will be converted to json)
    * file.write({ hello: "world" });
+   * // writing from position
+   * file.write("hello world");
+   * file.write("123", 2);
+   * file.read() // => "he123 world"
+   * // writing with position and length
+   * file.write("hello world");
+   * file.write("12345", 2, 3);
+   * file.read() // => "he123 world"
+   * // writing with position and length and offset
+   * file.write("hello world");
+   * file.write("12345", 2, 3, 2);
+   * file.read() // => "he345 world"
    * ```
    */
   write(
@@ -131,13 +146,19 @@ export class File {
   }
   /**
    * reads the file
-   * @example ```js
-   * ```
    * @param position Specifies where to begin reading from in the file
    * @param length The number of bytes to read
    * @param buffer The buffer that the data will be written to
    * @param offset The position in buffer to write the data to
    * @NOTE DO NOT pass buffer or offset on Deno will throw an error if passed
+   * @example ```js
+   * file.write("hello world");
+   * file.read() // => <Buffer 68 65 6c 6c 6f 20 77 6f 72 6c 64>
+   * // read file starting form index 6
+   * file.read(6).toString() // => "world"
+   * // read 3 bytes starting from index 6
+   * file.read(6, 3).toString() // => "wor"
+   * ```
    */
   read(
     position?: number,
@@ -154,6 +175,14 @@ export class File {
    * reads file as text
    * @param position Specifies where to begin reading from in the file
    * @param length The number of bytes to read
+   * @example ```js
+   * file.write("hello world");
+   * file.text() // => "hello world"
+   * // read file as text starting form index 6
+   * file.text(6) // => "world"
+   * // read 3 bytes as text starting from index 6
+   * file.text(6, 3) // => "wor"
+   * ```
    */
   text(position?: number, length?: number) {
     return this.read(position, length).toString();
@@ -176,7 +205,9 @@ export class File {
    * @param splitter the string to split the file by
    * @param callback the callback
    * @example ```js
+   * file.write("hello\nworld");
    * file.overwrite("\n", (str, i) => `${i}| ${str}`);
+   * file.read() // => "0| hello\n1| world"
    * ```
    */
   overwrite(
@@ -196,20 +227,21 @@ export class File {
    * @param splitter the splitter string
    * @param index the index
    * @example ```js
-   * file.getIndex("\n", 24) // gets the line 24
+   * file.write("hello\nworld")
+   * file.getIndex("\n", 1) // => "world"
    * ```
    */
   getIndex(splitter: string, index: number) {
     return this.splitBy(splitter)[index];
   }
   /**
-   * splits the file content and get the items between start
-   * and end
+   * splits the file content and get the items between start and end (excluding end)
    * @param splitter the splitter
    * @param start the start index
    * @param end the end index
    * @example ```js
-   * file.getIndexBetween("\n", 10, 13) // gets the lines between line 10 and 13 (not including 13)
+   * file.write("hello\nworld\nfoo\nbar")
+   * file.getIndexBetween("\n", 0, 3) // => ["hello", "world", "foo"]
    * ```
    */
   getIndexBetween(splitter: string, start: number, end?: number) {
@@ -220,8 +252,9 @@ export class File {
    * @param separator the string to split by
    * @param limit A value used to limit the number of elements returned in the array
    * @example ```js
-   * // example of getting the lines of a file
-   * file.splitBy("\n").forEach(console.log);
+   * file.write("hello\nworld");
+   *
+   * file.splitBy("\n"); // => ["hello", "world"]
    * ```
    */
   splitBy(separator: string | RegExp, limit?: number) {
@@ -230,7 +263,8 @@ export class File {
   /**
    * reads the file as json
    * @example ```js
-   * JsonFile.json() // => { hello: "world" }
+   * file.write('{"hello": "world"}')
+   * file.json() // => { hello: "world" }
    * ```
    */
   json<T extends obj<any> | any[]>(): T {
