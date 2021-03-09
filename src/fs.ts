@@ -99,3 +99,15 @@ export function openSync(...args: Parameters<fsObjType["openSync"]>) {
 export function closeSync(...args: Parameters<fsObjType["closeSync"]>) {
   return fs.closeSync(...args);
 }
+
+export function linkSync(...args: Parameters<fsObjType["linkSync"]>) {
+  return fs.linkSync(...args);
+}
+
+export function symlinkSync(...args: Parameters<fsObjType["linkSync"]>) {
+  return fs.symlinkSync(...args);
+}
+
+export function truncateSync(...args: Parameters<fsObjType["truncateSync"]>) {
+  return fs.truncateSync(...args);
+}

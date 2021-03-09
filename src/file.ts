@@ -13,6 +13,9 @@ import {
   watch,
   openSync,
   closeSync,
+  linkSync,
+  symlinkSync,
+  truncateSync,
 } from "./fs.ts";
 import { join, parse } from "./path.ts";
 import type {
@@ -21,6 +24,7 @@ import type {
   Stats,
   BufferType,
   BufferClass,
+  TypedArray,
 } from "./types.ts";
 import { fsProErr } from "./fsProErr.ts";
 import { buffer } from "./buffer.ts";
@@ -105,32 +109,38 @@ export class File {
    * file.write({ hello: "world" });
    * ```
    */
-  write(data: BufferType | string | obj<any>) {
+  write(
+    data: BufferType | string | obj<any>,
+    offset?: number,
+    length?: number,
+    position?: number
+  ) {
     if (Buffer.isBuffer(data) || typeof data === "string") {
-      writeFileSync(this.path, data);
-    } else writeFileSync(this.path, JSON.stringify(data));
+      writeFileSync(this.path, data, offset, length, position);
+    } else {
+      writeFileSync(this.path, JSON.stringify(data), offset, length, position);
+    }
     return this;
   }
   /**
    * reads the file
    * @example ```js
-   * // this will print the line index followed by "| "
-   * file.read("\n", (str, i) => console.log(`${i}| ${str}`))
    * ```
+   * @param position Specifies where to begin reading from in the file
+   * @param length The number of bytes to read
+   * @param buffer The buffer that the data will be written to
+   * @param offset The position in buffer to write the data to
+   * @NOTE DO NOT pass buffer or offset on Deno will throw an error if passed
    */
-  read(splitter: string, callback: (str: string, index: number) => void): this;
-  /**
-   * reads the file
-   * @example ```js
-   * file.read().toString() // => "hello world
-   * ```
-   */
-  read(): BufferType;
-  read(splitter?: string, callback?: (str: string, index: number) => void) {
-    if (splitter && callback) {
-      this.splitBy(splitter).forEach(callback);
-      return this;
-    } else return readFileSync(this.path);
+  read(
+    position?: number,
+    length?: number,
+    buffer?: BufferType | TypedArray | DataView,
+    offset?: number
+  ): BufferType {
+    if (typeof Deno !== "undefined" && (offset || buffer))
+      throw new Error("offset and buffer are NOT ALLOWED on Deno");
+    return readFileSync(this.path, position, length, buffer, offset);
   }
   /** reads the file as text */
   text() {
@@ -216,7 +226,7 @@ export class File {
   }
   /**
    * creates the file
-   * @NOTE it won't modify the file content if the file exits and not empty
+   * @NOTE defaultContent is written only if the file doesn't exist or file exists and empty
    */
   create() {
     if (!this.exits()) return this.write(this.defaultContent || "");
@@ -383,14 +393,12 @@ export class File {
   }
   /**
    * safer from validate (cause it will return true if there's no "validator")
-   * @NOTE it will return true if validator property is undefined
    * @example ```js
    * // validate a json file
    * file.validator = function () {
    *    JSON.parse(this.read.toString())
    * }
-   * const errors = file.validate();
-   * if (errors.length) console.log("file isn't valid")
+   * if (!file.valid()) console.log("file isn't valid");
    * ```
    */
   valid(): boolean {
@@ -408,6 +416,36 @@ export class File {
   /** closes the file */
   close() {
     if (this.fd) closeSync(this.fd);
+    return this;
+  }
+  /**
+   * Creates hard link newPath pointing to file's path
+   */
+  link(newPath: string) {
+    linkSync(this.path, newPath);
+    return this;
+  }
+  /**
+   * Creates soft link newPath pointing to file's path
+   */
+  symlink(newPath: string) {
+    symlinkSync(this.path, newPath);
+    return this;
+  }
+  /**
+   * clears file starting from index offset (0 by default)
+   * @param offset index where to start deleting
+   * @example ```js
+   * file.write("hello world")
+   * file.truncate()
+   * file.read() // => ""
+   * file.write("hello world")
+   * file.truncate(6)
+   * file.read() // => "world"
+   * ```
+   */
+  truncate(offset?: number) {
+    truncateSync(this.path, offset);
     return this;
   }
 }
