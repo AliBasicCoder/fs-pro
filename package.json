@@ -7,12 +7,11 @@
   "repository": "https://github.com/AliBasicCoder/fs-pro.git",
   "author": "ali_ahmed",
   "license": "MIT",
-  "homepage": "https://fs-pro-docs.herokuapp.com",
+  "homepage": "https://alibasiccoder.github.io/fs-pro",
   "scripts": {
     "docs": "typedoc --out ./docs --ignoreCompilerErrors",
     "lint": "eslint src/*.ts",
     "build": "webpack && node tools/rm && dts-bundle --configJson dts-bundle.json && rimraf types",
-    "git": "git add . && git commit -a -m \"new version\" && git push origin master",
     "test": "mocha -r ts-node/register ./test/node/*.ts",
     "cpublish": "yarn build && yarn test && yarn lint dist/*.d.ts --fix && yarn docs && yarn publish"
   },
