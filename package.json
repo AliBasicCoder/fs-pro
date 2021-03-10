@@ -13,7 +13,8 @@
     "lint": "eslint src/*.ts",
     "build": "webpack && node tools/rm && dts-bundle --configJson dts-bundle.json && rimraf types",
     "test": "mocha -r ts-node/register ./test/node/*.ts",
-    "cpublish": "yarn build && yarn test && yarn lint dist/*.d.ts --fix && yarn docs && yarn publish"
+    "test:deno": "deno test --unstable -A test/deno",
+    "prepublishOnly": "yarn build && yarn test && yarn test:deno && yarn lint dist/*.d.ts --fix && yarn docs"
   },
   "devDependencies": {
     "@types/mocha": "^8.0.3",

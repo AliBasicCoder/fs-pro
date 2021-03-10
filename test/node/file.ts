@@ -96,7 +96,7 @@ describe("File", () => {
 
   it(".overwrite()", () => {
     const file = File.tmpFile().write("some\nline\nthing");
-    file.overwrite("\n", (str, i) => `${i + 1}| ${str}\n`);
+    file.overwrite("\n", (str: string, i: number) => `${i + 1}| ${str}\n`);
 
     assert.equal(file.read().toString(), "1| some\n2| line\n3| thing\n");
   });
@@ -189,7 +189,7 @@ describe("File", () => {
     if (process.platform === "darwin") return;
     const track: string[] = [];
     const file = File.tmpFile();
-    file.watch((e) => track.push(e));
+    file.watch((e: string) => track.push(e));
     await wait(100);
     file.write("hello world");
     await wait(100);
