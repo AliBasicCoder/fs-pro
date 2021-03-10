@@ -5,7 +5,7 @@ import { existsSync, statSync } from "fs";
 import * as os from "os";
 import {
   checkDataDir,
-  checkData,
+  checkFileData,
   randomDir,
   randomFile,
   customEqual,
@@ -67,7 +67,7 @@ describe("Dir", () => {
     const file_base = randomFile();
     const file = dir.createFile(file_base);
     assert.equal(file instanceof File, true);
-    checkData(file, file_base, dir.path);
+    checkFileData(file, dir.path, file_base);
     assert.equal(existsSync(file.path), true);
   });
 
@@ -76,7 +76,7 @@ describe("Dir", () => {
     const file_base = randomFile();
     const file = dir.createFile(`foo/bar/hi/bye/${file_base}`, true);
     assert.equal(file instanceof File, true);
-    checkData(file, file_base, join(dir.path, "foo/bar/hi/bye"));
+    checkFileData(file, dir.path, "foo/bar/hi/bye", file_base);
     assert.equal(existsSync(file.path), true);
   });
 
@@ -92,7 +92,7 @@ describe("Dir", () => {
     const dir = Dir.tmpDir();
     const subDir = dir.createDir(`foo/bar/${randomDir()}`, true);
     assert.equal(subDir instanceof Dir, true);
-    checkDataDir(subDir, join(dir.path, "foo/bar"), subDir.name);
+    checkDataDir(subDir, dir.path, "foo/bar", subDir.name);
     assert.equal(existsSync(subDir.path), true);
   });
 
@@ -102,7 +102,7 @@ describe("Dir", () => {
     dir.createFile(file_base);
     const file = dir.getFile(file_base);
     assert.equal(file instanceof File, true);
-    checkData(file, file_base, dir.path);
+    checkFileData(file, dir.path, file_base);
     assert.equal(existsSync(file.path), true);
   });
 

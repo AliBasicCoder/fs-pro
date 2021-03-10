@@ -221,7 +221,7 @@ Deno.test({
     const file = File.tmpFile().create();
     const new_name = randomFile();
     file.rename(new_name);
-    checkFileData(file, join(tmp_dir, new_name));
+    checkFileData(file, tmp_dir, new_name);
     assertEquals(existsSync(file.path), true);
   },
 });
@@ -233,7 +233,7 @@ Deno.test({
     const dest_dir = Dir.tmpDir();
 
     const file_copy = original_file.copyTo(dest_dir.path);
-    checkFileData(file_copy, join(dest_dir.path, original_file.base));
+    checkFileData(file_copy, dest_dir.path, original_file.base);
     assertEquals(file_copy.exits(), true);
   },
 });
@@ -246,7 +246,7 @@ Deno.test({
 
     const file_copy_base = randomFile();
     const file_copy = original_file.copyTo(dest_dir.path, file_copy_base);
-    checkFileData(file_copy, join(dest_dir.path, file_copy_base));
+    checkFileData(file_copy, dest_dir.path, file_copy_base);
     assertEquals(file_copy.exits(), true);
   },
 });
@@ -258,7 +258,7 @@ Deno.test({
     const dest_dir = Dir.tmpDir();
 
     const file_copy = original_file.copyTo(dest_dir.name, null, true);
-    checkFileData(file_copy, join(dest_dir.path, original_file.base));
+    checkFileData(file_copy, dest_dir.path, original_file.base);
     assertEquals(file_copy.exits(), true);
   },
 });
@@ -270,7 +270,7 @@ Deno.test({
     const dest_dir = Dir.tmpDir();
     const file_copy_base = randomFile();
     const file_copy = original_file.copyTo(dest_dir.name, file_copy_base, true);
-    checkFileData(file_copy, join(dest_dir.path, file_copy_base));
+    checkFileData(file_copy, dest_dir.path, file_copy_base);
     assertEquals(file_copy.exits(), true);
   },
 });
@@ -281,7 +281,7 @@ Deno.test({
     const file = File.tmpFile();
     const dist_dir = Dir.tmpDir();
     file.moveTo(dist_dir.path);
-    checkFileData(file, join(dist_dir.path, file.base));
+    checkFileData(file, dist_dir.path, file.base);
     assertEquals(existsSync(file.path), true);
   },
 });
