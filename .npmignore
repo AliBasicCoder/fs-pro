@@ -2,10 +2,15 @@
 .vscode/
 src/
 test/
+tools/
+docs/
 .eslintrc.json
 dts-bundle.json
+egg.json
+*.svg
+mod.ts
 tsconfig.json
 webpack.config.js
-plugins/async.ts
+
 *.png
 *.jpeg

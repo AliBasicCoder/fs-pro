@@ -3,7 +3,8 @@ import { existsSync, statSync } from "fs";
 import { join } from "path";
 import { Dir, Shape, File } from "./fs-pro";
 
-function existsAndType(...paths: string[]) {
+/** Et stands for Existence and Type */
+function ET(...paths: string[]) {
   const path = join(...paths);
   const exists = existsSync(path);
   const isFile = exists ? statSync(path).isFile() : null;
@@ -26,24 +27,12 @@ describe("Shape", () => {
     const target_dir = Dir.tmpDir();
     const shapeInstRef = shape.createShapeInst(target_dir.path);
 
-    assert.deepEqual(existsAndType(target_dir.path, "some_file.txt"), [
-      true,
-      true,
-    ]);
-    assert.deepEqual(existsAndType(target_dir.path, "some_dir"), [true, false]);
-    assert.deepEqual(existsAndType(target_dir.path, "some_dir/some_dir_2"), [
-      true,
-      false,
-    ]);
-    assert.deepEqual(existsAndType(target_dir.path, "some_dir_3"), [
-      true,
-      false,
-    ]);
-    assert.deepEqual(existsAndType(target_dir.path, "some_dir/__rest"), [
-      false,
-      null,
-    ]);
-    assert.deepEqual(existsAndType(target_dir.path, "__rest"), [false, null]);
+    assert.deepEqual(ET(target_dir.path, "some_file.txt"), [true, true]);
+    assert.deepEqual(ET(target_dir.path, "some_dir"), [true, false]);
+    assert.deepEqual(ET(target_dir.path, "some_dir/some_dir_2"), [true, false]);
+    assert.deepEqual(ET(target_dir.path, "some_dir_3"), [true, false]);
+    assert.deepEqual(ET(target_dir.path, "some_dir/__rest"), [false, null]);
+    assert.deepEqual(ET(target_dir.path, "__rest"), [false, null]);
 
     assert.equal(shapeInstRef.__dir instanceof Dir, true);
     assert.equal(shapeInstRef.some_file instanceof File, true);

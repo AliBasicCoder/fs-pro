@@ -73,11 +73,9 @@
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_test_node_shared_.html#checkdata" class="tsd-kind-icon">check<wbr>Data</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_test_node_shared_.html#checkdatadir" class="tsd-kind-icon">check<wbr>Data<wbr>Dir</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_test_node_shared_.html#checkfiledata" class="tsd-kind-icon">check<wbr>File<wbr>Data</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_test_node_shared_.html#customequal" class="tsd-kind-icon">custom<wbr>Equal</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_test_node_shared_.html#isreadablestream" class="tsd-kind-icon">is<wbr>Readable<wbr>Stream</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_test_node_shared_.html#iswritablestream" class="tsd-kind-icon">is<wbr>Writable<wbr>Stream</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_test_node_shared_.html#randomdir" class="tsd-kind-icon">random<wbr>Dir</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_test_node_shared_.html#randomfile" class="tsd-kind-icon">random<wbr>File</a></li>
 							</ul>
@@ -88,45 +86,16 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="checkdata" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> check<wbr>Data</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">check<wbr>Data<span class="tsd-signature-symbol">(</span>file<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">FileType</span>, name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, someDir<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/459b5c9/test/node/shared.ts#L12">test/node/shared.ts:12</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>file: <span class="tsd-signature-type">FileType</span></h5>
-								</li>
-								<li>
-									<h5>name: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>someDir: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
 					<a name="checkdatadir" class="tsd-anchor"></a>
 					<h3>check<wbr>Data<wbr>Dir</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">check<wbr>Data<wbr>Dir<span class="tsd-signature-symbol">(</span>dir<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DirType</span>, parent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">check<wbr>Data<wbr>Dir<span class="tsd-signature-symbol">(</span>dir<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DirType</span>, <span class="tsd-signature-symbol">...</span>paths<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/459b5c9/test/node/shared.ts#L21">test/node/shared.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/13d11e3/test/node/shared.ts#L22">test/node/shared.ts:22</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -135,10 +104,33 @@
 									<h5>dir: <span class="tsd-signature-type">DirType</span></h5>
 								</li>
 								<li>
-									<h5>parent: <span class="tsd-signature-type">string</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>paths: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="checkfiledata" class="tsd-anchor"></a>
+					<h3>check<wbr>File<wbr>Data</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">check<wbr>File<wbr>Data<span class="tsd-signature-symbol">(</span>file<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">FileType</span>, <span class="tsd-signature-symbol">...</span>paths<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/13d11e3/test/node/shared.ts#L11">test/node/shared.ts:11</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>file: <span class="tsd-signature-type">FileType</span></h5>
 								</li>
 								<li>
-									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>paths: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -155,7 +147,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/459b5c9/test/node/shared.ts#L43">test/node/shared.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/13d11e3/test/node/shared.ts#L31">test/node/shared.ts:31</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -172,52 +164,6 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="isreadablestream" class="tsd-anchor"></a>
-					<h3>is<wbr>Readable<wbr>Stream</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Readable<wbr>Stream<span class="tsd-signature-symbol">(</span>test<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/459b5c9/test/node/shared.ts#L28">test/node/shared.ts:28</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>test: <span class="tsd-signature-type">any</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="iswritablestream" class="tsd-anchor"></a>
-					<h3>is<wbr>Writable<wbr>Stream</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Writable<wbr>Stream<span class="tsd-signature-symbol">(</span>test<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/459b5c9/test/node/shared.ts#L33">test/node/shared.ts:33</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>test: <span class="tsd-signature-type">any</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
 					<a name="randomdir" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> random<wbr>Dir</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
@@ -227,7 +173,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/459b5c9/test/node/shared.ts#L6">test/node/shared.ts:6</a></li>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/13d11e3/test/node/shared.ts#L5">test/node/shared.ts:5</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -244,7 +190,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/459b5c9/test/node/shared.ts#L9">test/node/shared.ts:9</a></li>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/13d11e3/test/node/shared.ts#L8">test/node/shared.ts:8</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -312,19 +258,13 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="_test_node_shared_.html#checkdata" class="tsd-kind-icon">check<wbr>Data</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="_test_node_shared_.html#checkdatadir" class="tsd-kind-icon">check<wbr>Data<wbr>Dir</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_test_node_shared_.html#checkfiledata" class="tsd-kind-icon">check<wbr>File<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="_test_node_shared_.html#customequal" class="tsd-kind-icon">custom<wbr>Equal</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="_test_node_shared_.html#isreadablestream" class="tsd-kind-icon">is<wbr>Readable<wbr>Stream</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="_test_node_shared_.html#iswritablestream" class="tsd-kind-icon">is<wbr>Writable<wbr>Stream</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="_test_node_shared_.html#randomdir" class="tsd-kind-icon">random<wbr>Dir</a>

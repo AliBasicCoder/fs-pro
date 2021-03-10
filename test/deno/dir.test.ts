@@ -71,7 +71,7 @@ Deno.test({
     const dir = Dir.tmpDir();
     const file_base = randomFile();
     const file = dir.createFile(file_base);
-    checkFileData(file, join(dir.path, file_base));
+    checkFileData(file, dir.path, file_base);
     assertEquals(file.exits(), true);
   },
 });
@@ -82,7 +82,7 @@ Deno.test({
     const dir = Dir.tmpDir();
     const file_base = randomFile();
     const file = dir.createFile(`foo/bar/hi/bye/${file_base}`, true);
-    checkFileData(file, join(dir.path, `foo/bar/hi/bye/${file_base}`));
+    checkFileData(file, dir.path, `foo/bar/hi/bye/${file_base}`);
     assertEquals(file.exits(), true);
   },
 });
@@ -92,7 +92,7 @@ Deno.test({
   fn() {
     const dir = Dir.tmpDir();
     const subDir = dir.createDir(randomDir());
-    checkDirData(subDir, join(dir.path, subDir.name));
+    checkDirData(subDir, dir.path, subDir.name);
     assertEquals(subDir.exits(), true);
   },
 });
@@ -103,7 +103,7 @@ Deno.test({
     const dir = Dir.tmpDir();
     const subDir_base = randomDir();
     const subDir = dir.createDir(`foo/bar/${subDir_base}`, true);
-    checkDirData(subDir, join(dir.path, "foo/bar", subDir.name));
+    checkDirData(subDir, dir.path, "foo/bar", subDir.name);
     assertEquals(subDir.exits(), true);
   },
 });
@@ -115,7 +115,7 @@ Deno.test({
     const file_base = randomFile();
     dir.createFile(file_base);
     const file = dir.getFile(file_base);
-    checkFileData(file, join(dir.path, file_base));
+    checkFileData(file, dir.path, file_base);
   },
 });
 
@@ -126,7 +126,7 @@ Deno.test({
     const newDir_name = randomDir();
     dir.createDir(newDir_name);
     const newDir = dir.getDir(newDir_name);
-    checkDirData(newDir, join(dir.path, newDir_name));
+    checkDirData(newDir, dir.path, newDir_name);
   },
 });
 
@@ -205,8 +205,8 @@ Deno.test({
     const old_name = dir.name;
     const new_name = randomDir();
     dir.rename(new_name);
-    checkDirData(dir, join(tmp_dir, new_name));
-    assertEquals(existsSync(join(tmp_dir, new_name)), true);
+    checkDirData(dir, tmp_dir, new_name);
+    assertEquals(dir.exits(), true);
     assertEquals(existsSync(join(tmp_dir, old_name)), false);
   },
 });
@@ -274,7 +274,7 @@ Deno.test({
     filesArr.forEach((item) => dir.createFile(item, true));
 
     const newDir = dir.copyTo("../", `${dir.name}_copied`, true);
-    checkDirData(newDir, join(tmp_dir, `${dir.name}_copied`));
+    checkDirData(newDir, tmp_dir, `${dir.name}_copied`);
     filesArr.forEach((item) => {
       assertEquals(newDir.getFile(item).exits(), true);
     });
@@ -285,6 +285,7 @@ Deno.test({
   name: "Dir.moveTo()",
   fn() {
     const dir = Dir.tmpDir();
+    const old_dir_name = dir.name;
     const filesArr = [
       "some.txt",
       "some_dir/some.txt",
@@ -294,12 +295,11 @@ Deno.test({
     ];
     filesArr.forEach((item) => dir.createFile(item, true));
 
-    const old_dir_name = dir.name;
     dir.moveTo("../", `${dir.name}_moved`, true);
-    checkDirData(dir, join(tmp_dir, `${old_dir_name}_moved`));
-    filesArr.forEach((item) => {
-      assertEquals(dir.getFile(item).exits(), true);
-    });
+
+    checkDirData(dir, tmp_dir, `${old_dir_name}_moved`);
+
+    filesArr.forEach((item) => assertEquals(dir.getFile(item).exits(), true));
   },
 });
 

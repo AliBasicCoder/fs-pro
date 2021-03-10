@@ -3,7 +3,8 @@ import { assertEquals } from "https://deno.land/std@0.74.0/testing/asserts.ts";
 import { existsSync, statSync } from "https://deno.land/std@0.74.0/node/fs.ts";
 import { Shape, Dir, File } from "../../mod.ts";
 
-function existsAndType(...paths: string[]) {
+/** Et stands for Existence and Type */
+function ET(...paths: string[]) {
   const path = join(...paths);
   const exists = existsSync(path);
   const isFile = exists ? statSync(path).isFile() : null;
@@ -27,18 +28,12 @@ Deno.test({
     const target_dir = Dir.tmpDir();
     const shapeInstRef = shape.createShapeInst(target_dir.path);
 
-    assertEquals(existsAndType(target_dir.path, "some_file.txt"), [true, true]);
-    assertEquals(existsAndType(target_dir.path, "some_dir"), [true, false]);
-    assertEquals(existsAndType(target_dir.path, "some_dir/some_dir_2"), [
-      true,
-      false,
-    ]);
-    assertEquals(existsAndType(target_dir.path, "some_dir_3"), [true, false]);
-    assertEquals(existsAndType(target_dir.path, "some_dir/__rest"), [
-      false,
-      null,
-    ]);
-    assertEquals(existsAndType(target_dir.path, "__rest"), [false, null]);
+    assertEquals(ET(target_dir.path, "some_file.txt"), [true, true]);
+    assertEquals(ET(target_dir.path, "some_dir"), [true, false]);
+    assertEquals(ET(target_dir.path, "some_dir/some_dir_2"), [true, false]);
+    assertEquals(ET(target_dir.path, "some_dir_3"), [true, false]);
+    assertEquals(ET(target_dir.path, "some_dir/__rest"), [false, null]);
+    assertEquals(ET(target_dir.path, "__rest"), [false, null]);
 
     assertEquals(shapeInstRef.__dir instanceof Dir, true);
     assertEquals(shapeInstRef.some_file instanceof File, true);
