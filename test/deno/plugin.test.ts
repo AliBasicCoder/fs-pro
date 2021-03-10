@@ -13,12 +13,9 @@ Deno.test({
       plugin: [
         {
           methodName: "xml",
-          // @ts-ignore
           func: function () {
-            // @ts-ignore
             return `the size is ${this.size}`;
           },
-          // @ts-ignore
           className: "File",
           isStatic: false,
         },
@@ -27,7 +24,6 @@ Deno.test({
           func: function () {
             return "hello there";
           },
-          // @ts-ignore
           className: "File",
           isStatic: true,
         },

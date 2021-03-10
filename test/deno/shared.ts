@@ -18,9 +18,9 @@ export const randomDir = () =>
 export const randomFile = () =>
   `file_${Math.random().toString().replace(".", "")}`;
 
-export const checkFileData = (file: File, path: string) => {
-  const actual = parse(join(path));
-  assertEquals(file.path, join(path));
+export const checkFileData = (file: File, ...paths: string[]) => {
+  const actual = parse(join(...paths));
+  assertEquals(file.path, join(...paths));
   assertEquals(file.name, actual.name);
   assertEquals(file.extension, "");
   assertEquals(file.base, actual.base);
@@ -28,9 +28,9 @@ export const checkFileData = (file: File, path: string) => {
   assertEquals(file.directory, actual.dir);
 };
 
-export function checkDirData(dir: Dir, path: string) {
-  const actual = parse(join(path));
-  assertEquals(dir.path, join(path));
+export function checkDirData(dir: Dir, ...paths: string[]) {
+  const actual = parse(join(...paths));
+  assertEquals(dir.path, join(...paths));
   assertEquals(dir.name, actual.base);
   assertEquals(dir.root, actual.root);
   assertEquals(dir.parentDirectory, actual.dir);
