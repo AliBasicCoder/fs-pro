@@ -90,37 +90,35 @@ dir
   .createFile("text.txt")
 // and there's much more in the docs
 
-// the Shape class is a class that helps you manage your directory
-// the Shape instance (or inst for short) is the Shape applied to a directory
-// the Shape instance reference is a JS object the references the Shape instance
-// the Shape constructor takes the Shape of your directory
-// every key in the object passed in is an identifier for the file or dir
+// imagine that you want to check if a folder
+// 1. has an folder named "something"
+// 2. has an folder named "js_ts_files" that only contains js and ts files
+// 3. any thing else in this folder must be a txt file
+// you can do that easily with Shape
+
+// (1) Create the Shape
 const shape = new Shape({
-  // for adding files use Shape.File with the file name
-  some_file: Shape.File("some_file.txt"),
-  // for adding a directory of files use Shape.Dir with
-  // the dir name and file name regex (a custom type of regex to test if the filename matches it)
-  // see Shape.File doc for more information about filename regex
-  some_dir: Shape.Dir("some_dir", Shape.File("test[0-9]{3}.txt|*.any")),
-  // for adding a shaped folder use Shape.Dir with the directory name
-  // and the shape of it
-  some_shaped_dir: Shape.Dir("shaped_dir", {
-    file_1: Shape.File("file_1.txt"),
-    // ...
-  }),
-  // __rest tells Shape that any thing not mentioned
-  // must follow the given shape
-  __rest: Shape.File("*.txt"),
+  // Shape.Dir means that "something" is a folder
+  // Shape.File tells the type of files that can be in the folder
+  // (like, .txt, .js, ...etc) here *.* means any thing
+  something: Shape.Dir("something", Shape.File("*.*")),
+  // Notice js_ts_files is the name that you can reference in your code
+  // but "js_ts_files" passed in Shape.Dir in the actual name in the files system 
+  js_ts_files: Shape.Dir("js_ts_files", Shape.File("*.js|*.ts")),
+  // __rest means any thing else in the folder
+  __rest: Shape.File("*.txt")
 });
 
-const shapeInstRef = shape.createShapeInst(target_dir);
+// (2) Check the folder
+// returns an array of errors
+const errs = shape.validate(folder_path);
 
-shapeInstRef.some_file.write("hello world");
+if (errs.length === 0) console.log("no errors");
 
-shapeInstRef.some_dir.createFile("test100.txt");
-
-shapeInstRef.some_shaped_dir.file_1.write("hello world");
-
+// or..
+// when you pass true shape.validate will throw an error
+// if the folder doesn't match the shape
+shape.validate(folder_path, true);
 ```
 
 ## Api
