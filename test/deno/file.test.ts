@@ -1,6 +1,6 @@
-import { parse, join } from "https://deno.land/std@0.74.0/path/mod.ts";
-import { assertEquals } from "https://deno.land/std@0.74.0/testing/asserts.ts";
-import { existsSync, statSync } from "https://deno.land/std@0.74.0/node/fs.ts";
+import { parse, join } from "https://deno.land/std@0.131.0/path/mod.ts";
+import { assertEquals } from "https://deno.land/std@0.131.0/testing/asserts.ts";
+import { existsSync, statSync } from "https://deno.land/std@0.131.0/node/fs.ts";
 import { File, Buffer, Dir } from "../../mod.ts";
 import { checkFileData, randomFile, customEqual } from "./shared.ts";
 

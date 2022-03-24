@@ -1,6 +1,6 @@
-import { assertEquals } from "https://deno.land/std@0.74.0/testing/asserts.ts";
-import { parse, join } from "https://deno.land/std@0.74.0/path/mod.ts";
-import { existsSync, statSync } from "https://deno.land/std@0.74.0/node/fs.ts";
+import { assertEquals } from "https://deno.land/std@0.131.0/testing/asserts.ts";
+import { parse, join } from "https://deno.land/std@0.131.0/path/mod.ts";
+import { existsSync, statSync } from "https://deno.land/std@0.131.0/node/fs.ts";
 import { Dir, File } from "../../mod.ts";
 import {
   checkDirData,
