@@ -140,37 +140,35 @@ dir
   .createFile(<span class="hljs-string">"text.txt"</span>)
 <span class="hljs-comment">// and there's much more in the docs</span>
 
-<span class="hljs-comment">// the Shape class is a class that helps you manage your directory</span>
-<span class="hljs-comment">// the Shape instance (or inst for short) is the Shape applied to a directory</span>
-<span class="hljs-comment">// the Shape instance reference is a JS object the references the Shape instance</span>
-<span class="hljs-comment">// the Shape constructor takes the Shape of your directory</span>
-<span class="hljs-comment">// every key in the object passed in is an identifier for the file or dir</span>
+<span class="hljs-comment">// imagine that you want to check if a folder</span>
+<span class="hljs-comment">// 1. has an folder named "something"</span>
+<span class="hljs-comment">// 2. has an folder named "js_ts_files" that only contains js and ts files</span>
+<span class="hljs-comment">// 3. any thing else in this folder must be a txt file</span>
+<span class="hljs-comment">// you can do that easily with Shape</span>
+
+<span class="hljs-comment">// (1) Create the Shape</span>
 <span class="hljs-keyword">const</span> shape = <span class="hljs-keyword">new</span> Shape({
-  <span class="hljs-comment">// for adding files use Shape.File with the file name</span>
-  <span class="hljs-attr">some_file</span>: Shape.File(<span class="hljs-string">"some_file.txt"</span>),
-  <span class="hljs-comment">// for adding a directory of files use Shape.Dir with</span>
-  <span class="hljs-comment">// the dir name and file name regex (a custom type of regex to test if the filename matches it)</span>
-  <span class="hljs-comment">// see Shape.File doc for more information about filename regex</span>
-  <span class="hljs-attr">some_dir</span>: Shape.Dir(<span class="hljs-string">"some_dir"</span>, Shape.File(<span class="hljs-string">"test[0-9]{3}.txt|*.any"</span>)),
-  <span class="hljs-comment">// for adding a shaped folder use Shape.Dir with the directory name</span>
-  <span class="hljs-comment">// and the shape of it</span>
-  <span class="hljs-attr">some_shaped_dir</span>: Shape.Dir(<span class="hljs-string">"shaped_dir"</span>, {
-    <span class="hljs-attr">file_1</span>: Shape.File(<span class="hljs-string">"file_1.txt"</span>),
-    <span class="hljs-comment">// ...</span>
-  }),
-  <span class="hljs-comment">// __rest tells Shape that any thing not mentioned</span>
-  <span class="hljs-comment">// must follow the given shape</span>
-  <span class="hljs-attr">__rest</span>: Shape.File(<span class="hljs-string">"*.txt"</span>),
+  <span class="hljs-comment">// Shape.Dir means that "something" is a folder</span>
+  <span class="hljs-comment">// Shape.File tells the type of files that can be in the folder</span>
+  <span class="hljs-comment">// (like, .txt, .js, ...etc) here *.* means any thing</span>
+  <span class="hljs-attr">something</span>: Shape.Dir(<span class="hljs-string">"something"</span>, Shape.File(<span class="hljs-string">"*.*"</span>)),
+  <span class="hljs-comment">// Notice js_ts_files is the name that you can reference in your code</span>
+  <span class="hljs-comment">// but "js_ts_files" passed in Shape.Dir in the actual name in the files system </span>
+  <span class="hljs-attr">js_ts_files</span>: Shape.Dir(<span class="hljs-string">"js_ts_files"</span>, Shape.File(<span class="hljs-string">"*.js|*.ts"</span>)),
+  <span class="hljs-comment">// __rest means any thing else in the folder</span>
+  <span class="hljs-attr">__rest</span>: Shape.File(<span class="hljs-string">"*.txt"</span>)
 });
 
-<span class="hljs-keyword">const</span> shapeInstRef = shape.createShapeInst(target_dir);
+<span class="hljs-comment">// (2) Check the folder</span>
+<span class="hljs-comment">// returns an array of errors</span>
+<span class="hljs-keyword">const</span> errs = shape.validate(folder_path);
 
-shapeInstRef.some_file.write(<span class="hljs-string">"hello world"</span>);
+<span class="hljs-keyword">if</span> (errs.length === <span class="hljs-number">0</span>) <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"no errors"</span>);
 
-shapeInstRef.some_dir.createFile(<span class="hljs-string">"test100.txt"</span>);
-
-shapeInstRef.some_shaped_dir.file_1.write(<span class="hljs-string">"hello world"</span>);
-</code></pre>
+<span class="hljs-comment">// or..</span>
+<span class="hljs-comment">// when you pass true shape.validate will throw an error</span>
+<span class="hljs-comment">// if the folder doesn't match the shape</span>
+shape.validate(folder_path, <span class="hljs-literal">true</span>);</code></pre>
 				<a href="#api" id="api" style="color: inherit; text-decoration: none;">
 					<h2>Api</h2>
 				</a>
