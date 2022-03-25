@@ -188,7 +188,16 @@ Deno.test({
   },
 });
 
-// ignoring .getIndex and .getIndexBetween
+Deno.test({
+  name: "File.getIndex() and File.getIndexBetween()",
+  fn() {
+    const file = File.tmpFile();
+    file.write("this\nis\nsome\ntext");
+    assertEquals(file.getIndex("\n", 1), "is");
+    assertEquals(file.getIndexBetween("\n", 1), ["is", "some", "text"]);
+    assertEquals(file.getIndexBetween("\n", 0, 2), ["this", "is"]);
+  },
+});
 
 Deno.test({
   name: "File.append()",
@@ -297,5 +306,23 @@ Deno.test({
     assertEquals(Deno.resources()[fd], undefined);
   },
 });
+Deno.test({
+  name: "watch unwatch",
+  async fn() {
+    const track: string[] = [];
+    const file = File.tmpFile();
+    file.watch((e: string) => track.push(e));
+    await wait(100);
+    file.write("hello world");
+    await wait(100);
+    file.unwatch();
+    await wait(100);
+    file.write("hello world2");
+    await wait(100);
+    assertEquals(track, ["modify", "modify", "access"]);
+  },
+});
 
-// ignoring .watch() .unwatch() for now
+function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
