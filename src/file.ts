@@ -281,6 +281,7 @@ export class File {
   }
   /**
    * watches the file
+   * Notes: in deno stats is always undefined but path is defined
    * @param listener the function the will be called when the file changes
    * @example ```js
    * file.watch(function (e, stat) {
