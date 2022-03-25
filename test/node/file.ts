@@ -2,7 +2,14 @@ import * as assert from "assert";
 import { Dir, File } from "./fs-pro";
 import * as os from "os";
 import { checkFileData, randomFile } from "./shared";
-import { readFileSync, existsSync, statSync, writeSync, readSync } from "fs";
+import {
+  readFileSync,
+  existsSync,
+  statSync,
+  writeSync,
+  readSync,
+  Stats,
+} from "fs";
 
 describe("File", () => {
   it("have right data", () => {
@@ -189,7 +196,11 @@ describe("File", () => {
     if (process.platform === "darwin") return;
     const track: string[] = [];
     const file = File.tmpFile();
-    file.watch((e: string) => track.push(e));
+    file.watch((e: string, stats?: Stats, path?: string) => {
+      track.push(e);
+      assert.ok(stats instanceof Stats);
+      assert.ok(typeof path === "string");
+    });
     await wait(100);
     file.write("hello world");
     await wait(100);

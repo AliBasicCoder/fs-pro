@@ -281,6 +281,7 @@ export class File {
   }
   /**
    * watches the file
+   * Notes: in deno stats is always undefined but path is defined
    * @param listener the function the will be called when the file changes
    * @example ```js
    * file.watch(function (e, stat) {
@@ -288,11 +289,15 @@ export class File {
    * });
    * ```
    */
-  watch(listener?: (this: File, e: string, stat?: Stats) => any) {
-    this.watcher = watch(this.path, listener);
+  watch(
+    listener?: (this: File, e: string, stat?: Stats, path?: string) => any
+  ) {
+    const listen = (e: string, path?: string, stats?: Stats) => {
+      listener?.call(this, e, stats, path);
+    };
+    this.watcher = watch(this.path, listen);
     // @ts-ignore
-    if (listener && typeof Deno === "undefined")
-      this.watcher.on("all", listener);
+    if (typeof Deno === "undefined") this.watcher.on("all", listen);
     return this;
   }
   /** stops watching the file */

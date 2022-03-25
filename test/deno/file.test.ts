@@ -315,7 +315,11 @@ Deno.test({
   async fn() {
     const track: string[] = [];
     const file = File.tmpFile();
-    file.watch((e: string) => track.push(e));
+    file.watch((e: string, stats: any, path?: string) => {
+      track.push(e);
+      assert(!stats);
+      assert(typeof path === "string");
+    });
     await wait(100);
     file.write("hello world");
     await wait(100);
