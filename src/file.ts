@@ -288,11 +288,15 @@ export class File {
    * });
    * ```
    */
-  watch(listener?: (this: File, e: string, stat?: Stats) => any) {
-    this.watcher = watch(this.path, listener);
+  watch(
+    listener?: (this: File, e: string, stat?: Stats, path?: string) => any
+  ) {
+    const listen = (e: string, path?: string, stats?: Stats) => {
+      listener?.call(this, e, stats, path);
+    };
+    this.watcher = watch(this.path, listen);
     // @ts-ignore
-    if (listener && typeof Deno === "undefined")
-      this.watcher.on("all", listener);
+    if (typeof Deno === "undefined") this.watcher.on("all", listen);
     return this;
   }
   /** stops watching the file */
