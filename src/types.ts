@@ -59,9 +59,7 @@ export type fsObjType = {
 
 export type pathObjType = {
   join(...paths: string[]): string;
-  parse(
-    p: string
-  ): {
+  parse(p: string): {
     root: string;
     dir: string;
     base: string;
@@ -131,51 +129,6 @@ export interface validateOptions {
   /** called when an invalid file or directory found */
   onInvalid: (err: fsProErr, fileOrDir: File | Dir) => any;
 }
-
-// for Shape
-
-export type fileType = {
-  __isFile: true;
-  dfCont?: string | BufferType;
-  validator?: (this: File) => Error[] | void;
-  str: string;
-};
-
-export type dirType = {
-  __isDir: true;
-  str: string;
-  fileType: fileType;
-};
-
-export const name_sym = Symbol("__name");
-
-export type ShapeObj = {
-  [key: string]: ShapeObj | fileType | dirType;
-  [name_sym]?: string;
-};
-
-export type ShapeObjWithoutName = {
-  [key: string]: ShapeObj | fileType | dirType;
-} & {
-  __rest?: ShapeObj | fileType | dirType;
-};
-
-export const isFileType = (obj: any): obj is fileType => obj.__isFile === true;
-
-export const isDirType = (obj: any): obj is dirType => obj.__isDir === true;
-
-export type createEvents = {
-  onCreate?: (thing: File | Dir) => any;
-  onCreateFile?: (file: File) => any;
-  onCreateDir?: (thing: Dir) => any;
-};
-
-export type errArr = {
-  arr: fsProErr[];
-  push: (err?: fsProErr | errArr) => void;
-};
-
-export const isErrArr = (obj?: any): obj is errArr => obj.arr && obj.push;
 
 // copied from @types/node/fs.d.ts
 

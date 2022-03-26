@@ -31,6 +31,18 @@ Deno.test({
   fn() {
     const file = new File(tmp_dir, randomFile()).create();
     assertEquals(existsSync(file.path), true);
+    // test defaultContent
+    const file2 = new File(tmp_dir, randomFile());
+    file2.defaultContent = "hello world";
+    file2.create();
+    assertEquals(existsSync(file2.path), true);
+    assertEquals(Deno.readTextFileSync(file2.path), "hello world");
+    // test defaultContent 2
+    const file3 = new File(tmp_dir, randomFile()).create();
+    file3.defaultContent = "hello world";
+    file3.create();
+    assertEquals(existsSync(file3.path), true);
+    assertEquals(Deno.readTextFileSync(file3.path), "hello world");
   },
 });
 

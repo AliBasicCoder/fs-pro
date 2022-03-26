@@ -8,11 +8,16 @@ const msgs = {
   IDF: "Invalid Directory Found",
   IFF: "Invalid File Found",
   IFC: "Invalid File Content Found",
+  VE: "Validation Error",
 };
 
 export class fsProErr extends Error {
   [Symbol.toStringTag]: string = "fsProErr";
-  constructor(public code: keyof typeof msgs, public path: string) {
-    super(`${msgs[code]} at: ${path}`);
+  constructor(
+    public code: keyof typeof msgs,
+    public path: string,
+    public extra_message = ""
+  ) {
+    super(`${msgs[code]} at: ${path}${extra_message}`);
   }
 }
