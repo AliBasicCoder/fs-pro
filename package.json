@@ -1,6 +1,6 @@
 {
   "name": "fs-pro",
-  "version": "3.7.3",
+  "version": "3.8.0",
   "description": "working with files easily",
   "main": "dist/fs-pro.js",
   "types": "dist/fs-pro.d.ts",
@@ -14,7 +14,7 @@
     "build": "webpack && node tools/rm && dts-bundle --configJson dts-bundle.json && rimraf types",
     "test": "mocha -r ts-node/register ./test/node/*.ts",
     "test:deno": "deno test --unstable -A test/deno",
-    "prepublishOnly": "yarn build && yarn test && yarn test:deno && yarn lint dist/*.d.ts --fix && yarn docs"
+    "prepublishOnly": "yarn build && yarn test && yarn test:deno && yarn docs"
   },
   "devDependencies": {
     "@types/mocha": "^8.0.3",
