@@ -27,12 +27,10 @@ export type ShapeFilePattern = {
 
 export const name_sym = Symbol("__name");
 
-export const rest_sym = Symbol("__rest");
+export const __rest = Symbol("__rest");
 
 export type ShapeObjWithoutName = {
-  __rest?: ShapeObj | ShapeFilePattern | ShapeDir | ShapeFile;
-} & {
-  [rest_sym]?: ShapeFilePattern;
+  [__rest]?: ShapeFilePattern;
   [key: string]: ShapeObj | ShapeFile | ShapeDir;
 };
 
@@ -196,6 +194,11 @@ export class Shape<T extends ShapeObj> {
           defaultContent: fileTypeOrShapeObj.defaultContent,
         },
       };
+    }
+    if (fileTypeOrShapeObj.__rest) {
+      console.warn(
+        "please use __rest symbolic link instead of __rest, and use Shape.Pattern instead of Shape.File"
+      );
     }
     return {
       [name_sym]: name,
