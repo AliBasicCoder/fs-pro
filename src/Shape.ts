@@ -289,18 +289,20 @@ type switchToShapeInstRef<T extends ShapeObj> = {
 
 function convertPatternToRegex(pattern: string): [RegExp, boolean] {
   const orRegex = /[^\\]\|/g;
-  const regexs: string[] = [];
   if (orRegex.test(pattern)) {
-    let arr: RegExpExecArray | null = null;
-    while ((arr = orRegex.exec(pattern)) !== null) {
-      regexs.push(arr[0].slice(1));
+    let last_index = 0;
+    const regexs: string[] = [];
+    for (let i = 0; i < pattern.length; i++) {
+      if (pattern[i] === "|" && pattern[i - 1] !== "\\") {
+        regexs.push(pattern.slice(last_index, i));
+        last_index = i + 1;
+      }
     }
-    let result = "";
-    for (const regex of regexs) {
-      result += `(${convertPatternToRegex(regex)[0].source})|`;
-    }
-
-    return [RegExp(result.slice(0, -1)), true];
+    regexs.push(pattern.slice(last_index));
+    const result = regexs
+      .map((regex) => `(${convertPatternToRegex(regex)[0].source})`)
+      .join("|");
+    return [RegExp(result), true];
   } else {
     const starRegex = /(^|[^\\])\*/g;
     let found = false;
@@ -432,8 +434,14 @@ function check(
       return new fsProErr("STF", fileOrDir.path);
     }
     if (currentObj.validator) {
+      const errs = errArray(crash);
       fileOrDir.validator = currentObj.validator;
-      fileOrDir.validate();
+      fileOrDir
+        .validate()
+        .forEach((err) =>
+          errs.push(new fsProErr("VE", fileOrDir.path, ` ${err.message}`))
+        );
+      return errs;
     }
     return;
   }
@@ -460,8 +468,14 @@ function check(
       return new fsProErr("IFF", fileOrDir.path);
     }
     if (currentObj.validator) {
+      const errs = errArray(crash);
       fileOrDir.validator = currentObj.validator;
-      fileOrDir.validate();
+      fileOrDir
+        .validate()
+        .forEach((err) =>
+          errs.push(new fsProErr("VE", fileOrDir.path, ` ${err.message}`))
+        );
+      return errs;
     }
     return;
   }
