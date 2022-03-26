@@ -124,7 +124,11 @@ Deno.test({
     const dir2 = Dir.tmpDir();
     const sub_dir2 = dir2.createDir("something2");
     sub_dir2.createFile("hi.txt");
+    sub_dir2.createFile("hi.text").write("hello world");
     sub_dir2.createFile("hi");
-    assertEquals(shape3.validate(dir2.path).arr.length, 2);
+    assertEquals(
+      shape3.validate(dir2.path).arr.map((err) => err.code),
+      ["IFF", "VE"]
+    );
   },
 });
