@@ -62,38 +62,91 @@ export class Shape<T extends ShapeObj> {
   shapeObj: ShapeObj;
 
   /**
-   * the Shape class is a class that helps you manage your directory
-   * the Shape instance (or inst for short) is the Shape applied to a directory
-   * the Shape instance reference is a JS object the references the Shape instance
-   * the Shape constructor takes the Shape of your directory
-   * every key in the object passed in is an identifier for the file or dir
-   * @NOTE DO NOT use these keys any where inside the shape "__dir",
-   * "__rest", "__isFile", "__isDir"
-   * @example ```js
+   * the Shape class is a class that helps you create folder with a certain shape (hierarchy)
+   * or test if a folder have a certain shape (hierarchy)
+   * example 1:
+   * imagine that you want to test if a folder
+   * (1) has a folder named "js_ts_files" which only contains js or ts files
+   * (2) has a folder named "text_folders" which only contains folder with contains text files
+   * (3) has an empty folder named "empty_folder"
+   * (4) everything else in the folder must be a json file
+   * ```js
+   * import { Shape, __rest } from "fs-pro";
+   * // (1) create the shape
    * const shape = new Shape({
-   *   // for adding files use Shape.File with the file name
-   *   some_file: Shape.File("some_file.txt"),
-   *   // for adding a directory of files use Shape.Dir with
-   *   // the dir name and file name regex (a custom type of regex to test if the filename matches it)
-   *   // see Shape.File doc for more information about filename regex
-   *   some_dir: Shape.Dir("some_dir", Shape.File("test[0-9]{3}.txt|*.any")),
-   *   // for adding a shaped folder use Shape.Dir with the directory name
-   *   // and the shape of it
-   *   some_shaped_dir: Shape.Dir("shaped_dir", {
-   *     file_1: Shape.File("file_1.txt"),
-   *     // ...
-   *   }),
-   *   // __rest tells Shape that any thing not mentioned
-   *   // must follow the given shape
-   *   __rest: Shape.File("*.txt"),
+   *    // a key to reference in the code (if you need)
+   *    js_ts_files:
+   *       // Shape.Dir means this should be a folder named "js_ts_files"
+   *       Shape.Dir(
+   *          // the name of the folder in the file system
+   *          "js_ts_files",
+   *          // the pattern of the files (you could also use regexs)
+   *          Shape.Pattern("*.js|*.ts")
+   *       ),
+   *    // passing an oject this folder must folder this shape (hierarchy)
+   *    text_folders: Shape.Dir("text_folders", {
+   *       // __rest means anything else in the folder
+   *       //  and because we set __rest here as an object it means that
+   *       //  __rest is a folder
+   *       [__rest]: {
+   *         [__rest]: Shape.Pattern("*.txt")
+   *      }
+   *    }),
+   *    // this regex doesn't match anything except an empty string
+   *    // so it wont match any file name so the folder must be empty
+   *    empty_folder: Shape.Dir("empty_folder", Shape.Pattern(/$^/)),
+   *    // __rest means any thing else (not mentioned)
+   *    // Shape.Pattern means it must be a file following
+   *    // the given pattern
+   *    [__rest]: Shape.Pattern("*.json")
+   * });
+   *
+   * // (2) test if a folder follows it
+   * // this will throw an error if the folder doesn't match the shape
+   * shape.validate("/path/to/folder", true);
+   * // or if you want more details
+   * console.log(shape.validate("/path/to/folder"));
+   * // this will not throw an error even if the folder doesn't match the shape
+   * // but it will log an array of errors saying where the folder doesn't match
+   * // the shape
+   * ```
+   *
+   * example 2:
+   * imagine that you want to create a
+   * (1) folder named "something" that has a file named "hi.txt" and contains "hello world"
+   * (2) you want to log the path of everything created
+   * ```js
+   * // (1) create the shape
+   * const shape = new Shape({
+   *   something: {
+   *     hi: Shape.File("hi.txt", "hello world")
+   *   }
+   * });
+   *
+   * // (2) use createShapeInst
+   * shape.createShapeInst("/path/to/folder", {
+   *   // gets called when a file or folder is created
+   *   onCreate(fileOrFolder) {
+   *     console.log(fileOrFolder.path);
+   *   }
    * });
    * ```
-   * @param shape the shape
+   * @param shape
    */
   constructor(shape: T) {
     this.shapeObj = shape;
   }
 
+  /**
+   * use this method for adding file patterns to your shape
+   * see Shape.constructor docs for more details {@link Shape.constructor}
+   * NOTE: if you use string as pattern it will be converted to a regex like this:
+   * 1. convert any "*" to ".*" (unless there's a backslash before it)
+   * 2. it splits the regex by "|" and test every one separately (unless there's a backslash before it)
+   * @param pattern regex or string
+   * @param defaultContent if you want files to be created with some content
+   * @param validator if you want to validate the content of the file
+   */
   static Pattern(
     pattern: string | RegExp,
     defaultContent?: string | BufferType,
@@ -118,16 +171,9 @@ export class Shape<T extends ShapeObj> {
 
   /**
    * use this method for adding files to your shape
-   * @NOTE file regex are different than normal regex
-   * 1. Shape every convert any "*" to ".*" (unless it's backslashed)
-   * 2. it splits the regex by "|" and test every one separately (unless it's backslashed)
-   * @example ```js
-   * const shape = new Shape({
-   *   some_file: Shape.File("file_name")
-   * });
-   * ```
-   * @param str the filename or match regex
-   * @param dfCont file default content (content will be added on creation)
+   * see Shape.constructor docs for more details {@link Shape.constructor}
+   * @param base the base (name with extension) of the file
+   * @param defaultContent file default content (content will be added on creation)
    * @param validator a function used to validate the file
    */
   static File(
@@ -144,20 +190,9 @@ export class Shape<T extends ShapeObj> {
   }
 
   /**
-   * use this method to define a directory
-   * @example ```js
-   * const shape = new Shape({
-   *   // example for defining a Dir including only files the match
-   *   // the Shape.File passed in
-   *   some_dir: Shape.Dir("dir_name", Shape.File("test[0-100].txt")),
-   *   // example for defining a Dir when a schema
-   *   some_shaped_dir: Shape.Dir("dir_name", {
-   *     some_file: Shape.File("some_name")
-   *     // ...
-   *   }),
-   * });
-   * ```
-   * @param str the directory name
+   * use this method for adding folder to you shape
+   * see Shape.constructor docs for more details {@link Shape.constructor}
+   * @param name name of the folder
    * @param fileTypeOrShapeObj file type of the Shape Obj
    */
   static Dir(name: string, fileType: ShapeFile | ShapeFilePattern): ShapeDir;
@@ -206,6 +241,21 @@ export class Shape<T extends ShapeObj> {
     } as ShapeObj;
   }
 
+  /**
+   * use this method to create a folder with matches the shape
+   * example for eventsListeners
+   * ```js
+   * const shape = new Shape({ ... });
+   *
+   * shape.createShapeInst("/path/to/folder", {
+   *   onCreate(fileOrFolder) {
+   *     console.log(`CREATED: ${fileOrFolder.path}`);
+   *   }
+   * })
+   * ```
+   * @param path the path you want to create
+   * @param eventsListeners listen to some event
+   */
   createShapeInst(path: string, eventsListeners?: createEvents) {
     return createShapeInst(
       this.shapeObj,
@@ -214,6 +264,12 @@ export class Shape<T extends ShapeObj> {
     ) as switchToShapeInstRef<T>;
   }
 
+  /**
+   * use this method to check if a folder follows the shape
+   * see Shape.constructor docs for more details {@link Shape.constructor}
+   * @param path the path to check
+   * @param crash if true will throw an error if the folder doesn't match the shape
+   */
   validate(path: string, crash?: boolean) {
     return validate(path, this.shapeObj, crash);
   }
