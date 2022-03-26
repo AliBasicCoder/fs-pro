@@ -30,7 +30,7 @@ export const name_sym = Symbol("__name");
 export const __rest = Symbol("__rest");
 
 export type ShapeObjWithoutName = {
-  [__rest]?: ShapeFilePattern;
+  [__rest]?: ShapeFilePattern | ShapeObj;
   [key: string]: ShapeObj | ShapeFile | ShapeDir;
 };
 
@@ -160,7 +160,7 @@ export class Shape<T extends ShapeObj> {
    * @param str the directory name
    * @param fileTypeOrShapeObj file type of the Shape Obj
    */
-  static Dir(name: string, fileType: ShapeFile): ShapeDir;
+  static Dir(name: string, fileType: ShapeFile | ShapeFilePattern): ShapeDir;
   static Dir<K extends ShapeObjWithoutName>(
     name: string,
     shapeObj: K
@@ -197,7 +197,7 @@ export class Shape<T extends ShapeObj> {
     }
     if (fileTypeOrShapeObj.__rest) {
       console.warn(
-        "please use __rest symbolic link instead of __rest, and use Shape.Pattern instead of Shape.File"
+        `W02: please use __rest symbol instead of "__rest" https://github.com/AliBasicCoder/fs-pro/blob/master/NOTES.md`
       );
     }
     return {
@@ -353,8 +353,10 @@ function validate(path: string, shapeObj: ShapeObj, crash = false) {
     return true;
   });
   restFiles.forEach((fileOrDir) => {
-    if (shapeObj.__rest)
-      errs.push(check(shapeObj.__rest, fileOrDir, crash, true));
+    if (shapeObj.__rest || shapeObj[__rest])
+      errs.push(
+        check(shapeObj.__rest || shapeObj[__rest], fileOrDir, crash, true)
+      );
     else
       errs.push(
         new fsProErr(fileOrDir instanceof Dir ? "IDF" : "IFF", fileOrDir.path)

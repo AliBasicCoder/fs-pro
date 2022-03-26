@@ -7,7 +7,7 @@ import {
 } from "./pluginAdder.ts";
 import { setFs } from "./fs.ts";
 import { setPath } from "./path.ts";
-import { Shape } from "./Shape.ts";
+import { Shape, __rest } from "./Shape.ts";
 import { buffer } from "./buffer.ts";
 import { watch } from "chokidar";
 import {
@@ -120,4 +120,5 @@ export {
   Shape,
   getPluginTrack,
   getPluginTrackFormatted,
+  __rest,
 };

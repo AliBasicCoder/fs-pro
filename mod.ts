@@ -1,6 +1,6 @@
 import { File } from "./src/file.ts";
 import { Dir } from "./src/dir.ts";
-import { Shape } from "./src/Shape.ts";
+import { Shape, __rest } from "./src/Shape.ts";
 import { setFs } from "./src/fs.ts";
 import { setPath } from "./src/path.ts";
 import type { Stats } from "./src/types.ts";
@@ -44,9 +44,8 @@ setFs({
       });
       if (position !== undefined)
         Deno.seekSync(file.rid, position, Deno.SeekMode.Start);
-      const toWrite = (typeof data === "string"
-        ? new TextEncoder().encode(data)
-        : data
+      const toWrite = (
+        typeof data === "string" ? new TextEncoder().encode(data) : data
       ).slice(offset, !offset || !length ? undefined : offset + length);
       file.writeSync(toWrite);
       Deno.close(file.rid);
@@ -109,4 +108,5 @@ export {
   addPlugin,
   getPluginTrack,
   getPluginTrackFormatted,
+  __rest,
 };
