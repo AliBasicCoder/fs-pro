@@ -93,20 +93,24 @@ dir
 // imagine that you want to check if a folder
 // 1. has an folder named "something"
 // 2. has an folder named "js_ts_files" that only contains js and ts files
-// 3. any thing else in this folder must be a txt file
+// 3. has a text file name "hello world.txt" and by default this file contains "hello world"
+// 4. any thing else in this folder must be a txt file
 // you can do that easily with Shape
 
 // (1) Create the Shape
 const shape = new Shape({
+  // Shape.File means that hello_world is a file
+  // the second arg is the default content
+  hello_world: Shape.File("hello world.txt", "hello world"),
   // Shape.Dir means that "something" is a folder
-  // Shape.File tells the type of files that can be in the folder
+  // Shape.Pattern tells the types of files that can be in the folder
   // (like, .txt, .js, ...etc) here *.* means any thing
-  something: Shape.Dir("something", Shape.File("*.*")),
+  something: Shape.Dir("something", Shape.Pattern("*.*")),
   // Notice js_ts_files is the name that you can reference in your code
-  // but "js_ts_files" passed in Shape.Dir in the actual name in the files system 
-  js_ts_files: Shape.Dir("js_ts_files", Shape.File("*.js|*.ts")),
+  // but "js_ts_files" passed in Shape.Dir in the actual name in the files system
+  js_ts_files: Shape.Dir("js_ts_files", Shape.Pattern("*.js|*.ts")),
   // __rest means any thing else in the folder
-  __rest: Shape.File("*.txt")
+  __rest: Shape.Pattern("*.txt")
 });
 
 // (2) Check the folder
@@ -297,6 +301,6 @@ import myPlugin from "my-plugin";
 addPlugin(myPlugin);
 ``` -->
 
-## Licence
+## License
 
-copyright (c) AliBasicCoder 2020
+Copyright (c) AliBasicCoder 2020

@@ -88,3 +88,19 @@ a breaking changes version
 **Removed:**
 
 - File.read(splitter: string, callback: Function) overwrite
+
+## v3.8.0 Mar 26, 2020
+
+**Added:**
+
+- File.Pattern()
+- some testing
+
+**Fixed:**
+
+- #127
+- #128
+- #129
+- #130
+- #131
+- some bugs mentioned in #133

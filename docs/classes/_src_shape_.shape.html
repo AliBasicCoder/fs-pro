@@ -73,7 +73,7 @@
 				<h3>Type parameters</h3>
 				<ul class="tsd-type-parameters">
 					<li>
-						<h4>T<span class="tsd-signature-symbol">: </span><a href="../modules/_src_types_.html#shapeobj" class="tsd-signature-type">ShapeObj</a></h4>
+						<h4>T<span class="tsd-signature-symbol">: </span><a href="../modules/_src_shape_.html#shapeobj" class="tsd-signature-type">ShapeObj</a></h4>
 					</li>
 				</ul>
 			</section>
@@ -108,6 +108,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_shape_.shape.html#validate" class="tsd-kind-icon">validate</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static"><a href="_src_shape_.shape.html#dir" class="tsd-kind-icon">Dir</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_src_shape_.shape.html#file" class="tsd-kind-icon">File</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_src_shape_.shape.html#pattern" class="tsd-kind-icon">Pattern</a></li>
 							</ul>
 						</section>
 					</div>
@@ -125,48 +126,87 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/7247a61/src/Shape.ts#L190">src/Shape.ts:190</a></li>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/70687b8/src/Shape.ts#L62">src/Shape.ts:62</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>the Shape class is a class that helps you manage your directory
-										the Shape instance (or inst for short) is the Shape applied to a directory
-										the Shape instance reference is a JS object the references the Shape instance
-										the Shape constructor takes the Shape of your directory
-									every key in the object passed in is an identifier for the file or dir</p>
+									<p>the Shape class is a class that helps you create folder with a certain shape (hierarchy)
+										or test if a folder have a certain shape (hierarchy)
+										example 1:
+										imagine that you want to test if a folder
+										(1) has a folder named &quot;js_ts_files&quot; which only contains js or ts files
+										(2) has a folder named &quot;text_folders&quot; which only contains folder with contains text files
+										(3) has an empty folder named &quot;empty_folder&quot;
+									(4) everything else in the folder must be a json file</p>
+									<p>```js
+										import { Shape, <strong>rest } from &quot;fs-pro&quot;;
+											// (1) create the shape
+											const shape = new Shape({
+											// a key to reference in the code (if you need)
+											js_ts_files:
+											// Shape.Dir means this should be a folder named &quot;js_ts_files&quot;
+											Shape.Dir(
+											// the name of the folder in the file system
+											&quot;js_ts_files&quot;,
+											// the pattern of the files (you could also use regexs)
+											Shape.Pattern(&quot;<em>.js|</em>.ts&quot;)
+											),
+											// passing an oject this folder must folder this shape (hierarchy)
+											text_folders: Shape.Dir(&quot;text_folders&quot;, {
+											// __rest means anything else in the folder
+											//  and because we set __rest here as an object it means that
+											//  __rest is a folder
+										[</strong>rest]: {
+										[<strong>rest]: Shape.Pattern(&quot;*.txt&quot;)
+											}
+											}),
+											// this regex doesn&#39;t match anything except an empty string
+											// so it wont match any file name so the folder must be empty
+											empty_folder: Shape.Dir(&quot;empty_folder&quot;, Shape.Pattern(/$^/)),
+											// __rest means any thing else (not mentioned)
+											// Shape.Pattern means it must be a file following
+											// the given pattern
+										[</strong>rest]: Shape.Pattern(&quot;*.json&quot;)
+									});</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>note</dt>
-									<dd><p>DO NOT use these keys any where inside the shape &quot;<strong>dir&quot;,
-										&quot;</strong>rest&quot;, &quot;<strong>isFile&quot;, &quot;</strong>isDir&quot;</p>
-									</dd>
-									<dt>example</dt>
-									<dd><pre><code class="language-js"><span class="hljs-keyword">const</span> shape = <span class="hljs-keyword">new</span> Shape({
-  <span class="hljs-comment">// for adding files use Shape.File with the file name</span>
-  <span class="hljs-attr">some_file</span>: Shape.File(<span class="hljs-string">"some_file.txt"</span>),
-  <span class="hljs-comment">// for adding a directory of files use Shape.Dir with</span>
-  <span class="hljs-comment">// the dir name and file name regex (a custom type of regex to test if the filename matches it)</span>
-  <span class="hljs-comment">// see Shape.File doc for more information about filename regex</span>
-  <span class="hljs-attr">some_dir</span>: Shape.Dir(<span class="hljs-string">"some_dir"</span>, Shape.File(<span class="hljs-string">"test[0-9]{3}.txt|*.any"</span>)),
-  <span class="hljs-comment">// for adding a shaped folder use Shape.Dir with the directory name</span>
-  <span class="hljs-comment">// and the shape of it</span>
-  <span class="hljs-attr">some_shaped_dir</span>: Shape.Dir(<span class="hljs-string">"shaped_dir"</span>, {
-    <span class="hljs-attr">file_1</span>: Shape.File(<span class="hljs-string">"file_1.txt"</span>),
-    <span class="hljs-comment">// ...</span>
-  }),
-  <span class="hljs-comment">// __rest tells Shape that any thing not mentioned</span>
-  <span class="hljs-comment">// must follow the given shape</span>
-  <span class="hljs-attr">__rest</span>: Shape.File(<span class="hljs-string">"*.txt"</span>),
+								<p>// (2) test if a folder follows it
+									// this will throw an error if the folder doesn&#39;t match the shape
+									shape.validate(&quot;/path/to/folder&quot;, true);
+									// or if you want more details
+									console.log(shape.validate(&quot;/path/to/folder&quot;));
+									// this will not throw an error even if the folder doesn&#39;t match the shape
+									// but it will log an array of errors saying where the folder doesn&#39;t match
+								// the shape</p>
+								<pre><code>
+example <span class="hljs-number">2</span>:
+imagine that you want <span class="hljs-keyword">to</span> <span class="hljs-keyword">create</span> a
+(<span class="hljs-number">1</span>) folder named "something" that has a file named "hi.txt" <span class="hljs-keyword">and</span> contains "hello world"
+(<span class="hljs-number">2</span>) you want <span class="hljs-keyword">to</span> <span class="hljs-keyword">log</span> the <span class="hljs-type">path</span> <span class="hljs-keyword">of</span> everything created
+```js
+// (<span class="hljs-number">1</span>) <span class="hljs-keyword">create</span> the shape
+const shape = <span class="hljs-built_in">new</span> Shape({
+  something: {
+    hi: Shape.File("hi.txt", "hello world")
+  }
+});
+
+// (<span class="hljs-number">2</span>) use createShapeInst
+shape.createShapeInst("/path/to/folder", {
+  // gets <span class="hljs-keyword">called</span> <span class="hljs-keyword">when</span> a file <span class="hljs-keyword">or</span> folder <span class="hljs-keyword">is</span> created
+  onCreate(fileOrFolder) {
+    console.log(fileOrFolder.path);
+  }
 });</code></pre>
-										<p>@param shape the shape</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>shape: <span class="tsd-signature-type">T</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+										</div>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_src_shape_.shape.html" class="tsd-signature-type">Shape</a></h4>
@@ -179,10 +219,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="shapeobj" class="tsd-anchor"></a>
 					<h3>shape<wbr>Obj</h3>
-					<div class="tsd-signature tsd-kind-icon">shape<wbr>Obj<span class="tsd-signature-symbol">:</span> <a href="../modules/_src_types_.html#shapeobj" class="tsd-signature-type">ShapeObj</a></div>
+					<div class="tsd-signature tsd-kind-icon">shape<wbr>Obj<span class="tsd-signature-symbol">:</span> <a href="../modules/_src_shape_.html#shapeobj" class="tsd-signature-type">ShapeObj</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/7247a61/src/Shape.ts#L190">src/Shape.ts:190</a></li>
+							<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/70687b8/src/Shape.ts#L62">src/Shape.ts:62</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -193,25 +233,45 @@
 					<a name="createshapeinst" class="tsd-anchor"></a>
 					<h3>create<wbr>Shape<wbr>Inst</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">create<wbr>Shape<wbr>Inst<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, eventsListeners<span class="tsd-signature-symbol">?: </span><a href="../modules/_src_types_.html#createevents" class="tsd-signature-type">createEvents</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../modules/_src_shape_.html#switchtoshapeinstref" class="tsd-signature-type">switchToShapeInstRef</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Shape<wbr>Inst<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, eventsListeners<span class="tsd-signature-symbol">?: </span><a href="../modules/_src_shape_.html#createevents" class="tsd-signature-type">createEvents</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-symbol">{ </span>__dir<span class="tsd-signature-symbol">: </span><a href="_src_shape_.shape.html#dir" class="tsd-signature-type">Dir</a><span class="tsd-signature-symbol"> }</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/7247a61/src/Shape.ts#L293">src/Shape.ts:293</a></li>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/70687b8/src/Shape.ts#L259">src/Shape.ts:259</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>use this method to create a folder with matches the shape
+									example for eventsListeners</p>
+									<p>```js
+									const shape = new Shape({ ... });</p>
+								</div>
+								<p>shape.createShapeInst(&quot;/path/to/folder&quot;, {
+									onCreate(fileOrFolder) {
+									console.log(<code>CREATED: ${fileOrFolder.path}</code>);
+									}
+									})
+								```</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the path you want to create</p>
+									</div>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> eventsListeners: <a href="../modules/_src_types_.html#createevents" class="tsd-signature-type">createEvents</a></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> eventsListeners: <a href="../modules/_src_shape_.html#createevents" class="tsd-signature-type">createEvents</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>listen to some event</p>
+									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../modules/_src_shape_.html#switchtoshapeinstref" class="tsd-signature-type">switchToShapeInstRef</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-symbol">{ </span>__dir<span class="tsd-signature-symbol">: </span><a href="_src_shape_.shape.html#dir" class="tsd-signature-type">Dir</a><span class="tsd-signature-symbol"> }</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -219,25 +279,63 @@
 					<a name="validate" class="tsd-anchor"></a>
 					<h3>validate</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">validate<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, crash<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">validate<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, crash<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>arr<span class="tsd-signature-symbol">: </span><a href="_src_fsproerr_.fsproerr.html" class="tsd-signature-type">fsProErr</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>push<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">?: </span><a href="_src_fsproerr_.fsproerr.html" class="tsd-signature-type">fsProErr</a><span class="tsd-signature-symbol"> | </span><a href="../modules/_src_shape_.html#errarr" class="tsd-signature-type">errArr</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> }</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/7247a61/src/Shape.ts#L301">src/Shape.ts:301</a></li>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/70687b8/src/Shape.ts#L273">src/Shape.ts:273</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>use this method to check if a folder follows the shape
+									see Shape.constructor docs for more details <a href="_src_shape_.shape.html#constructor">Shape.constructor</a></p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the path to check</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> crash: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>if true will throw an error if the folder doesn&#39;t match the shape</p>
+									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span>arr<span class="tsd-signature-symbol">: </span><a href="_src_fsproerr_.fsproerr.html" class="tsd-signature-type">fsProErr</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>push<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">?: </span><a href="_src_fsproerr_.fsproerr.html" class="tsd-signature-type">fsProErr</a><span class="tsd-signature-symbol"> | </span><a href="../modules/_src_shape_.html#errarr" class="tsd-signature-type">errArr</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> }</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter">
+									<h5>arr<span class="tsd-signature-symbol">: </span><a href="_src_fsproerr_.fsproerr.html" class="tsd-signature-type">fsProErr</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>push<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">?: </span><a href="_src_fsproerr_.fsproerr.html" class="tsd-signature-type">fsProErr</a><span class="tsd-signature-symbol"> | </span><a href="../modules/_src_shape_.html#errarr" class="tsd-signature-type">errArr</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-signature">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-variable">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">?: </span><a href="_src_fsproerr_.fsproerr.html" class="tsd-signature-type">fsProErr</a><span class="tsd-signature-symbol"> | </span><a href="../modules/_src_shape_.html#errarr" class="tsd-signature-type">errArr</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5><span class="tsd-flag ts-flagOptional">Optional</span> err: <a href="_src_fsproerr_.fsproerr.html" class="tsd-signature-type">fsProErr</a><span class="tsd-signature-symbol"> | </span><a href="../modules/_src_shape_.html#errarr" class="tsd-signature-type">errArr</a></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
 						</li>
 					</ul>
 				</section>
@@ -245,73 +343,58 @@
 					<a name="dir" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> Dir</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">Dir<span class="tsd-signature-symbol">(</span>str<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, fileType<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type">fileType</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../modules/_src_types_.html#dirtype" class="tsd-signature-type">dirType</a></li>
-						<li class="tsd-signature tsd-kind-icon">Dir&lt;T, K&gt;<span class="tsd-signature-symbol">(</span>str<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, shapeObj<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-symbol">{}</span></li>
+						<li class="tsd-signature tsd-kind-icon">Dir<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, fileType<span class="tsd-signature-symbol">: </span><a href="../modules/_src_shape_.html#shapefile" class="tsd-signature-type">ShapeFile</a><span class="tsd-signature-symbol"> | </span><a href="../modules/_src_shape_.html#shapefilepattern" class="tsd-signature-type">ShapeFilePattern</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../modules/_src_shape_.html#shapedir" class="tsd-signature-type">ShapeDir</a></li>
+						<li class="tsd-signature tsd-kind-icon">Dir&lt;K&gt;<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, shapeObj<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-symbol">{ </span>__computed<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/7247a61/src/Shape.ts#L269">src/Shape.ts:269</a></li>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/70687b8/src/Shape.ts#L198">src/Shape.ts:198</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>use this method to define a directory</p>
+									<p>use this method for adding folder to you shape
+									see Shape.constructor docs for more details <a href="_src_shape_.shape.html#constructor">Shape.constructor</a></p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>example</dt>
-									<dd><pre><code class="language-js"><span class="hljs-keyword">const</span> shape = <span class="hljs-keyword">new</span> Shape({
-  <span class="hljs-comment">// example for defining a Dir including only files the match</span>
-  <span class="hljs-comment">// the Shape.File passed in</span>
-  <span class="hljs-attr">some_dir</span>: Shape.Dir(<span class="hljs-string">"dir_name"</span>, Shape.File(<span class="hljs-string">"test[0-100].txt"</span>)),
-  <span class="hljs-comment">// example for defining a Dir when a schema</span>
-  <span class="hljs-attr">some_shaped_dir</span>: Shape.Dir(<span class="hljs-string">"dir_name"</span>, {
-    <span class="hljs-attr">some_file</span>: Shape.File(<span class="hljs-string">"some_name"</span>)
-    <span class="hljs-comment">// ...</span>
-  }),
-});</code></pre>
-										<p>@param str the directory name
-										@param fileTypeOrShapeObj file type of the Shape Obj</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>str: <span class="tsd-signature-type">string</span></h5>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>name of the folder</p>
+									</div>
 								</li>
 								<li>
-									<h5>fileType: <a href="" class="tsd-signature-type">fileType</a></h5>
+									<h5>fileType: <a href="../modules/_src_shape_.html#shapefile" class="tsd-signature-type">ShapeFile</a><span class="tsd-signature-symbol"> | </span><a href="../modules/_src_shape_.html#shapefilepattern" class="tsd-signature-type">ShapeFilePattern</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../modules/_src_types_.html#dirtype" class="tsd-signature-type">dirType</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../modules/_src_shape_.html#shapedir" class="tsd-signature-type">ShapeDir</a></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/7247a61/src/Shape.ts#L270">src/Shape.ts:270</a></li>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/70687b8/src/Shape.ts#L199">src/Shape.ts:199</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>T<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h4>
-								</li>
-								<li>
-									<h4>K<span class="tsd-signature-symbol">: </span><a href="../modules/_src_types_.html#shapeobjwithoutname" class="tsd-signature-type">ShapeObjWithoutName</a></h4>
+									<h4>K<span class="tsd-signature-symbol">: </span><a href="../modules/_src_shape_.html#shapeobjwithoutname" class="tsd-signature-type">ShapeObjWithoutName</a></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>str: <span class="tsd-signature-type">T</span></h5>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
 									<h5>shapeObj: <span class="tsd-signature-type">K</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">K</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-symbol">{}</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">K</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-symbol">{ </span>__computed<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -319,50 +402,92 @@
 					<a name="file" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> File</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">File<span class="tsd-signature-symbol">(</span>str<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, dfCont<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_src_types_.buffertype.html" class="tsd-signature-type">BufferType</a>, validator<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">fileType</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">"validator"</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type">fileType</a></li>
+						<li class="tsd-signature tsd-kind-icon">File<span class="tsd-signature-symbol">(</span>base<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, defaultContent<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_src_types_.buffertype.html" class="tsd-signature-type">BufferType</a>, validator<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">ShapeFile</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">"validator"</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../modules/_src_shape_.html#shapefile" class="tsd-signature-type">ShapeFile</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/7247a61/src/Shape.ts#L239">src/Shape.ts:239</a></li>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/70687b8/src/Shape.ts#L179">src/Shape.ts:179</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>use this method for adding files to your shape</p>
+									<p>use this method for adding files to your shape
+									see Shape.constructor docs for more details <a href="_src_shape_.shape.html#constructor">Shape.constructor</a></p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>note</dt>
-									<dd><p>file regex are different than normal regex</p>
-										<ol>
-											<li>Shape every convert any &quot;*&quot; to &quot;.*&quot; (unless it&#39;s backslashed)</li>
-											<li>it splits the regex by &quot;|&quot; and test every one separately (unless it&#39;s backslashed)</li>
-										</ol>
-									</dd>
-									<dt>example</dt>
-									<dd><pre><code class="language-js"><span class="hljs-keyword">const</span> shape = <span class="hljs-keyword">new</span> Shape({
-  <span class="hljs-attr">some_file</span>: Shape.File(<span class="hljs-string">"file_name"</span>)
-});</code></pre>
-										<p>@param str the filename or match regex
-											@param dfCont file default content (content will be added on creation)
-										@param validator a function used to validate the file</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>str: <span class="tsd-signature-type">string</span></h5>
+									<h5>base: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the base (name with extension) of the file</p>
+									</div>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> dfCont: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_src_types_.buffertype.html" class="tsd-signature-type">BufferType</a></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> defaultContent: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_src_types_.buffertype.html" class="tsd-signature-type">BufferType</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>file default content (content will be added on creation)</p>
+									</div>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> validator: <span class="tsd-signature-type">fileType</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">"validator"</span><span class="tsd-signature-symbol">]</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> validator: <span class="tsd-signature-type">ShapeFile</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">"validator"</span><span class="tsd-signature-symbol">]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>a function used to validate the file</p>
+									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type">fileType</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../modules/_src_shape_.html#shapefile" class="tsd-signature-type">ShapeFile</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="pattern" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> Pattern</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">Pattern<span class="tsd-signature-symbol">(</span>pattern<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RegExp</span>, defaultContent<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_src_types_.buffertype.html" class="tsd-signature-type">BufferType</a>, validator<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">ShapeFilePattern</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">"validator"</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../modules/_src_shape_.html#shapefilepattern" class="tsd-signature-type">ShapeFilePattern</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/70687b8/src/Shape.ts#L150">src/Shape.ts:150</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>use this method for adding file patterns to your shape
+										see Shape.constructor docs for more details <a href="_src_shape_.shape.html#constructor">Shape.constructor</a>
+									NOTE: if you use string as pattern it will be converted to a regex like this:</p>
+									<ol>
+										<li>convert any &quot;*&quot; to &quot;.*&quot; (unless there&#39;s a backslash before it)</li>
+										<li>it splits the regex by &quot;|&quot; and test every one separately (unless there&#39;s a backslash before it)</li>
+									</ol>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>pattern: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RegExp</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>regex or string</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> defaultContent: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_src_types_.buffertype.html" class="tsd-signature-type">BufferType</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>if you want files to be created with some content</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> validator: <span class="tsd-signature-type">ShapeFilePattern</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">"validator"</span><span class="tsd-signature-symbol">]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>if you want to validate the content of the file</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../modules/_src_shape_.html#shapefilepattern" class="tsd-signature-type">ShapeFilePattern</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -449,18 +574,48 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="_src_shape_.shape.html#file" class="tsd-kind-icon">File</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="_src_shape_.shape.html#pattern" class="tsd-kind-icon">Pattern</a>
+							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/_src_shape_.html#shapedir" class="tsd-kind-icon">Shape<wbr>Dir</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/_src_shape_.html#shapefile" class="tsd-kind-icon">Shape<wbr>File</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/_src_shape_.html#shapefilepattern" class="tsd-kind-icon">Shape<wbr>File<wbr>Pattern</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/_src_shape_.html#shapeobj" class="tsd-kind-icon">Shape<wbr>Obj</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/_src_shape_.html#shapeobjwithoutname" class="tsd-kind-icon">Shape<wbr>Obj<wbr>Without<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/_src_shape_.html#createevents" class="tsd-kind-icon">create<wbr>Events</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/_src_shape_.html#errarr" class="tsd-kind-icon">err<wbr>Arr</a>
+					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter tsd-is-not-exported">
 						<a href="../modules/_src_shape_.html#switchtoshapeinstref" class="tsd-kind-icon">switch<wbr>ToShape<wbr>Inst<wbr>Ref</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-module">
+						<a href="../modules/_src_shape_.html#__rest" class="tsd-kind-icon">__rest</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-module">
+						<a href="../modules/_src_shape_.html#name_sym" class="tsd-kind-icon">name_<wbr>sym</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
 						<a href="../modules/_src_shape_.html#check" class="tsd-kind-icon">check</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
-						<a href="../modules/_src_shape_.html#checkstrmatchrgx" class="tsd-kind-icon">check<wbr>Str<wbr>Match<wbr>Rgx</a>
+						<a href="../modules/_src_shape_.html#convertpatterntoregex" class="tsd-kind-icon">convert<wbr>Pattern<wbr>ToRegex</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
 						<a href="../modules/_src_shape_.html#createeventregister" class="tsd-kind-icon">create<wbr>Event<wbr>Register</a>
@@ -470,6 +625,18 @@
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
 						<a href="../modules/_src_shape_.html#errarray" class="tsd-kind-icon">err<wbr>Array</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="../modules/_src_shape_.html#iserrarr" class="tsd-kind-icon">is<wbr>Err<wbr>Arr</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="../modules/_src_shape_.html#isshapedir" class="tsd-kind-icon">is<wbr>Shape<wbr>Dir</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="../modules/_src_shape_.html#isshapefile" class="tsd-kind-icon">is<wbr>Shape<wbr>File</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="../modules/_src_shape_.html#isshapefilepattern" class="tsd-kind-icon">is<wbr>Shape<wbr>File<wbr>Pattern</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
 						<a href="../modules/_src_shape_.html#tofileordir" class="tsd-kind-icon">to<wbr>File<wbr>OrDir</a>

@@ -97,6 +97,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_fsproerr_.fsproerr.html#_symbol_tostringtag_" class="tsd-kind-icon">[<wbr>Symbol.to<wbr>String<wbr>Tag]</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_fsproerr_.fsproerr.html#code" class="tsd-kind-icon">code</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_fsproerr_.fsproerr.html#extra_message" class="tsd-kind-icon">extra_<wbr>message</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_src_fsproerr_.fsproerr.html#message" class="tsd-kind-icon">message</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_src_fsproerr_.fsproerr.html#name" class="tsd-kind-icon">name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_src_fsproerr_.fsproerr.html#path" class="tsd-kind-icon">path</a></li>
@@ -113,13 +114,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new fs<wbr>Pro<wbr>Err<span class="tsd-signature-symbol">(</span>code<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-symbol">typeof </span><a href="../modules/_src_fsproerr_.html#msgs" class="tsd-signature-type">msgs</a>, path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_fsproerr_.fsproerr.html" class="tsd-signature-type">fsProErr</a></li>
+						<li class="tsd-signature tsd-kind-icon">new fs<wbr>Pro<wbr>Err<span class="tsd-signature-symbol">(</span>code<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-symbol">typeof </span><a href="../modules/_src_fsproerr_.html#msgs" class="tsd-signature-type">msgs</a>, path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, extra_message<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_fsproerr_.fsproerr.html" class="tsd-signature-type">fsProErr</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/7247a61/src/fsProErr.ts#L14">src/fsProErr.ts:14</a></li>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/70687b8/src/fsProErr.ts#L15">src/fsProErr.ts:15</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -129,6 +130,9 @@
 								</li>
 								<li>
 									<h5>path: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> extra_message: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;&quot;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_src_fsproerr_.fsproerr.html" class="tsd-signature-type">fsProErr</a></h4>
@@ -144,7 +148,7 @@
 					<div class="tsd-signature tsd-kind-icon">[<wbr>Symbol.to<wbr>String<wbr>Tag]<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;fsProErr&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/7247a61/src/fsProErr.ts#L14">src/fsProErr.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/70687b8/src/fsProErr.ts#L15">src/fsProErr.ts:15</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -154,7 +158,17 @@
 					<div class="tsd-signature tsd-kind-icon">code<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-symbol">typeof </span><a href="../modules/_src_fsproerr_.html#msgs" class="tsd-signature-type">msgs</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/7247a61/src/fsProErr.ts#L15">src/fsProErr.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/70687b8/src/fsProErr.ts#L17">src/fsProErr.ts:17</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="extra_message" class="tsd-anchor"></a>
+					<h3>extra_<wbr>message</h3>
+					<div class="tsd-signature tsd-kind-icon">extra_<wbr>message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/70687b8/src/fsProErr.ts#L19">src/fsProErr.ts:19</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -186,7 +200,7 @@
 					<div class="tsd-signature tsd-kind-icon">path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/7247a61/src/fsProErr.ts#L15">src/fsProErr.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/70687b8/src/fsProErr.ts#L18">src/fsProErr.ts:18</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -284,6 +298,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_src_fsproerr_.fsproerr.html#code" class="tsd-kind-icon">code</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_src_fsproerr_.fsproerr.html#extra_message" class="tsd-kind-icon">extra_<wbr>message</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="_src_fsproerr_.fsproerr.html#message" class="tsd-kind-icon">message</a>
