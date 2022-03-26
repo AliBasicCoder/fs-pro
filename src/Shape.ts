@@ -65,11 +65,17 @@ export class Shape<T extends ShapeObj> {
    * the Shape class is a class that helps you create folder with a certain shape (hierarchy)
    * or test if a folder have a certain shape (hierarchy)
    * example 1:
+   *
    * imagine that you want to test if a folder
+   *
    * (1) has a folder named "js_ts_files" which only contains js or ts files
+   *
    * (2) has a folder named "text_folders" which only contains folder with contains text files
+   *
    * (3) has an empty folder named "empty_folder"
+   *
    * (4) everything else in the folder must be a json file
+   *
    * ```js
    * import { Shape, __rest } from "fs-pro";
    * // (1) create the shape
@@ -112,9 +118,13 @@ export class Shape<T extends ShapeObj> {
    * ```
    *
    * example 2:
+   *
    * imagine that you want to create a
+   *
    * (1) folder named "something" that has a file named "hi.txt" and contains "hello world"
+   *
    * (2) you want to log the path of everything created
+   *
    * ```js
    * // (1) create the shape
    * const shape = new Shape({
@@ -171,6 +181,7 @@ export class Shape<T extends ShapeObj> {
 
   /**
    * use this method for adding files to your shape
+   *
    * see Shape.constructor docs for more details {@link Shape.constructor}
    * @param base the base (name with extension) of the file
    * @param defaultContent file default content (content will be added on creation)
@@ -191,6 +202,7 @@ export class Shape<T extends ShapeObj> {
 
   /**
    * use this method for adding folder to you shape
+   *
    * see Shape.constructor docs for more details {@link Shape.constructor}
    * @param name name of the folder
    * @param fileTypeOrShapeObj file type of the Shape Obj
@@ -244,6 +256,7 @@ export class Shape<T extends ShapeObj> {
   /**
    * use this method to create a folder with matches the shape
    * example for eventsListeners
+   *
    * ```js
    * const shape = new Shape({ ... });
    *
@@ -266,6 +279,7 @@ export class Shape<T extends ShapeObj> {
 
   /**
    * use this method to check if a folder follows the shape
+   *
    * see Shape.constructor docs for more details {@link Shape.constructor}
    * @param path the path to check
    * @param crash if true will throw an error if the folder doesn't match the shape

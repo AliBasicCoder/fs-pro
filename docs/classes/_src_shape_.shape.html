@@ -126,76 +126,74 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/70687b8/src/Shape.ts#L62">src/Shape.ts:62</a></li>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/d479a33/src/Shape.ts#L62">src/Shape.ts:62</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>the Shape class is a class that helps you create folder with a certain shape (hierarchy)
 										or test if a folder have a certain shape (hierarchy)
-										example 1:
-										imagine that you want to test if a folder
-										(1) has a folder named &quot;js_ts_files&quot; which only contains js or ts files
-										(2) has a folder named &quot;text_folders&quot; which only contains folder with contains text files
-										(3) has an empty folder named &quot;empty_folder&quot;
-									(4) everything else in the folder must be a json file</p>
-									<p>```js
-										import { Shape, <strong>rest } from &quot;fs-pro&quot;;
-											// (1) create the shape
-											const shape = new Shape({
-											// a key to reference in the code (if you need)
-											js_ts_files:
-											// Shape.Dir means this should be a folder named &quot;js_ts_files&quot;
-											Shape.Dir(
-											// the name of the folder in the file system
-											&quot;js_ts_files&quot;,
-											// the pattern of the files (you could also use regexs)
-											Shape.Pattern(&quot;<em>.js|</em>.ts&quot;)
-											),
-											// passing an oject this folder must folder this shape (hierarchy)
-											text_folders: Shape.Dir(&quot;text_folders&quot;, {
-											// __rest means anything else in the folder
-											//  and because we set __rest here as an object it means that
-											//  __rest is a folder
-										[</strong>rest]: {
-										[<strong>rest]: Shape.Pattern(&quot;*.txt&quot;)
-											}
-											}),
-											// this regex doesn&#39;t match anything except an empty string
-											// so it wont match any file name so the folder must be empty
-											empty_folder: Shape.Dir(&quot;empty_folder&quot;, Shape.Pattern(/$^/)),
-											// __rest means any thing else (not mentioned)
-											// Shape.Pattern means it must be a file following
-											// the given pattern
-										[</strong>rest]: Shape.Pattern(&quot;*.json&quot;)
-									});</p>
+									example 1:</p>
 								</div>
-								<p>// (2) test if a folder follows it
-									// this will throw an error if the folder doesn&#39;t match the shape
-									shape.validate(&quot;/path/to/folder&quot;, true);
-									// or if you want more details
-									console.log(shape.validate(&quot;/path/to/folder&quot;));
-									// this will not throw an error even if the folder doesn&#39;t match the shape
-									// but it will log an array of errors saying where the folder doesn&#39;t match
-								// the shape</p>
-								<pre><code>
-example <span class="hljs-number">2</span>:
-imagine that you want <span class="hljs-keyword">to</span> <span class="hljs-keyword">create</span> a
-(<span class="hljs-number">1</span>) folder named "something" that has a file named "hi.txt" <span class="hljs-keyword">and</span> contains "hello world"
-(<span class="hljs-number">2</span>) you want <span class="hljs-keyword">to</span> <span class="hljs-keyword">log</span> the <span class="hljs-type">path</span> <span class="hljs-keyword">of</span> everything created
-```js
-// (<span class="hljs-number">1</span>) <span class="hljs-keyword">create</span> the shape
-const shape = <span class="hljs-built_in">new</span> Shape({
-  something: {
-    hi: Shape.File("hi.txt", "hello world")
+								<p>imagine that you want to test if a folder</p>
+								<p>(1) has a folder named &quot;js_ts_files&quot; which only contains js or ts files</p>
+								<p>(2) has a folder named &quot;text_folders&quot; which only contains folder with contains text files</p>
+								<p>(3) has an empty folder named &quot;empty_folder&quot;</p>
+								<p>(4) everything else in the folder must be a json file</p>
+								<pre><code class="language-js"><span class="hljs-keyword">import</span> { Shape, __rest } <span class="hljs-keyword">from</span> <span class="hljs-string">"fs-pro"</span>;
+<span class="hljs-comment">// (1) create the shape</span>
+<span class="hljs-keyword">const</span> shape = <span class="hljs-keyword">new</span> Shape({
+   <span class="hljs-comment">// a key to reference in the code (if you need)</span>
+   <span class="hljs-attr">js_ts_files</span>:
+      <span class="hljs-comment">// Shape.Dir means this should be a folder named "js_ts_files"</span>
+      Shape.Dir(
+         <span class="hljs-comment">// the name of the folder in the file system</span>
+         <span class="hljs-string">"js_ts_files"</span>,
+         <span class="hljs-comment">// the pattern of the files (you could also use regexs)</span>
+         Shape.Pattern(<span class="hljs-string">"*.js|*.ts"</span>)
+      ),
+   <span class="hljs-comment">// passing an oject this folder must folder this shape (hierarchy)</span>
+   <span class="hljs-attr">text_folders</span>: Shape.Dir(<span class="hljs-string">"text_folders"</span>, {
+      <span class="hljs-comment">// __rest means anything else in the folder</span>
+      <span class="hljs-comment">//  and because we set __rest here as an object it means that</span>
+      <span class="hljs-comment">//  __rest is a folder</span>
+      [__rest]: {
+        [__rest]: Shape.Pattern(<span class="hljs-string">"*.txt"</span>)
+     }
+   }),
+   <span class="hljs-comment">// this regex doesn't match anything except an empty string</span>
+   <span class="hljs-comment">// so it wont match any file name so the folder must be empty</span>
+   <span class="hljs-attr">empty_folder</span>: Shape.Dir(<span class="hljs-string">"empty_folder"</span>, Shape.Pattern(<span class="hljs-regexp">/$^/</span>)),
+   <span class="hljs-comment">// __rest means any thing else (not mentioned)</span>
+   <span class="hljs-comment">// Shape.Pattern means it must be a file following</span>
+   <span class="hljs-comment">// the given pattern</span>
+   [__rest]: Shape.Pattern(<span class="hljs-string">"*.json"</span>)
+});
+
+<span class="hljs-comment">// (2) test if a folder follows it</span>
+<span class="hljs-comment">// this will throw an error if the folder doesn't match the shape</span>
+shape.validate(<span class="hljs-string">"/path/to/folder"</span>, <span class="hljs-literal">true</span>);
+<span class="hljs-comment">// or if you want more details</span>
+<span class="hljs-built_in">console</span>.log(shape.validate(<span class="hljs-string">"/path/to/folder"</span>));
+<span class="hljs-comment">// this will not throw an error even if the folder doesn't match the shape</span>
+<span class="hljs-comment">// but it will log an array of errors saying where the folder doesn't match</span>
+<span class="hljs-comment">// the shape</span></code></pre>
+								<p>example 2:</p>
+								<p>imagine that you want to create a</p>
+								<p>(1) folder named &quot;something&quot; that has a file named &quot;hi.txt&quot; and contains &quot;hello world&quot;</p>
+								<p>(2) you want to log the path of everything created</p>
+								<pre><code class="language-js"><span class="hljs-comment">// (1) create the shape</span>
+<span class="hljs-keyword">const</span> shape = <span class="hljs-keyword">new</span> Shape({
+  <span class="hljs-attr">something</span>: {
+    <span class="hljs-attr">hi</span>: Shape.File(<span class="hljs-string">"hi.txt"</span>, <span class="hljs-string">"hello world"</span>)
   }
 });
 
-// (<span class="hljs-number">2</span>) use createShapeInst
-shape.createShapeInst("/path/to/folder", {
-  // gets <span class="hljs-keyword">called</span> <span class="hljs-keyword">when</span> a file <span class="hljs-keyword">or</span> folder <span class="hljs-keyword">is</span> created
+<span class="hljs-comment">// (2) use createShapeInst</span>
+shape.createShapeInst(<span class="hljs-string">"/path/to/folder"</span>, {
+  <span class="hljs-comment">// gets called when a file or folder is created</span>
   onCreate(fileOrFolder) {
-    console.log(fileOrFolder.path);
+    <span class="hljs-built_in">console</span>.log(fileOrFolder.path);
   }
 });</code></pre>
 							</div>
@@ -222,7 +220,7 @@ shape.createShapeInst("/path/to/folder", {
 					<div class="tsd-signature tsd-kind-icon">shape<wbr>Obj<span class="tsd-signature-symbol">:</span> <a href="../modules/_src_shape_.html#shapeobj" class="tsd-signature-type">ShapeObj</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/70687b8/src/Shape.ts#L62">src/Shape.ts:62</a></li>
+							<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/d479a33/src/Shape.ts#L62">src/Shape.ts:62</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -239,22 +237,21 @@ shape.createShapeInst("/path/to/folder", {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/70687b8/src/Shape.ts#L259">src/Shape.ts:259</a></li>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/d479a33/src/Shape.ts#L272">src/Shape.ts:272</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>use this method to create a folder with matches the shape
 									example for eventsListeners</p>
-									<p>```js
-									const shape = new Shape({ ... });</p>
 								</div>
-								<p>shape.createShapeInst(&quot;/path/to/folder&quot;, {
-									onCreate(fileOrFolder) {
-									console.log(<code>CREATED: ${fileOrFolder.path}</code>);
-									}
-									})
-								```</p>
+								<pre><code class="language-js"><span class="hljs-keyword">const</span> shape = <span class="hljs-keyword">new</span> Shape({ ... });
+
+shape.createShapeInst(<span class="hljs-string">"/path/to/folder"</span>, {
+  onCreate(fileOrFolder) {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`CREATED: <span class="hljs-subst">${fileOrFolder.path}</span>`</span>);
+  }
+})</code></pre>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -285,14 +282,14 @@ shape.createShapeInst("/path/to/folder", {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/70687b8/src/Shape.ts#L273">src/Shape.ts:273</a></li>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/d479a33/src/Shape.ts#L287">src/Shape.ts:287</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>use this method to check if a folder follows the shape
-									see Shape.constructor docs for more details <a href="_src_shape_.shape.html#constructor">Shape.constructor</a></p>
+									<p>use this method to check if a folder follows the shape</p>
 								</div>
+								<p>see Shape.constructor docs for more details <a href="_src_shape_.shape.html#constructor">Shape.constructor</a></p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -350,14 +347,14 @@ shape.createShapeInst("/path/to/folder", {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/70687b8/src/Shape.ts#L198">src/Shape.ts:198</a></li>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/d479a33/src/Shape.ts#L210">src/Shape.ts:210</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>use this method for adding folder to you shape
-									see Shape.constructor docs for more details <a href="_src_shape_.shape.html#constructor">Shape.constructor</a></p>
+									<p>use this method for adding folder to you shape</p>
 								</div>
+								<p>see Shape.constructor docs for more details <a href="_src_shape_.shape.html#constructor">Shape.constructor</a></p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -376,7 +373,7 @@ shape.createShapeInst("/path/to/folder", {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/70687b8/src/Shape.ts#L199">src/Shape.ts:199</a></li>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/d479a33/src/Shape.ts#L211">src/Shape.ts:211</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -408,14 +405,14 @@ shape.createShapeInst("/path/to/folder", {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/70687b8/src/Shape.ts#L179">src/Shape.ts:179</a></li>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/d479a33/src/Shape.ts#L190">src/Shape.ts:190</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>use this method for adding files to your shape
-									see Shape.constructor docs for more details <a href="_src_shape_.shape.html#constructor">Shape.constructor</a></p>
+									<p>use this method for adding files to your shape</p>
 								</div>
+								<p>see Shape.constructor docs for more details <a href="_src_shape_.shape.html#constructor">Shape.constructor</a></p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -452,7 +449,7 @@ shape.createShapeInst("/path/to/folder", {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/70687b8/src/Shape.ts#L150">src/Shape.ts:150</a></li>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/d479a33/src/Shape.ts#L160">src/Shape.ts:160</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
