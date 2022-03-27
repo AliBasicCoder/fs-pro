@@ -1,6 +1,5 @@
-import { assertEquals } from "https://deno.land/std@0.131.0/testing/asserts.ts";
+import { assertEquals, parse, join } from "./imports.ts";
 import type { File, Dir } from "../../mod.ts";
-import { join, parse } from "https://deno.land/std@0.131.0/path/mod.ts";
 
 export function fillArray<T>(
   arr: T[],

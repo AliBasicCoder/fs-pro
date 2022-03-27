@@ -1,6 +1,12 @@
-import { assertEquals } from "https://deno.land/std@0.131.0/testing/asserts.ts";
-import { parse, join } from "https://deno.land/std@0.131.0/path/mod.ts";
-import { existsSync, statSync } from "https://deno.land/std@0.131.0/node/fs.ts";
+import {
+  assertEquals,
+  join,
+  existsSync,
+  statSync,
+  makeTempDirSync,
+  test,
+  tempDir,
+} from "./imports.ts";
 import { Dir, File } from "../../mod.ts";
 import {
   checkDirData,
@@ -11,35 +17,35 @@ import {
   customEqual,
 } from "./shared.ts";
 
-const tmp_dir: string = parse(Deno.makeTempDirSync()).dir;
-
-Deno.test({
+test({
   name: "Dir: have write data",
   fn() {
-    const path = Deno.makeTempDirSync();
+    const path = makeTempDirSync();
     const dir = new Dir(path);
     checkDirData(dir, path);
   },
 });
 
-Deno.test({
+test({
   name: "Dir.create()",
   fn() {
+    const tmp_dir = tempDir();
     const dir = new Dir(tmp_dir, randomDir());
     dir.create();
     assertEquals(existsSync(dir.path), true);
   },
 });
 
-Deno.test({
+test({
   name: "Dir.exits()",
   fn() {
+    const tmp_dir = tempDir();
     const dir = new Dir(tmp_dir, randomDir());
     assertEquals(dir.exits(), false);
   },
 });
 
-Deno.test({
+test({
   name: "Dir.delete()",
   fn() {
     const dir = Dir.tmpDir();
@@ -56,7 +62,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Dir.delete() (empty folder)",
   fn() {
     const dir = Dir.tmpDir();
@@ -65,7 +71,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Dir.createFile()",
   fn() {
     const dir = Dir.tmpDir();
@@ -76,7 +82,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Dir.createFile() with createParents",
   fn() {
     const dir = Dir.tmpDir();
@@ -87,7 +93,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Dir.createDir()",
   fn() {
     const dir = Dir.tmpDir();
@@ -97,7 +103,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Dir.createDir() with createParents",
   fn() {
     const dir = Dir.tmpDir();
@@ -108,7 +114,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Dir.getFile()",
   fn() {
     const dir = Dir.tmpDir();
@@ -119,7 +125,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Dir.getDir()",
   fn() {
     const dir = Dir.tmpDir();
@@ -130,7 +136,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Dir.read()",
   fn() {
     const dir = Dir.tmpDir();
@@ -144,7 +150,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Dir.readResolve()",
   fn() {
     const dir = Dir.tmpDir();
@@ -158,7 +164,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Dir.stat()",
   fn() {
     const dir = Dir.tmpDir();
@@ -166,7 +172,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Dir.deleteMach()",
   fn() {
     // TODO: improve this testing
@@ -177,7 +183,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Dir.deleteMatchFile()",
   fn() {
     // TODO: improve this testing
@@ -188,7 +194,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Dir.deleteMatchDir()",
   fn() {
     const dir = Dir.tmpDir();
@@ -198,9 +204,10 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Dir.rename()",
   fn() {
+    const tmp_dir = tempDir();
     const dir = Dir.tmpDir();
     const old_name = dir.name;
     const new_name = randomDir();
@@ -211,7 +218,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Dir.forEach(), Dir.forEachFile(), Dir.forEachDir()",
   fn() {
     function callback(ind: number) {
@@ -260,9 +267,10 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Dir.copyTo()",
   fn() {
+    const tmp_dir = tempDir();
     const dir = Dir.tmpDir();
     const filesArr = [
       "some.txt",
@@ -281,9 +289,10 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Dir.moveTo()",
   fn() {
+    const tmp_dir = tempDir();
     const dir = Dir.tmpDir();
     const old_dir_name = dir.name;
     const filesArr = [

@@ -1,24 +1,30 @@
-import { parse, join } from "https://deno.land/std@0.131.0/path/mod.ts";
 import {
+  parse,
+  join,
   assertEquals,
   assert,
-} from "https://deno.land/std@0.131.0/testing/asserts.ts";
-import { existsSync, statSync } from "https://deno.land/std@0.131.0/node/fs.ts";
+  existsSync,
+  statSync,
+  test,
+  makeTempFileSync,
+  readTextFileSync,
+  writeTextFileSync,
+  platform,
+  tempDir,
+} from "./imports.ts";
 import { File, Buffer, Dir } from "../../mod.ts";
 import { checkFileData, randomFile, customEqual } from "./shared.ts";
 
-const tmp_dir: string = parse(Deno.makeTempDirSync()).dir;
-
-Deno.test({
+test({
   name: "File: have write data",
   fn() {
-    const path = Deno.makeTempFileSync();
+    const path = makeTempFileSync();
     const file = new File(path);
     checkFileData(file, path);
   },
 });
 
-Deno.test({
+test({
   name: "static File.tmpFile()",
   fn() {
     const file = File.tmpFile();
@@ -26,9 +32,10 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "File.create()",
   fn() {
+    const tmp_dir = tempDir();
     const file = new File(tmp_dir, randomFile()).create();
     assertEquals(existsSync(file.path), true);
     // test defaultContent
@@ -36,28 +43,28 @@ Deno.test({
     file2.defaultContent = "hello world";
     file2.create();
     assertEquals(existsSync(file2.path), true);
-    assertEquals(Deno.readTextFileSync(file2.path), "hello world");
+    assertEquals(readTextFileSync(file2.path), "hello world");
     // test defaultContent 2
     const file3 = new File(tmp_dir, randomFile()).create();
     file3.defaultContent = "hello world";
     file3.create();
     assertEquals(existsSync(file3.path), true);
-    assertEquals(Deno.readTextFileSync(file3.path), "hello world");
+    assertEquals(readTextFileSync(file3.path), "hello world");
   },
 });
 
-Deno.test({
+test({
   name: "File.exits()",
   fn() {
+    const tmp_dir = tempDir();
     const file1 = File.tmpFile();
     assertEquals(existsSync(file1.path), file1.exits());
-
     const file2 = new File(tmp_dir, randomFile());
     assertEquals(existsSync(file2.path), file2.exits());
   },
 });
 
-Deno.test({
+test({
   name: "File.delete()",
   fn() {
     const file = File.tmpFile();
@@ -66,16 +73,16 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "File.read()",
   fn() {
     const file = File.tmpFile();
-    Deno.writeTextFileSync(file.path, "hello world");
+    writeTextFileSync(file.path, "hello world");
     assertEquals(file.read().toString(), "hello world");
   },
 });
 
-Deno.test({
+test({
   name: "File.read() -- complex",
   fn() {
     const file = File.tmpFile();
@@ -86,11 +93,11 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "File.text()",
   fn() {
     const file = File.tmpFile();
-    Deno.writeTextFileSync(file.path, "hello world");
+    writeTextFileSync(file.path, "hello world");
     assertEquals(file.text(), "hello world");
     assertEquals(file.text(6), "world");
     assertEquals(file.text(6, 3), "wor");
@@ -98,7 +105,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "File.overwrite()",
   fn() {
     const file = File.tmpFile();
@@ -109,7 +116,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "File.write() string",
   fn() {
     const file = File.tmpFile();
@@ -118,7 +125,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "File.write() Buffer",
   fn() {
     const file = File.tmpFile();
@@ -127,7 +134,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "File.write() json",
   fn() {
     const file = File.tmpFile();
@@ -136,7 +143,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "File.write() complex",
   fn() {
     const file = File.tmpFile();
@@ -149,7 +156,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "File.truncate()",
   fn() {
     const file = File.tmpFile().write("hello world");
@@ -158,27 +165,30 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "File.link()",
   fn() {
+    const tmp_dir = tempDir();
+
     const file = File.tmpFile().write("hello world");
     const link = join(tmp_dir, randomFile());
     file.link(link);
-    assertEquals(Deno.readTextFileSync(link), "hello world");
+    assertEquals(readTextFileSync(link), "hello world");
   },
 });
 
-Deno.test({
+test({
   name: "File.symlink()",
   fn() {
+    const tmp_dir = tempDir();
     const file = File.tmpFile().write("hello world");
     const link = join(tmp_dir, randomFile());
     file.symlink(link);
-    assertEquals(Deno.readTextFileSync(link), "hello world");
+    assertEquals(readTextFileSync(link), "hello world");
   },
 });
 
-Deno.test({
+test({
   name: "File.json()",
   fn() {
     const file = File.tmpFile();
@@ -187,7 +197,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "File.validate() and File.valid()",
   fn() {
     const file = File.tmpFile().write({ hello: "world" });
@@ -203,7 +213,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "File.getIndex() and File.getIndexBetween()",
   fn() {
     const file = File.tmpFile();
@@ -214,7 +224,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "File.append()",
   fn() {
     const file = File.tmpFile();
@@ -223,7 +233,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "File.splitBy()",
   fn() {
     const file = File.tmpFile().write("hello world");
@@ -231,7 +241,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "File.stat()",
   fn() {
     const file = File.tmpFile();
@@ -239,9 +249,11 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "File.rename()",
   fn() {
+    const tmp_dir = tempDir();
+
     const file = File.tmpFile().create();
     const new_name = randomFile();
     file.rename(new_name);
@@ -250,7 +262,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "File.copyTo() destination only",
   fn() {
     const original_file = File.tmpFile().create();
@@ -262,7 +274,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "File.copyTo() rename",
   fn() {
     const original_file = File.tmpFile().create();
@@ -275,7 +287,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "File.copyTo() isRelative",
   fn() {
     const original_file = File.tmpFile().create();
@@ -287,7 +299,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "File.copyTo() isRelative and rename",
   fn() {
     const original_file = File.tmpFile().create();
@@ -299,7 +311,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "File.moveTo()",
   fn() {
     const file = File.tmpFile();
@@ -310,9 +322,10 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "File.open() and File.close()",
   fn() {
+    if (platform === "node") return;
     const file = File.tmpFile();
     const fd = file.open();
     assertEquals(typeof fd, "number");
@@ -322,7 +335,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "File.watch(), File.unwatch()",
   async fn() {
     const track: string[] = [];
