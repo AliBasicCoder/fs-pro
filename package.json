@@ -2,7 +2,7 @@
   "name": "fs-pro",
   "version": "3.8.0",
   "description": "working with files easily",
-  "main": "dist/fs-pro.js",
+  "main": "dist/main.js",
   "types": "dist/fs-pro.d.ts",
   "repository": "https://github.com/AliBasicCoder/fs-pro.git",
   "author": "ali_ahmed",

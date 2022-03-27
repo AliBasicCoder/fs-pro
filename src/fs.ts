@@ -12,6 +12,10 @@ export function setFs(newFs: fsObjType) {
   fs = newFs;
 }
 
+export function getFs(): fsObjType {
+  return fs;
+}
+
 export function appendFileSync(
   ...args: Parameters<fsObjType["appendFileSync"]>
 ) {

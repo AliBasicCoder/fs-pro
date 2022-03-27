@@ -11,9 +11,18 @@ import {
   writeTextFileSync,
   platform,
   tempDir,
+  resources,
 } from "./imports.ts";
-import { File, Buffer, Dir } from "../../mod.ts";
+// import { File, Buffer, Dir } from "../../mod.ts";
+import { File } from "../../src/file.ts";
+import { Dir } from "../../src/dir.ts";
+import type { BufferClass } from "../../src/types.ts";
+import { buffer as buf } from "../../src/buffer.ts";
 import { checkFileData, randomFile, customEqual } from "./shared.ts";
+
+let buffer: BufferClass;
+
+buf.listen((b) => (buffer = b));
 
 test({
   name: "File: have write data",
@@ -129,8 +138,8 @@ test({
   name: "File.write() Buffer",
   fn() {
     const file = File.tmpFile();
-    file.write(Buffer.from("hello world"));
-    assertEquals(file.read(), Buffer.from("hello world"));
+    file.write(buffer.from("hello world"));
+    assertEquals(file.read(), buffer.from("hello world"));
   },
 });
 
@@ -329,9 +338,9 @@ test({
     const file = File.tmpFile();
     const fd = file.open();
     assertEquals(typeof fd, "number");
-    assertEquals(Deno.resources()[fd], "fsFile");
+    assertEquals(resources()[fd], "fsFile");
     file.close();
-    assertEquals(Deno.resources()[fd], undefined);
+    assertEquals(resources()[fd], undefined);
   },
 });
 

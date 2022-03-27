@@ -1,5 +1,7 @@
 import { assertEquals, assertThrows, assert, test } from "./imports.ts";
-import { addPlugin, File } from "../../mod.ts";
+// import { addPlugin, File } from "../../mod.ts";
+import { addPlugin } from "../../src/pluginAdder.ts";
+import { File } from "../../src/file.ts";
 
 test({
   name: "addPlugin: addPlugin normal plugin",

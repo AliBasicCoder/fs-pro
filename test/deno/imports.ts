@@ -1,6 +1,8 @@
-const tests: { name: string; fn: Function }[] = [];
+export const tests: { name: string; fn: Function }[] = [];
 
-export const platform = typeof Deno === "undefined" ? "node" : "deno";
+export const platform =
+  // @ts-ignore
+  typeof Deno === "undefined" ? "node" : "deno";
 
 export function test(obj: { name: string; fn: Function }) {
   tests.push(obj);
@@ -21,6 +23,10 @@ let imports: {
   resources(): ResourceMap;
   tempDir(): string;
 };
+
+export function setImports(i: typeof imports) {
+  imports = i;
+}
 
 export const assertEquals: typeof imports["assertEquals"] = (...args) =>
   imports.assertEquals(...args);
@@ -54,7 +60,7 @@ export const writeTextFileSync: typeof imports["writeTextFileSync"] = (
   ...args
 ) => imports.writeTextFileSync(...args);
 
-export const resource: typeof imports["resources"] = () => {
+export const resources: typeof imports["resources"] = () => {
   if (platform === "node")
     throw new Error("this function should not be called in node");
   return imports.resources();
@@ -62,54 +68,6 @@ export const resource: typeof imports["resources"] = () => {
 
 export const tempDir: typeof imports["tempDir"] = (...args) =>
   imports.tempDir(...args);
-
-async function load_deno() {
-  const [fs, assert, path] = await Promise.all([
-    import("https://deno.land/std@0.131.0/node/fs.ts"),
-    import("https://deno.land/std@0.131.0/testing/asserts.ts"),
-    import("https://deno.land/std@0.131.0/path/mod.ts"),
-  ]);
-  imports = {
-    assertEquals: assert.assertEquals,
-    assert: assert.assert,
-    assertThrows: assert.assertThrows,
-    join: path.join,
-    parse: path.parse,
-    existsSync: fs.existsSync,
-    statSync: fs.statSync,
-    makeTempFileSync: Deno.makeTempFileSync,
-    makeTempDirSync: Deno.makeTempDirSync,
-    readTextFileSync: Deno.readTextFileSync,
-    writeTextFileSync: Deno.writeTextFileSync,
-    resources: Deno.resources,
-    tempDir: () => {
-      // copied from https://deno.land/x/temp_dir@v1.0.0/mod.ts
-      const getDirectory = () => {
-        if (Deno.build.os === "windows") {
-          return (
-            Deno.env.get("TMP") ||
-            Deno.env.get("TEMP") ||
-            Deno.env.get("USERPROFILE") ||
-            Deno.env.get("SystemRoot") ||
-            ""
-          );
-        }
-
-        return Deno.env.get("TMPDIR") || "/tmp";
-      };
-
-      return Deno.realPathSync(getDirectory());
-    },
-  };
-  for (const test_ of tests) {
-    Deno.test({
-      name: test_.name,
-      fn: () => test_.fn(),
-    });
-  }
-}
-
-if (platform === "deno") load_deno();
 
 // from std deno
 

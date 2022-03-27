@@ -1,5 +1,6 @@
 import { assertEquals, parse, join } from "./imports.ts";
-import type { File, Dir } from "../../mod.ts";
+import type { Dir } from "../../src/dir.ts";
+import type { File } from "../../src/file.ts";
 
 export function fillArray<T>(
   arr: T[],

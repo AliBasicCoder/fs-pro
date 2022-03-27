@@ -2,9 +2,12 @@ const path = require("path");
 const nodeExternals = require("webpack-node-externals");
 
 module.exports = {
-  entry: "./src/index",
+  entry: {
+    main: "./src/index",
+    test: "./test/deno/target",
+  },
   output: {
-    filename: "fs-pro.js",
+    filename: "[name].js",
     path: path.join(__dirname, "dist"),
     libraryTarget: "commonjs",
   },

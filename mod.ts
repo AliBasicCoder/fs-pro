@@ -1,7 +1,7 @@
 import { File } from "./src/file.ts";
 import { Dir } from "./src/dir.ts";
 import { Shape, __rest } from "./src/Shape.ts";
-import { setFs } from "./src/fs.ts";
+import { setFs, getFs } from "./src/fs.ts";
 import { setPath } from "./src/path.ts";
 import type { Stats } from "./src/types.ts";
 import { buffer } from "./src/buffer.ts";
@@ -104,6 +104,7 @@ export {
   Dir,
   Shape,
   setFs,
+  getFs,
   Buffer,
   addPlugin,
   getPluginTrack,
