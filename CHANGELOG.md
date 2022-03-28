@@ -89,7 +89,7 @@ a breaking changes version
 
 - File.read(splitter: string, callback: Function) overwrite
 
-## v3.8.0 Mar 26, 2020
+## v3.8.0 Mar 26, 2022
 
 **Added:**
 
@@ -104,3 +104,15 @@ a breaking changes version
 - #130
 - #131
 - some bugs mentioned in #133
+
+## v3.9.0 Mar 28, 2022
+
+**Fixed**
+
+- Bug mentioned in #135
+- repetition of tests across node and deno
+
+**Added**
+
+- getFs()
+- BufferModules.getBuffer()

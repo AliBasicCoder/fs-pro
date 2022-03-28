@@ -2,11 +2,11 @@
 /* eslint-disable no-console */
 const { File, Dir, Shape } = require("../dist/main");
 const file_link =
-  "https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html";
+  "https://alibasiccoder.github.io/fs-pro/classes/_file_.file.html";
 const dir_link =
-  "https://alibasiccoder.github.io/fs-pro/classes/_src_dir_.dir.html";
+  "https://alibasiccoder.github.io/fs-pro/classes/_dir_.dir.html";
 const shape_link =
-  "https://alibasiccoder.github.io/fs-pro/classes/_src_shape_.shape.html";
+  "https://alibasiccoder.github.io/fs-pro/classes/_shape_.shape.html";
 
 function log(link) {
   return (item) => {
@@ -38,21 +38,18 @@ Object.keys(Shape.prototype).forEach(log(shape_link));
 Object.keys(Shape).forEach(log(shape_link));
 
 log2(
-  "https://alibasiccoder.github.io/fs-pro/modules/_src_pluginadder_.html#addplugin",
+  "https://alibasiccoder.github.io/fs-pro/modules/_pluginadder_.html#addplugin",
   "addPlugin",
   3
 );
 log2(
-  "https://alibasiccoder.github.io/fs-pro/modules/_src_pluginadder_.html#getplugintrack",
+  "https://alibasiccoder.github.io/fs-pro/modules/_pluginadder_.html#getplugintrack",
   "getPluginTrack"
 );
 
 log2(
-  "https://alibasiccoder.github.io/fs-pro/modules/_src_pluginadder_.html#getplugintrackformatted",
+  "https://alibasiccoder.github.io/fs-pro/modules/_pluginadder_.html#getplugintrackformatted",
   "getPluginTrackFormatted"
 );
 
-log2(
-  "https://alibasiccoder.github.io/fs-pro/modules/_src_fs_.html#setfs",
-  "setFs"
-);
+log2("https://alibasiccoder.github.io/fs-pro/modules/_fs_.html#setfs", "setFs");
