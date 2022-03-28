@@ -389,8 +389,16 @@ test({
     sub_dir.create();
     await wait(100);
     sub_dir.delete();
-    console.log(track);
-    assert(track.length >= 2 && track.length <= 4);
+    if (operating_system === "darwin") {
+      // for some reason in macos create will be repeated twice
+      // so
+      assert(track.length >= 2);
+    } else {
+      assertEquals(track, [
+        ["create", sub_dir.path],
+        ["remove", sub_dir.path],
+      ]);
+    }
   },
 });
 
