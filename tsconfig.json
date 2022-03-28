@@ -10,5 +10,5 @@
     "allowJs": true
   },
   "include": ["src/**/*", "test/node/**/*"],
-  "exclude": ["mod.ts", "test/deno", "node_modules"]
+  "exclude": ["mod.ts", "test", "node_modules"]
 }

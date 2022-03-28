@@ -1,7 +1,7 @@
 import { join, assertEquals, existsSync, statSync, test } from "./imports.ts";
-import { Dir } from "../../src/dir.ts";
-import { File } from "../../src/file.ts";
-import { Shape, __rest } from "../../src/Shape.ts";
+import { Dir } from "../src/dir.ts";
+import { File } from "../src/file.ts";
+import { Shape, __rest } from "../src/Shape.ts";
 
 /** ET stands for Existence and Type */
 function ET(...paths: string[]) {

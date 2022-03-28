@@ -16,9 +16,9 @@ import {
   assertThrows,
   operating_system,
 } from "./imports.ts";
-import { File } from "../../src/file.ts";
-import { Dir } from "../../src/dir.ts";
-import { buffer } from "../../src/buffer.ts";
+import { File } from "../src/file.ts";
+import { Dir } from "../src/dir.ts";
+import { buffer } from "../src/buffer.ts";
 import { checkFileData, randomFile, customEqual } from "./shared.ts";
 
 test({

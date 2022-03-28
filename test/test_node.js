@@ -1,4 +1,4 @@
-const { tests } = require("../../dist/test");
+const { tests } = require("../dist/test");
 
 for (const test of tests) {
   if (test.ignore) {

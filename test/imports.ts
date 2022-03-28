@@ -1,4 +1,4 @@
-import type { BufferType } from "../../src/types.ts";
+import type { BufferType } from "../src/types.ts";
 
 interface Test {
   name: string;

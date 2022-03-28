@@ -10,8 +10,8 @@ import {
   operating_system,
   assert,
 } from "./imports.ts";
-import { Dir } from "../../src/dir.ts";
-import { File } from "../../src/file.ts";
+import { Dir } from "../src/dir.ts";
+import { File } from "../src/file.ts";
 import {
   checkDirData,
   randomDir,

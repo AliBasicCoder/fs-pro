@@ -1,4 +1,4 @@
-import "../../mod.ts";
+import "../mod.ts";
 import "./dir.test.ts";
 import "./file.test.ts";
 import "./plugin.test.ts";
