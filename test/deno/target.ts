@@ -31,6 +31,8 @@ function load_node() {
     writeTextFileSync: fs.writeFileSync,
     resources: () => ({}),
     tempDir: os.tmpdir,
+    writeSync: fs.writeSync,
+    readSync: fs.readSync,
   });
 }
 

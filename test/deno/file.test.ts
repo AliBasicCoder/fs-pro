@@ -11,6 +11,10 @@ import {
   platform,
   tempDir,
   resources,
+  writeSync,
+  readSync,
+  assertThrows,
+  operating_system,
 } from "./imports.ts";
 import { File } from "../../src/file.ts";
 import { Dir } from "../../src/dir.ts";
@@ -31,6 +35,7 @@ test({
   fn() {
     const file = File.tmpFile();
     assertEquals(existsSync(file.path), true);
+    assertEquals(file.directory, tempDir());
   },
 });
 
@@ -207,12 +212,17 @@ test({
     let called = 0;
     file.validator = function () {
       called++;
-      return JSON.parse(this.read().toString());
+      return JSON.parse(this.text());
     };
     const errors = file.validate();
     assertEquals(errors.length, 0);
     assertEquals(called, 1);
     assertEquals(file.valid(), true);
+    file.write("hello world");
+    const errors2 = file.validate();
+    assertEquals(errors2.length, 1);
+    assertEquals(called, 3);
+    assertEquals(file.valid(), false);
   },
 });
 
@@ -232,7 +242,17 @@ test({
   fn() {
     const file = File.tmpFile();
     file.write("hello ").append("world");
-    assertEquals(file.read().toString(), "hello world");
+    assertEquals(file.text(), "hello world");
+  },
+});
+
+test({
+  name: "File.append() -- Buffer",
+  fn() {
+    const file = File.tmpFile();
+    const Buffer = buffer.getBuffer();
+    file.write(Buffer.from("hello ")).append(Buffer.from("world"));
+    assertEquals(file.text(), "hello world");
   },
 });
 
@@ -326,7 +346,7 @@ test({
 });
 
 test({
-  name: "File.open() and File.close()",
+  name: "File.open() and File.close() -- deno",
   ignore: platform === "node",
   fn() {
     const file = File.tmpFile();
@@ -339,7 +359,28 @@ test({
 });
 
 test({
-  name: "File.watch(), File.unwatch()",
+  name: "File.open() and File.close() -- node",
+  ignore: platform === "deno",
+  fn() {
+    const file = File.tmpFile();
+    const fd = file.open("r+");
+    const Buffer = buffer.getBuffer();
+    assertEquals(typeof fd, "number");
+    const block = () => {
+      writeSync(fd, Buffer.from("hello world"));
+      const result = Buffer.alloc(11);
+      // @ts-ignore
+      readSync(fd, result, 0, 11, 0);
+      assertEquals(result.toString(), "hello world");
+    };
+    block();
+    file.close();
+    assertThrows(block);
+  },
+});
+
+test({
+  name: "File.watch(), File.unwatch() -- deno",
   ignore: platform === "node",
   async fn() {
     const track: string[] = [];
@@ -363,6 +404,28 @@ test({
     // and the other for the modification made
     // TODO: try to fix this
     assert(track.length >= 2);
+  },
+});
+
+test({
+  name: "File.watch(), File.unwatch() -- node",
+  ignore: platform === "deno" || operating_system === "darwin",
+  async fn() {
+    const track: string[] = [];
+    const file = File.tmpFile();
+    file.watch((e: string, stats?: any, path?: string) => {
+      track.push(e);
+      assert(!!stats);
+      assert(typeof path === "string");
+    });
+    await wait(100);
+    file.write("hello world");
+    await wait(100);
+    file.unwatch();
+    await wait(100);
+    file.write("hello world2");
+    await wait(100);
+    assertEquals(track, ["add", "change"]);
   },
 });
 

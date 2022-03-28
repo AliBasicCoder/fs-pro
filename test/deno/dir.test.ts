@@ -31,6 +31,15 @@ test({
 });
 
 test({
+  name: "static Dir.tmpDir()",
+  fn() {
+    const dir = Dir.tmpDir();
+    assertEquals(dir.exits(), true);
+    assertEquals(dir.parentDirectory, tempDir());
+  },
+});
+
+test({
   name: "Dir.create()",
   fn() {
     const tmp_dir = tempDir();

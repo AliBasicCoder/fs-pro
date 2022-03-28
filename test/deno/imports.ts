@@ -1,3 +1,5 @@
+import type { BufferType } from "../../src/types.ts";
+
 interface Test {
   name: string;
   fn: Function;
@@ -30,6 +32,8 @@ let imports: {
   statSync(path: string): Stats;
   readTextFileSync(path: string): string;
   writeTextFileSync(path: string, data: string): void;
+  readSync(fd: number, buffer: BufferType): void;
+  writeSync(fd: number, buffer: BufferType): void;
   resources(): ResourceMap;
   tempDir(): string;
 };
@@ -47,6 +51,7 @@ export const assertEquals: typeof imports["assertEquals"] = (...args) =>
 
 export const assert: typeof imports["assert"] = (...args) =>
   imports.assert(...args);
+
 export const assertThrows: typeof imports["assertThrows"] = (...args) =>
   imports.assertThrows(...args);
 
@@ -82,6 +87,18 @@ export const resources: typeof imports["resources"] = () => {
 
 export const tempDir: typeof imports["tempDir"] = (...args) =>
   imports.tempDir(...args);
+
+export const writeSync: typeof imports["writeSync"] = (...args) => {
+  if (platform === "deno")
+    throw new Error("this function should not be called in deno");
+  return imports.writeSync(...args);
+};
+
+export const readSync: typeof imports["readSync"] = (...args) => {
+  if (platform === "deno")
+    throw new Error("this function should not be called in deno");
+  return imports.readSync(...args);
+};
 
 // from std deno
 

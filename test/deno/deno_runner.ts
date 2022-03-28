@@ -29,6 +29,8 @@ function load_deno() {
     writeTextFileSync: Deno.writeTextFileSync,
     resources: Deno.resources,
     tempDir: () => tmp_dir,
+    writeSync: () => {},
+    readSync: () => {},
   });
   for (const test_ of tests) {
     Deno.test({
