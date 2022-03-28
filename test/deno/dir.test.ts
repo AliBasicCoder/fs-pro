@@ -389,6 +389,7 @@ test({
     sub_dir.create();
     await wait(100);
     sub_dir.delete();
+    console.log(track);
     assert(track.length >= 2 && track.length <= 4);
   },
 });
