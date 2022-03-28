@@ -7,7 +7,6 @@ import {
   test,
   tempDir,
 } from "./imports.ts";
-// import { Dir, File } from "../../mod.ts";
 import { Dir } from "../../src/dir.ts";
 import { File } from "../../src/file.ts";
 import {

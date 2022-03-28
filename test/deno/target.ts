@@ -18,7 +18,7 @@ function load_node() {
   const os = require("os");
 
   setImports({
-    assertEquals: assert.equal,
+    assertEquals: assert.deepEqual,
     assert: assert.ok,
     assertThrows: assert.throws,
     join: path.join,

@@ -1,5 +1,4 @@
 import {
-  parse,
   join,
   assertEquals,
   assert,
@@ -13,16 +12,10 @@ import {
   tempDir,
   resources,
 } from "./imports.ts";
-// import { File, Buffer, Dir } from "../../mod.ts";
 import { File } from "../../src/file.ts";
 import { Dir } from "../../src/dir.ts";
-import type { BufferClass } from "../../src/types.ts";
-import { buffer as buf } from "../../src/buffer.ts";
+import { buffer } from "../../src/buffer.ts";
 import { checkFileData, randomFile, customEqual } from "./shared.ts";
-
-let buffer: BufferClass;
-
-buf.listen((b) => (buffer = b));
 
 test({
   name: "File: have write data",
@@ -137,9 +130,10 @@ test({
 test({
   name: "File.write() Buffer",
   fn() {
+    const Buffer = buffer.getBuffer();
     const file = File.tmpFile();
-    file.write(buffer.from("hello world"));
-    assertEquals(file.read(), buffer.from("hello world"));
+    file.write(Buffer.from("hello world"));
+    assertEquals(file.read(), Buffer.from("hello world"));
   },
 });
 
