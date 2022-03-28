@@ -327,8 +327,8 @@ test({
 
 test({
   name: "File.open() and File.close()",
+  ignore: platform === "node",
   fn() {
-    if (platform === "node") return;
     const file = File.tmpFile();
     const fd = file.open();
     assertEquals(typeof fd, "number");
@@ -340,8 +340,8 @@ test({
 
 test({
   name: "File.watch(), File.unwatch()",
+  ignore: platform === "node",
   async fn() {
-    if (platform === "node") return;
     const track: string[] = [];
     const file = File.tmpFile();
     file.watch((e: string, stats: any, path?: string) => {

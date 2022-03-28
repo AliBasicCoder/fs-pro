@@ -1,5 +1,7 @@
 const { tests } = require("../../dist/test");
 
 for (const test of tests) {
-  it(test.name, test.fn);
+  if (test.ignore) {
+    it.skip(test.name, test.fn);
+  } else it(test.name, test.fn);
 }

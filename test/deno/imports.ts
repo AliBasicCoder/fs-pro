@@ -1,10 +1,16 @@
-export const tests: { name: string; fn: Function }[] = [];
+interface Test {
+  name: string;
+  fn: Function;
+  ignore?: boolean;
+}
+
+export const tests: Test[] = [];
 
 export const platform =
   // @ts-ignore
   typeof Deno === "undefined" ? "node" : "deno";
 
-export function test(obj: { name: string; fn: Function }) {
+export function test(obj: Test) {
   tests.push(obj);
 }
 

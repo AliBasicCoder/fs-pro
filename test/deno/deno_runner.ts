@@ -46,6 +46,7 @@ async function load_deno() {
   for (const test_ of tests) {
     Deno.test({
       name: test_.name,
+      ignore: test_.ignore,
       fn: () => test_.fn(),
     });
   }
