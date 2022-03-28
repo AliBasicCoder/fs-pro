@@ -3,7 +3,7 @@ import "./dir.test.ts";
 import "./file.test.ts";
 import "./plugin.test.ts";
 import "./shape.test.ts";
-import { setImports, tests } from "./imports.ts";
+import { setImports, tests, getImports } from "./imports.ts";
 
 function load_node() {
   // @ts-ignore
@@ -18,7 +18,7 @@ function load_node() {
   const os = require("os");
 
   setImports({
-    assertEquals: assert.equals,
+    assertEquals: assert.equal,
     assert: assert.ok,
     assertThrows: assert.throws,
     join: path.join,
@@ -36,4 +36,4 @@ function load_node() {
 
 load_node();
 
-export { tests };
+export { tests, getImports };

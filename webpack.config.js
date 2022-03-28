@@ -13,10 +13,6 @@ module.exports = {
   },
   externals: [nodeExternals()],
   target: "node",
-  node: {
-    fs: "empty",
-    path: "empty",
-  },
   mode: "production",
   module: {
     rules: [

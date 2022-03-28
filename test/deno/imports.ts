@@ -28,6 +28,10 @@ export function setImports(i: typeof imports) {
   imports = i;
 }
 
+export function getImports() {
+  return imports;
+}
+
 export const assertEquals: typeof imports["assertEquals"] = (...args) =>
   imports.assertEquals(...args);
 

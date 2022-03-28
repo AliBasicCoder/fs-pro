@@ -347,6 +347,7 @@ test({
 test({
   name: "File.watch(), File.unwatch()",
   async fn() {
+    if (platform === "node") return;
     const track: string[] = [];
     const file = File.tmpFile();
     file.watch((e: string, stats: any, path?: string) => {
