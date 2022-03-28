@@ -1,6 +1,6 @@
 // this script prints all api links
 /* eslint-disable no-console */
-const { File, Dir, Shape } = require("../dist/fs-pro");
+const { File, Dir, Shape } = require("../dist/main");
 const file_link =
   "https://alibasiccoder.github.io/fs-pro/classes/_src_file_.file.html";
 const dir_link =

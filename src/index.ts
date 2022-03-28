@@ -5,7 +5,7 @@ import {
   getPluginTrack,
   getPluginTrackFormatted,
 } from "./pluginAdder.ts";
-import { setFs } from "./fs.ts";
+import { setFs, getFs } from "./fs.ts";
 import { setPath } from "./path.ts";
 import { Shape, __rest } from "./Shape.ts";
 import { buffer } from "./buffer.ts";
@@ -117,6 +117,7 @@ export {
   Dir,
   addPlugin,
   setFs,
+  getFs,
   Shape,
   getPluginTrack,
   getPluginTrackFormatted,

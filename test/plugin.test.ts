@@ -1,11 +1,8 @@
-import {
-  assertEquals,
-  assertThrows,
-  assert,
-} from "https://deno.land/std@0.131.0/testing/asserts.ts";
-import { addPlugin, File } from "../../mod.ts";
+import { assertEquals, assertThrows, assert, test } from "./imports.ts";
+import { addPlugin } from "../src/pluginAdder.ts";
+import { File } from "../src/file.ts";
 
-Deno.test({
+test({
   name: "addPlugin: addPlugin normal plugin",
   fn() {
     addPlugin({
@@ -41,7 +38,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "addPlugin: errors when overwriting native methods",
   fn() {
     assertThrows(() => {
@@ -60,7 +57,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "addPlugin: errors when overwriting methods added by other plugins",
   fn() {
     assertThrows(() => {
@@ -79,9 +76,8 @@ Deno.test({
   },
 });
 
-Deno.test({
-  name:
-    "addPlugin: allow overwriting methods added by other plugins when set to true",
+test({
+  name: "addPlugin: allow overwriting methods added by other plugins when set to true",
   fn() {
     try {
       addPlugin(

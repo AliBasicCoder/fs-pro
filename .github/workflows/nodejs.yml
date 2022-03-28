@@ -58,7 +58,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: denolib/setup-deno@v2
-      - run: deno test -A --unstable test/deno/
+      - run: deno test -A --unstable test/deno_runner.ts
 
   test_macos_deno:
     runs-on: macos-latest
@@ -66,7 +66,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: denolib/setup-deno@v2
-      - run: deno test -A --unstable test/deno/
+      - run: deno test -A --unstable test/deno_runner.ts
 
   test_windows_deno:
     runs-on: windows-latest
@@ -74,4 +74,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: denolib/setup-deno@v2
-      - run: deno test -A --unstable test/deno/
+      - run: deno test -A --unstable test/deno_runner.ts

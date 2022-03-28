@@ -1,7 +1,7 @@
-import { join } from "https://deno.land/std@0.131.0/path/mod.ts";
-import { assertEquals } from "https://deno.land/std@0.131.0/testing/asserts.ts";
-import { existsSync, statSync } from "https://deno.land/std@0.131.0/node/fs.ts";
-import { Shape, Dir, File, __rest } from "../../mod.ts";
+import { join, assertEquals, existsSync, statSync, test } from "./imports.ts";
+import { Dir } from "../src/dir.ts";
+import { File } from "../src/file.ts";
+import { Shape, __rest } from "../src/Shape.ts";
 
 /** ET stands for Existence and Type */
 function ET(...paths: string[]) {
@@ -43,7 +43,7 @@ const shape3 = new Shape({
   },
 });
 
-Deno.test({
+test({
   name: "Shape.createShapeInst()",
   fn() {
     [shape, shape2].forEach((s) => {
@@ -74,7 +74,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Shape.validate() empty folder",
   fn() {
     [shape, shape2].forEach((s) => {
@@ -84,7 +84,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Shape.validate() correct folder",
   fn() {
     [shape, shape2].forEach((s) => {
@@ -95,7 +95,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Shape.validate() __rest",
   fn() {
     [shape, shape2].forEach((s) => {
@@ -111,7 +111,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Shape.validate() __rest 2",
   fn() {
     const dir = Dir.tmpDir();

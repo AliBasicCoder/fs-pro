@@ -1,6 +1,6 @@
 // this script removes all .ts from imports in generated .d.ts files from webpack
 /* eslint-disable no-console */
-const { Dir } = require("../dist/fs-pro");
+const { Dir } = require("../dist/main.js");
 
 const importRegex = /import (type )?(\{[\w, ]*\}) from "([^"]*)"/;
 
