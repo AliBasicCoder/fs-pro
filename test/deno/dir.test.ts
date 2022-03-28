@@ -6,6 +6,9 @@ import {
   makeTempDirSync,
   test,
   tempDir,
+  platform,
+  operating_system,
+  assert,
 } from "./imports.ts";
 import { Dir } from "../../src/dir.ts";
 import { File } from "../../src/file.ts";
@@ -43,6 +46,8 @@ test({
     const tmp_dir = tempDir();
     const dir = new Dir(tmp_dir, randomDir());
     assertEquals(dir.exits(), false);
+    dir.create();
+    assertEquals(dir.exits(), true);
   },
 });
 
@@ -176,22 +181,37 @@ test({
 test({
   name: "Dir.deleteMach()",
   fn() {
-    // TODO: improve this testing
     const dir = Dir.tmpDir();
-    const sub_dir = dir.createDir(randomDir());
-    dir.deleteMath(RegExp(sub_dir.name));
+    const regex = /delete_.*/;
+    const sub_dir = dir.createDir("delete_1");
+    sub_dir.createFile("should_be_deleted");
+    const sub_dir2 = dir.createDir("no_remove_1");
+    const file2 = dir.createFile("delete_2");
+    const file3 = dir.createFile("no_remove_2");
+    dir.deleteMath(regex);
     assertEquals(sub_dir.exits(), false);
+    assertEquals(sub_dir2.exits(), true);
+    assertEquals(file2.exits(), false);
+    assertEquals(file3.exits(), true);
   },
 });
 
 test({
   name: "Dir.deleteMatchFile()",
   fn() {
-    // TODO: improve this testing
     const dir = Dir.tmpDir();
-    const sub_file = dir.createFile(randomFile());
-    dir.deleteMatchFile(RegExp(sub_file.base));
-    assertEquals(sub_file.exits(), false);
+    const regex = /delete_.*/;
+    const sub_dir = dir.createDir("delete_1");
+    const file1 = sub_dir.createFile("delete_3");
+    const sub_dir2 = dir.createDir("no_remove_1");
+    const file2 = dir.createFile("delete_2");
+    const file3 = dir.createFile("no_remove_2");
+    dir.deleteMatchFile(regex);
+    assertEquals(sub_dir.exits(), true);
+    assertEquals(sub_dir2.exits(), true);
+    assertEquals(file2.exits(), false);
+    assertEquals(file3.exits(), true);
+    assertEquals(file1.exits(), false);
   },
 });
 
@@ -199,9 +219,18 @@ test({
   name: "Dir.deleteMatchDir()",
   fn() {
     const dir = Dir.tmpDir();
-    const sub_dir = dir.createDir(randomDir());
-    dir.deleteMatchDir(RegExp(sub_dir.name));
+    const regex = /delete_.*/;
+    const sub_dir = dir.createDir("delete_1");
+    const file1 = sub_dir.createFile("delete_3");
+    const sub_dir2 = dir.createDir("no_remove_1");
+    const file2 = dir.createFile("delete_2");
+    const file3 = dir.createFile("no_remove_2");
+    dir.deleteMatchDir(regex);
     assertEquals(sub_dir.exits(), false);
+    assertEquals(file1.exits(), false);
+    assertEquals(sub_dir2.exits(), true);
+    assertEquals(file2.exits(), true);
+    assertEquals(file3.exits(), true);
   },
 });
 
@@ -313,4 +342,57 @@ test({
   },
 });
 
-// ignoring .watch() .unwatch() for now
+test({
+  name: "Dir.watch(), Dir.unwatch() -- node",
+  ignore:
+    platform === "deno" ||
+    (platform === "node" && operating_system === "darwin"),
+  async fn() {
+    const track: any[] = [];
+    const dir = Dir.tmpDir();
+    dir.watch((...args: any[]) => track.push(args));
+    await wait(100);
+    const sub_dir = dir.createDir("hi");
+    await wait(100);
+    sub_dir.delete();
+    await wait(100);
+    dir.unwatch();
+    await wait(100);
+    sub_dir.create();
+    await wait(100);
+    sub_dir.delete();
+    assertEquals(
+      [track[0]?.slice(0, 2), track[1]?.slice(0, 2), track[2]],
+      [
+        ["addDir", dir.path],
+        ["addDir", sub_dir.path],
+        ["unlinkDir", sub_dir.path],
+      ]
+    );
+  },
+});
+
+test({
+  name: "Dir.watch(), Dir.unwatch() -- deno",
+  ignore: platform === "node",
+  async fn() {
+    const track: any[] = [];
+    const dir = Dir.tmpDir();
+    dir.watch((...args: any[]) => track.push(args));
+    await wait(100);
+    const sub_dir = dir.createDir("hi");
+    await wait(100);
+    sub_dir.delete();
+    await wait(100);
+    dir.unwatch();
+    await wait(100);
+    sub_dir.create();
+    await wait(100);
+    sub_dir.delete();
+    assert(track.length >= 2 && track.length <= 4);
+  },
+});
+
+function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}

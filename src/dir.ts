@@ -226,7 +226,7 @@ export class Dir {
    * ```
    */
   watch(listener?: WatchListener) {
-    this.watcher = watch(this.path);
+    this.watcher = watch(this.path, listener);
     if (listener) {
       // @ts-ignore
       if (typeof Deno === "undefined") this.watcher.on("all", listener);

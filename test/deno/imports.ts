@@ -10,6 +10,10 @@ export const platform =
   // @ts-ignore
   typeof Deno === "undefined" ? "node" : "deno";
 
+export const operating_system: "darwin" | "linux" | "windows" =
+  // @ts-ignore
+  platform === "deno" ? Deno.build.os : process.platform;
+
 export function test(obj: Test) {
   tests.push(obj);
 }
