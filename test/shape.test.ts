@@ -29,7 +29,7 @@ const shape2 = new Shape({
     some_file_2: Shape.File("some_file_2"),
     [__rest]: Shape.Pattern("*.txt"),
   }),
-  some_dir_3: Shape.Dir("some_dir_3", Shape.File("*.txt")),
+  some_dir_3: Shape.Dir("some_dir_3", Shape.Pattern("*.txt")),
   [__rest]: Shape.Pattern("rest[0-9]{3}.txt|*.any"),
 });
 

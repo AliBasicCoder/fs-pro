@@ -38,6 +38,14 @@ export type ShapeObj = ShapeObjWithoutName & {
   [name_sym]?: string;
 };
 
+export type WithRest<T extends ShapeObj> = T & OldRest;
+
+export type ShapeObjRest = ShapeObjWithoutName & OldRest;
+
+type OldRest = {
+  __rest: ShapeObj | ShapeFile | ShapeDir;
+};
+
 export const isShapeFile = (obj: any): obj is ShapeFile => obj.type === 0;
 
 export const isShapeDir = (obj: any): obj is ShapeDir => obj.type === 1;
@@ -59,8 +67,13 @@ export type errArr = {
 export const isErrArr = (obj?: any): obj is errArr => obj.arr && obj.push;
 
 export class Shape<T extends ShapeObj> {
-  shapeObj: ShapeObj;
+  shapeObj: T;
 
+  /**
+   * @deprecated since v3.8.0
+   * please use __rest symbol instead
+   */
+  constructor(shape: WithRest<T>);
   /**
    * the Shape class is a class that helps you create folder with a certain shape (hierarchy)
    * or test if a folder have a certain shape (hierarchy)
@@ -143,6 +156,7 @@ export class Shape<T extends ShapeObj> {
    * ```
    * @param shape
    */
+  constructor(shape: T);
   constructor(shape: T) {
     this.shapeObj = shape;
   }
@@ -207,7 +221,20 @@ export class Shape<T extends ShapeObj> {
    * @param name name of the folder
    * @param fileTypeOrShapeObj file type of the Shape Obj
    */
-  static Dir(name: string, fileType: ShapeFile | ShapeFilePattern): ShapeDir;
+  static Dir(name: string, fileType: ShapeFilePattern): ShapeDir;
+  /**
+   * @deprecated since v3.8.0
+   * please use Shape.Pattern instead of Shape.File
+   */
+  static Dir(name: string, fileType: ShapeFile): ShapeDir;
+  /**
+   * @deprecated since v3.8.0
+   * please use __rest symbol instead
+   */
+  static Dir<K extends ShapeObjRest>(
+    name: string,
+    shapeObj: K
+  ): K & { [name_sym]: string };
   static Dir<K extends ShapeObjWithoutName>(
     name: string,
     shapeObj: K
