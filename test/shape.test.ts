@@ -140,9 +140,11 @@ function customEquals(
     return;
   }
   let found = 0;
-  for (let i = 0; i < actual.length; i++) {
-    if (actual[i][0] === expected[i][0] && actual[i][1] === expected[i][1])
-      found++;
+  for (let i = 0; i < expected.length; i++) {
+    for (let y = 0; y < expected.length; y++) {
+      if (expected[i][0] === actual[y][0] && expected[i][1] === actual[y][1])
+        found++;
+    }
   }
   if (found !== expected.length) {
     console.log(actual, expected);
