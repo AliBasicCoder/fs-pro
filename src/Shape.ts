@@ -38,6 +38,14 @@ export type ShapeObj = ShapeObjWithoutName & {
   [name_sym]?: string;
 };
 
+export type WithRest<T extends ShapeObj> = T & OldRest;
+
+export type ShapeObjRest = ShapeObjWithoutName & OldRest;
+
+type OldRest = {
+  __rest: ShapeObj | ShapeFile | ShapeDir;
+};
+
 export const isShapeFile = (obj: any): obj is ShapeFile => obj.type === 0;
 
 export const isShapeDir = (obj: any): obj is ShapeDir => obj.type === 1;
@@ -59,8 +67,13 @@ export type errArr = {
 export const isErrArr = (obj?: any): obj is errArr => obj.arr && obj.push;
 
 export class Shape<T extends ShapeObj> {
-  shapeObj: ShapeObj;
+  shapeObj: T;
 
+  /**
+   * @deprecated since v3.8.0
+   * please use __rest symbol instead
+   */
+  constructor(shape: WithRest<T>);
   /**
    * the Shape class is a class that helps you create folder with a certain shape (hierarchy)
    * or test if a folder have a certain shape (hierarchy)
@@ -143,6 +156,7 @@ export class Shape<T extends ShapeObj> {
    * ```
    * @param shape
    */
+  constructor(shape: T);
   constructor(shape: T) {
     this.shapeObj = shape;
   }
@@ -164,7 +178,7 @@ export class Shape<T extends ShapeObj> {
   ): ShapeFilePattern {
     let regex: RegExp;
     if (typeof pattern === "string") {
-      const _ = convertPatternToRegex(pattern);
+      const _ = convertPatternToRegex(pattern, true);
       if (!_[1])
         console.warn(
           `W00: looks like the pattern you entered is a static file name please use a Shape Object instead https://github.com/AliBasicCoder/fs-pro/blob/master/NOTES.md`
@@ -207,7 +221,20 @@ export class Shape<T extends ShapeObj> {
    * @param name name of the folder
    * @param fileTypeOrShapeObj file type of the Shape Obj
    */
-  static Dir(name: string, fileType: ShapeFile | ShapeFilePattern): ShapeDir;
+  static Dir(name: string, fileType: ShapeFilePattern): ShapeDir;
+  /**
+   * @deprecated since v3.8.0
+   * please use Shape.Pattern instead of Shape.File
+   */
+  static Dir(name: string, fileType: ShapeFile): ShapeDir;
+  /**
+   * @deprecated since v3.8.0
+   * please use __rest symbol instead
+   */
+  static Dir<K extends ShapeObjRest>(
+    name: string,
+    shapeObj: K
+  ): K & { [name_sym]: string };
   static Dir<K extends ShapeObjWithoutName>(
     name: string,
     shapeObj: K
@@ -224,22 +251,10 @@ export class Shape<T extends ShapeObj> {
       } as ShapeDir;
     }
     if (isShapeFile(fileTypeOrShapeObj)) {
-      const [regex, isPattern] = convertPatternToRegex(fileTypeOrShapeObj.base);
-
-      if (isPattern)
-        console.warn(
-          `W01: looks like you passed a pattern to Shape.File use Shape.Pattern instead https://github.com/AliBasicCoder/fs-pro/blob/master/NOTES.md`
-        );
-
       return {
         type: 1,
         name,
-        filePattern: {
-          type: 2,
-          regex,
-          validator: fileTypeOrShapeObj.validator,
-          defaultContent: fileTypeOrShapeObj.defaultContent,
-        },
+        filePattern: convertShapeFileToPattern(fileTypeOrShapeObj, true),
       };
     }
     if (fileTypeOrShapeObj.__rest) {
@@ -301,7 +316,10 @@ type switchToShapeInstRef<T extends ShapeObj> = {
   __dir: Dir;
 };
 
-function convertPatternToRegex(pattern: string): [RegExp, boolean] {
+function convertPatternToRegex(
+  pattern: string,
+  firstCall: boolean
+): [RegExp, boolean] {
   const orRegex = /[^\\]\|/g;
   if (orRegex.test(pattern)) {
     let last_index = 0;
@@ -314,9 +332,10 @@ function convertPatternToRegex(pattern: string): [RegExp, boolean] {
     }
     regexs.push(pattern.slice(last_index));
     const result = regexs
-      .map((regex) => `(${convertPatternToRegex(regex)[0].source})`)
+      .map((regex) => `(${convertPatternToRegex(regex, false)[0].source})`)
       .join("|");
-    return [RegExp(result), true];
+
+    return [RegExp(firstCall ? `^(${result})$` : result), true];
   } else {
     const starRegex = /(^|[^\\])\*/g;
     let found = false;
@@ -326,8 +345,27 @@ function convertPatternToRegex(pattern: string): [RegExp, boolean] {
       return `${fnd === "*" ? "" : fnd[0]}.*`;
     });
 
-    return [RegExp(pattern), found];
+    return [RegExp(firstCall ? `^(${pattern})$` : pattern), found];
   }
+}
+
+function convertShapeFileToPattern(
+  o: ShapeFile,
+  warn = false
+): ShapeFilePattern {
+  const [regex] = convertPatternToRegex(o.base, true);
+
+  if (warn)
+    console.warn(
+      `W01: looks like you passed a pattern to Shape.File use Shape.Pattern instead https://github.com/AliBasicCoder/fs-pro/blob/master/NOTES.md`
+    );
+
+  return {
+    type: 2,
+    regex,
+    validator: o.validator,
+    defaultContent: o.defaultContent,
+  };
 }
 
 function createEventRegister(eventsListeners?: createEvents) {
@@ -413,7 +451,9 @@ function validate(path: string, shapeObj: ShapeObj, crash = false) {
     else name = element[name_sym] || "";
     const elementPath = join(path, name);
     if (!existsSync(elementPath)) {
-      errs.push(new fsProErr(isShapeDir(element) ? "DDE" : "FDE", elementPath));
+      errs.push(
+        new fsProErr(isShapeFile(element) ? "FDE" : "DDE", elementPath)
+      );
       continue;
     }
     errs.push(check(element, toFileOrDir(elementPath), crash));
@@ -425,10 +465,10 @@ function validate(path: string, shapeObj: ShapeObj, crash = false) {
     return true;
   });
   restFiles.forEach((fileOrDir) => {
-    if (shapeObj.__rest || shapeObj[__rest])
-      errs.push(
-        check(shapeObj.__rest || shapeObj[__rest], fileOrDir, crash, true)
-      );
+    let rest: ShapeObj | ShapeFile | ShapeDir | ShapeFilePattern =
+      shapeObj.__rest || shapeObj[__rest];
+    if (isShapeFile(rest)) rest = convertShapeFileToPattern(rest);
+    if (rest) errs.push(check(rest, fileOrDir, crash, true));
     else
       errs.push(
         new fsProErr(fileOrDir instanceof Dir ? "IDF" : "IFF", fileOrDir.path)
