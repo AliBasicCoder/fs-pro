@@ -129,3 +129,47 @@ test({
     assertEquals(shape3.validate(dir2.path).arr.length, 2);
   },
 });
+
+function customEquals(
+  actual: [string, string][],
+  expected: [string, string][]
+) {
+  if (actual.length !== expected.length) {
+    // using assertEquals cause it will print diffs better
+    assertEquals(actual, expected);
+    return;
+  }
+  let found = 0;
+  for (let i = 0; i < actual.length; i++) {
+    if (actual[i][0] === expected[i][0] && actual[i][1] === expected[i][1])
+      found++;
+  }
+  if (found !== expected.length) {
+    console.log(actual, expected);
+    assertEquals(found, expected.length);
+  }
+}
+
+test({
+  name: "Shape.validate() __rest 3",
+  fn() {
+    [shape, shape2].forEach((s, i) => {
+      const dir = Dir.tmpDir();
+      const file1 = dir.createFile("rest123.txt.some");
+      const file2 = dir.createFile("something.any.some");
+      const sub_dir = dir.createDir("some_dir_3");
+      const file3 = sub_dir.createFile("hi.txt.some");
+
+      const errs = s
+        .validate(dir.path)
+        .arr.map((err) => [err.code, err.path]) as [string, string][];
+      customEquals(errs, [
+        ["FDE", join(dir.path, "some_file.txt")],
+        ["DDE", join(dir.path, "some_dir")],
+        ["IFF", file3.path],
+        ["IFF", file2.path],
+        ["IFF", file1.path],
+      ]);
+    });
+  },
+});
