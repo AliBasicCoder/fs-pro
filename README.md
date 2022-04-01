@@ -23,7 +23,7 @@ see the API documentation [here](https://alibasiccoder.github.io/fs-pro/)
 - [Api links](#api)
 - [Creating plugins](#creating-plugins)
 - [Using Plugins](#using-plugins)
-- [Change log](#change-loh)
+- [Change log](#change-log)
 
 ## Features
 
