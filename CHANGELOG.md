@@ -116,3 +116,10 @@ a breaking changes version
 
 - getFs()
 - BufferModules.getBuffer()
+
+## v3.10.0 Apr 1, 2022
+
+**Fixed**
+
+- #136
+- bug mentioned in #137

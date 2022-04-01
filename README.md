@@ -23,6 +23,7 @@ see the API documentation [here](https://alibasiccoder.github.io/fs-pro/)
 - [Api links](#api)
 - [Creating plugins](#creating-plugins)
 - [Using Plugins](#using-plugins)
+- [Change log](#change-loh)
 
 ## Features
 
@@ -305,6 +306,12 @@ import myPlugin from "my-plugin";
 
 addPlugin(myPlugin);
 ``` -->
+
+## Change Log
+
+see our [Change Log](https://github.com/AliBasicCoder/fs-pro/blob/master/CHANGELOG.md)
+
+we don't leave our change log here cause it's quite long
 
 ## License
 

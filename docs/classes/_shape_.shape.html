@@ -120,13 +120,106 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Shape<span class="tsd-signature-symbol">(</span>shape<span class="tsd-signature-symbol">: </span><a href="../modules/_shape_.html#withrest" class="tsd-signature-type">WithRest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_shape_.shape.html" class="tsd-signature-type">Shape</a></li>
 						<li class="tsd-signature tsd-kind-icon">new <wbr>Shape<span class="tsd-signature-symbol">(</span>shape<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_shape_.shape.html" class="tsd-signature-type">Shape</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/a42f5a5/src/Shape.ts#L62">src/Shape.ts:62</a></li>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/8cc0ba3/src/Shape.ts#L70">src/Shape.ts:70</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>the Shape class is a class that helps you create folder with a certain shape (hierarchy)
+										or test if a folder have a certain shape (hierarchy)
+									example 1:</p>
+								</div>
+								<p>imagine that you want to test if a folder</p>
+								<p>(1) has a folder named &quot;js_ts_files&quot; which only contains js or ts files</p>
+								<p>(2) has a folder named &quot;text_folders&quot; which only contains folder with contains text files</p>
+								<p>(3) has an empty folder named &quot;empty_folder&quot;</p>
+								<p>(4) everything else in the folder must be a json file</p>
+								<pre><code class="language-js"><span class="hljs-keyword">import</span> { Shape, __rest } <span class="hljs-keyword">from</span> <span class="hljs-string">"fs-pro"</span>;
+<span class="hljs-comment">// (1) create the shape</span>
+<span class="hljs-keyword">const</span> shape = <span class="hljs-keyword">new</span> Shape({
+   <span class="hljs-comment">// a key to reference in the code (if you need)</span>
+   <span class="hljs-attr">js_ts_files</span>:
+      <span class="hljs-comment">// Shape.Dir means this should be a folder named "js_ts_files"</span>
+      Shape.Dir(
+         <span class="hljs-comment">// the name of the folder in the file system</span>
+         <span class="hljs-string">"js_ts_files"</span>,
+         <span class="hljs-comment">// the pattern of the files (you could also use regexs)</span>
+         Shape.Pattern(<span class="hljs-string">"*.js|*.ts"</span>)
+      ),
+   <span class="hljs-comment">// passing an oject this folder must folder this shape (hierarchy)</span>
+   <span class="hljs-attr">text_folders</span>: Shape.Dir(<span class="hljs-string">"text_folders"</span>, {
+      <span class="hljs-comment">// __rest means anything else in the folder</span>
+      <span class="hljs-comment">//  and because we set __rest here as an object it means that</span>
+      <span class="hljs-comment">//  __rest is a folder</span>
+      [__rest]: {
+        [__rest]: Shape.Pattern(<span class="hljs-string">"*.txt"</span>)
+     }
+   }),
+   <span class="hljs-comment">// this regex doesn't match anything except an empty string</span>
+   <span class="hljs-comment">// so it wont match any file name so the folder must be empty</span>
+   <span class="hljs-attr">empty_folder</span>: Shape.Dir(<span class="hljs-string">"empty_folder"</span>, Shape.Pattern(<span class="hljs-regexp">/$^/</span>)),
+   <span class="hljs-comment">// __rest means any thing else (not mentioned)</span>
+   <span class="hljs-comment">// Shape.Pattern means it must be a file following</span>
+   <span class="hljs-comment">// the given pattern</span>
+   [__rest]: Shape.Pattern(<span class="hljs-string">"*.json"</span>)
+});
+
+<span class="hljs-comment">// (2) test if a folder follows it</span>
+<span class="hljs-comment">// this will throw an error if the folder doesn't match the shape</span>
+shape.validate(<span class="hljs-string">"/path/to/folder"</span>, <span class="hljs-literal">true</span>);
+<span class="hljs-comment">// or if you want more details</span>
+<span class="hljs-built_in">console</span>.log(shape.validate(<span class="hljs-string">"/path/to/folder"</span>));
+<span class="hljs-comment">// this will not throw an error even if the folder doesn't match the shape</span>
+<span class="hljs-comment">// but it will log an array of errors saying where the folder doesn't match</span>
+<span class="hljs-comment">// the shape</span></code></pre>
+								<p>example 2:</p>
+								<p>imagine that you want to create a</p>
+								<p>(1) folder named &quot;something&quot; that has a file named &quot;hi.txt&quot; and contains &quot;hello world&quot;</p>
+								<p>(2) you want to log the path of everything created</p>
+								<pre><code class="language-js"><span class="hljs-comment">// (1) create the shape</span>
+<span class="hljs-keyword">const</span> shape = <span class="hljs-keyword">new</span> Shape({
+  <span class="hljs-attr">something</span>: {
+    <span class="hljs-attr">hi</span>: Shape.File(<span class="hljs-string">"hi.txt"</span>, <span class="hljs-string">"hello world"</span>)
+  }
+});
+
+<span class="hljs-comment">// (2) use createShapeInst</span>
+shape.createShapeInst(<span class="hljs-string">"/path/to/folder"</span>, {
+  <span class="hljs-comment">// gets called when a file or folder is created</span>
+  onCreate(fileOrFolder) {
+    <span class="hljs-built_in">console</span>.log(fileOrFolder.path);
+  }
+});</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>deprecated</dt>
+									<dd><p>since v3.8.0
+										please use __rest symbol instead</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>shape: <a href="../modules/_shape_.html#withrest" class="tsd-signature-type">WithRest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+										</div>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_shape_.shape.html" class="tsd-signature-type">Shape</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/8cc0ba3/src/Shape.ts#L76">src/Shape.ts:76</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -217,10 +310,10 @@ shape.createShapeInst(<span class="hljs-string">"/path/to/folder"</span>, {
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="shapeobj" class="tsd-anchor"></a>
 					<h3>shape<wbr>Obj</h3>
-					<div class="tsd-signature tsd-kind-icon">shape<wbr>Obj<span class="tsd-signature-symbol">:</span> <a href="../modules/_shape_.html#shapeobj" class="tsd-signature-type">ShapeObj</a></div>
+					<div class="tsd-signature tsd-kind-icon">shape<wbr>Obj<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/a42f5a5/src/Shape.ts#L62">src/Shape.ts:62</a></li>
+							<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/8cc0ba3/src/Shape.ts#L70">src/Shape.ts:70</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -237,7 +330,7 @@ shape.createShapeInst(<span class="hljs-string">"/path/to/folder"</span>, {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/a42f5a5/src/Shape.ts#L272">src/Shape.ts:272</a></li>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/8cc0ba3/src/Shape.ts#L287">src/Shape.ts:287</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -282,7 +375,7 @@ shape.createShapeInst(<span class="hljs-string">"/path/to/folder"</span>, {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/a42f5a5/src/Shape.ts#L287">src/Shape.ts:287</a></li>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/8cc0ba3/src/Shape.ts#L302">src/Shape.ts:302</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -340,14 +433,16 @@ shape.createShapeInst(<span class="hljs-string">"/path/to/folder"</span>, {
 					<a name="dir" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> Dir</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">Dir<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, fileType<span class="tsd-signature-symbol">: </span><a href="../modules/_shape_.html#shapefile" class="tsd-signature-type">ShapeFile</a><span class="tsd-signature-symbol"> | </span><a href="../modules/_shape_.html#shapefilepattern" class="tsd-signature-type">ShapeFilePattern</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../modules/_shape_.html#shapedir" class="tsd-signature-type">ShapeDir</a></li>
+						<li class="tsd-signature tsd-kind-icon">Dir<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, fileType<span class="tsd-signature-symbol">: </span><a href="../modules/_shape_.html#shapefilepattern" class="tsd-signature-type">ShapeFilePattern</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../modules/_shape_.html#shapedir" class="tsd-signature-type">ShapeDir</a></li>
+						<li class="tsd-signature tsd-kind-icon">Dir<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, fileType<span class="tsd-signature-symbol">: </span><a href="../modules/_shape_.html#shapefile" class="tsd-signature-type">ShapeFile</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../modules/_shape_.html#shapedir" class="tsd-signature-type">ShapeDir</a></li>
+						<li class="tsd-signature tsd-kind-icon">Dir&lt;K&gt;<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, shapeObj<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-symbol">{ </span>__computed<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></li>
 						<li class="tsd-signature tsd-kind-icon">Dir&lt;K&gt;<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, shapeObj<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-symbol">{ </span>__computed<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/a42f5a5/src/Shape.ts#L210">src/Shape.ts:210</a></li>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/8cc0ba3/src/Shape.ts#L224">src/Shape.ts:224</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -365,7 +460,7 @@ shape.createShapeInst(<span class="hljs-string">"/path/to/folder"</span>, {
 									</div>
 								</li>
 								<li>
-									<h5>fileType: <a href="../modules/_shape_.html#shapefile" class="tsd-signature-type">ShapeFile</a><span class="tsd-signature-symbol"> | </span><a href="../modules/_shape_.html#shapefilepattern" class="tsd-signature-type">ShapeFilePattern</a></h5>
+									<h5>fileType: <a href="../modules/_shape_.html#shapefilepattern" class="tsd-signature-type">ShapeFilePattern</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../modules/_shape_.html#shapedir" class="tsd-signature-type">ShapeDir</a></h4>
@@ -373,7 +468,63 @@ shape.createShapeInst(<span class="hljs-string">"/path/to/folder"</span>, {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/a42f5a5/src/Shape.ts#L211">src/Shape.ts:211</a></li>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/8cc0ba3/src/Shape.ts#L229">src/Shape.ts:229</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>deprecated</dt>
+									<dd><p>since v3.8.0
+										please use Shape.Pattern instead of Shape.File</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>fileType: <a href="../modules/_shape_.html#shapefile" class="tsd-signature-type">ShapeFile</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../modules/_shape_.html#shapedir" class="tsd-signature-type">ShapeDir</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/8cc0ba3/src/Shape.ts#L234">src/Shape.ts:234</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>deprecated</dt>
+									<dd><p>since v3.8.0
+										please use __rest symbol instead</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>K<span class="tsd-signature-symbol">: </span><a href="../modules/_shape_.html#shapeobjrest" class="tsd-signature-type">ShapeObjRest</a></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>shapeObj: <span class="tsd-signature-type">K</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">K</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-symbol">{ </span>__computed<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/8cc0ba3/src/Shape.ts#L238">src/Shape.ts:238</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -405,7 +556,7 @@ shape.createShapeInst(<span class="hljs-string">"/path/to/folder"</span>, {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/a42f5a5/src/Shape.ts#L190">src/Shape.ts:190</a></li>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/8cc0ba3/src/Shape.ts#L204">src/Shape.ts:204</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -449,7 +600,7 @@ shape.createShapeInst(<span class="hljs-string">"/path/to/folder"</span>, {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/a42f5a5/src/Shape.ts#L160">src/Shape.ts:160</a></li>
+									<li>Defined in <a href="https://github.com/AliBasicCoder/fs-pro/blob/8cc0ba3/src/Shape.ts#L174">src/Shape.ts:174</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -557,6 +708,9 @@ shape.createShapeInst(<span class="hljs-string">"/path/to/folder"</span>, {
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
+						<a href="../modules/_shape_.html#oldrest" class="tsd-kind-icon">Old<wbr>Rest</a>
+					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
 						<a href="../modules/_shape_.html#shapedir" class="tsd-kind-icon">Shape<wbr>Dir</a>
 					</li>
@@ -570,7 +724,13 @@ shape.createShapeInst(<span class="hljs-string">"/path/to/folder"</span>, {
 						<a href="../modules/_shape_.html#shapeobj" class="tsd-kind-icon">Shape<wbr>Obj</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/_shape_.html#shapeobjrest" class="tsd-kind-icon">Shape<wbr>Obj<wbr>Rest</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
 						<a href="../modules/_shape_.html#shapeobjwithoutname" class="tsd-kind-icon">Shape<wbr>Obj<wbr>Without<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="../modules/_shape_.html#withrest" class="tsd-kind-icon">With<wbr>Rest</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
 						<a href="../modules/_shape_.html#createevents" class="tsd-kind-icon">create<wbr>Events</a>
@@ -582,7 +742,7 @@ shape.createShapeInst(<span class="hljs-string">"/path/to/folder"</span>, {
 						<a href="../modules/_shape_.html#switchtoshapeinstref" class="tsd-kind-icon">switch<wbr>ToShape<wbr>Inst<wbr>Ref</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-module">
-						<a href="../modules/_shape_.html#__rest" class="tsd-kind-icon">__rest</a>
+						<a href="../modules/_shape_.html#__rest-1" class="tsd-kind-icon">__rest</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-module">
 						<a href="../modules/_shape_.html#name_sym" class="tsd-kind-icon">name_<wbr>sym</a>
@@ -592,6 +752,9 @@ shape.createShapeInst(<span class="hljs-string">"/path/to/folder"</span>, {
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
 						<a href="../modules/_shape_.html#convertpatterntoregex" class="tsd-kind-icon">convert<wbr>Pattern<wbr>ToRegex</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
+						<a href="../modules/_shape_.html#convertshapefiletopattern" class="tsd-kind-icon">convert<wbr>Shape<wbr>File<wbr>ToPattern</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
 						<a href="../modules/_shape_.html#createeventregister" class="tsd-kind-icon">create<wbr>Event<wbr>Register</a>
