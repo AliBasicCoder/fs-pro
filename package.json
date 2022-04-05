@@ -14,7 +14,9 @@
     "build": "webpack && node tools/rm && dts-bundle --configJson dts-bundle.json && rimraf types",
     "test": "mocha ./test/test_node.js",
     "test:deno": "deno test --unstable -A test/deno_runner.ts",
-    "prepublishOnly": "yarn build && yarn test && yarn test:deno && yarn docs"
+    "prepublishOnly": "yarn build && yarn test && yarn test:deno && yarn docs",
+    "coverage": "deno test --unstable -A --coverage=coverage test/deno_runner.ts",
+    "coverage-html": "deno coverage coverage --lcov > coverage/coverage.lcov && genhtml -o coverage/html coverage/coverage.lcov"
   },
   "devDependencies": {
     "@types/mocha": "^8.0.3",

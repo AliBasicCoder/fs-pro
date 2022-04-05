@@ -3,5 +3,8 @@
   "deno.import_intellisense_origins": {
     "https://deno.land": true
   },
-  "deno.unstable": true
+  "deno.unstable": true,
+  "yaml.schemas": {
+    "https://json.schemastore.org/codecov.json": "file:///home/aliahmed/web/fs-pro/.github/workflows/codecov.yml"
+  }
 }
