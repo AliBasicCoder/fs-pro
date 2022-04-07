@@ -466,6 +466,7 @@ test({
 
 test({
   name: "File.chmod()",
+  ignore: platform === "deno" && operating_system === "windows",
   fn() {
     const file = File.tmpFile();
     file.chmod(600);

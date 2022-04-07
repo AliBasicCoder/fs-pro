@@ -406,6 +406,7 @@ export class File {
   }
   /**
    * changes the mode of the file
+   * @WARNING chmod does not work on windows on deno and will produce an error
    * @param mode the mode
    * @example ```js
    * file.chmod(0o400 + 0o200 + 0o100); // gives the owner read, write and execute permissions
