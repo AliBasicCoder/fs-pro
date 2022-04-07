@@ -362,10 +362,10 @@ export class File {
    * // move to absolute path
    * file.moveTo("/home/some_dir");
    * // move to a path relative to file path
-   * file.moveTo("../some_dir", null, true);
+   * file.moveTo("./some_dir", null, true);
    * // move and rename
    * file.moveTo("/home/some_dir", "newName.txt");
-   * file.moveTo("../some_dir", "newName.txt", true);
+   * file.moveTo("./some_dir", "newName.txt", true);
    *
    * file.write("hello world");
    * // ...
@@ -373,7 +373,7 @@ export class File {
    */
   moveTo(destination: string, rename?: null | string, isRelative?: boolean) {
     const dest = isRelative
-      ? join(this.path, destination, rename || "")
+      ? join(this.directory, destination, rename || this.base)
       : join(destination, rename || this.base);
     renameSync(this.path, dest);
     const { base, ext, dir, root, name } = parse(dest);
