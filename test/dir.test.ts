@@ -9,6 +9,7 @@ import {
   platform,
   operating_system,
   assert,
+  lstatSync,
 } from "./imports.ts";
 import { Dir } from "../src/dir.ts";
 import { File } from "../src/file.ts";
@@ -180,10 +181,17 @@ test({
 });
 
 test({
-  name: "Dir.stat()",
+  name: "Dir.stat(), .lstat(), .lastAccessed, .lastModified, .lastChanged, .createdAt, .size",
   fn() {
     const dir = Dir.tmpDir();
-    customEqual(dir.stat(), statSync(dir.path));
+    const expected = statSync(dir.path);
+    customEqual(dir.stat(), expected);
+    assertEquals(dir.lastAccessed, expected.atime);
+    assertEquals(dir.lastModified, expected.mtime);
+    assertEquals(dir.lastChanged, expected.ctime);
+    assertEquals(dir.createdAt, expected.birthtime);
+    assertEquals(dir.size, expected.size);
+    customEqual(dir.lstat(), lstatSync(dir.path));
   },
 });
 
