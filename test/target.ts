@@ -25,6 +25,7 @@ function load_node() {
     parse: path.parse,
     existsSync: fs.existsSync,
     statSync: fs.statSync,
+    lstatSync: fs.lstatSync,
     makeTempDirSync: () => tmp.dirSync().name,
     makeTempFileSync: () => tmp.fileSync().name,
     readTextFileSync: (path) => fs.readFileSync(path, "utf-8"),

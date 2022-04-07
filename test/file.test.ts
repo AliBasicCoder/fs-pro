@@ -15,6 +15,7 @@ import {
   readSync,
   assertThrows,
   operating_system,
+  lstatSync,
 } from "./imports.ts";
 import { File } from "../src/file.ts";
 import { Dir } from "../src/dir.ts";
@@ -265,7 +266,7 @@ test({
 });
 
 test({
-  name: "File.stat(), File.lastAccessed",
+  name: "File.stat(), .lstat(), .lastAccessed, .lastModified, .lastChanged, .createdAt",
   fn() {
     const file = File.tmpFile();
     const expected = statSync(file.path);
@@ -274,6 +275,7 @@ test({
     assertEquals(file.lastModified, expected.mtime);
     assertEquals(file.lastChanged, expected.ctime);
     assertEquals(file.createdAt, expected.birthtime);
+    customEqual(file.lstat(), lstatSync(file.path));
   },
 });
 

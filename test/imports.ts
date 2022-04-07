@@ -30,6 +30,7 @@ let imports: {
   join(...path: string[]): string;
   existsSync(path: string): boolean;
   statSync(path: string): Stats;
+  lstatSync(path: string): Stats;
   readTextFileSync(path: string): string;
   writeTextFileSync(path: string, data: string): void;
   readSync(fd: number, buffer: BufferType): void;
@@ -71,6 +72,9 @@ export const existsSync: typeof imports["existsSync"] = (...args) =>
 
 export const statSync: typeof imports["statSync"] = (...args) =>
   imports.statSync(...args);
+
+export const lstatSync: typeof imports["lstatSync"] = (...args) =>
+  imports.lstatSync(...args);
 
 export const readTextFileSync: typeof imports["readTextFileSync"] = (...args) =>
   imports.readTextFileSync(...args);
