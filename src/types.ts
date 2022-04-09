@@ -4,13 +4,13 @@ import type { fsProErr } from "./fsProErr.ts";
 import type { Shape } from "./Shape.ts";
 
 export type FSWatcher = {
-  on(event: string, callback: Function): void;
+  on(event: string, callback: () => void): void;
   close(): void;
 };
 
 export type Stats = StatsBase<number>;
 
-export type WatchListener = (e: string, path: string) => any;
+export type WatchListener = (e: string, path: string) => void;
 
 export type DirForeachOptions = {
   /** if true will loop recursively */
@@ -49,6 +49,7 @@ export type fsObjType = {
   rmdirSync(path: string, options?: { recursive?: boolean }): void;
   mkTempFile: () => string;
   mkTempDir: () => string;
+  // deno-lint-ignore ban-types
   watch: (path: string, listener?: Function) => FSWatcher;
   openSync: (path: string, flags?: string) => number;
   closeSync: (fd: number) => void;
@@ -72,7 +73,7 @@ export type obj<T> = {
   [key: string]: T;
 };
 
-export type objAny = obj<any>;
+export type objAny = obj<unknown>;
 
 /**
  * @param A the className
@@ -90,6 +91,7 @@ export type PluginData<A, B, C> =
       /** description for your method */
       desc?: string;
       /** the actual method (use the function keyword) */
+      // deno-lint-ignore no-explicit-any
       func: (this: B, ...args: any[]) => any;
     }
   | {
@@ -102,6 +104,7 @@ export type PluginData<A, B, C> =
       /** description for your method */
       desc?: string;
       /** the actual method (use the function keyword) */
+      // deno-lint-ignore no-explicit-any
       func: (this: C, ...args: any[]) => any;
     };
 
@@ -117,17 +120,18 @@ export interface Plugin {
   plugin: (
     | PluginData<"File", File, typeof File>
     | PluginData<"Dir", Dir, typeof Dir>
+    // deno-lint-ignore no-explicit-any
     | PluginData<"Shape", Shape<any>, typeof Shape>
   )[];
 }
 
 export interface validateOptions {
   /** called when an invalid file found */
-  onInvalidFile: (err: fsProErr, file: File) => any;
+  onInvalidFile: (err: fsProErr, file: File) => void;
   /** called when an invalid directory found */
-  onInvalidDir: (err: fsProErr, dir: Dir) => any;
+  onInvalidDir: (err: fsProErr, dir: Dir) => void;
   /** called when an invalid file or directory found */
-  onInvalid: (err: fsProErr, fileOrDir: File | Dir) => any;
+  onInvalid: (err: fsProErr, fileOrDir: File | Dir) => void;
 }
 
 // copied from @types/node/fs.d.ts
@@ -194,6 +198,7 @@ export interface BufferClass extends BufferConstructor {
   alloc(size: number, fill: string, encoding?: string): BufferType;
   allocUnsafe(size: number): BufferType;
   allocUnsafeSlow(size: number): BufferType;
+  // deno-lint-ignore no-explicit-any
   isBuffer(buff: any): buff is BufferType;
   byteLength(
     thing:

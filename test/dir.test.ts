@@ -160,7 +160,7 @@ test({
     const sub_dir = dir.createDir(randomDir());
     try {
       assertEquals(dir.read(), [sub_file.base, sub_dir.name]);
-    } catch (error) {
+    } catch (_) {
       assertEquals(dir.read(), [sub_dir.name, sub_file.base]);
     }
   },
@@ -174,7 +174,7 @@ test({
     const sub_file = dir.createFile(randomFile());
     try {
       assertEquals(dir.readResolve(), [sub_dir, sub_file]);
-    } catch (error) {
+    } catch (_) {
       assertEquals(dir.readResolve(), [sub_file, sub_dir]);
     }
   },
@@ -365,9 +365,9 @@ test({
     platform === "deno" ||
     (platform === "node" && operating_system === "darwin"),
   async fn() {
-    const track: any[] = [];
+    const track: [string, string][] = [];
     const dir = Dir.tmpDir();
-    dir.watch((...args: any[]) => track.push(args));
+    dir.watch((...args) => track.push(args));
     await wait(100);
     const sub_dir = dir.createDir("hi");
     await wait(100);
@@ -393,9 +393,9 @@ test({
   name: "Dir.watch(), Dir.unwatch() -- deno",
   ignore: platform === "node",
   async fn() {
-    const track: any[] = [];
+    const track: [string, string][] = [];
     const dir = Dir.tmpDir();
-    dir.watch((...args: any[]) => track.push(args));
+    dir.watch((...args) => track.push(args));
     await wait(100);
     const sub_dir = dir.createDir("hi");
     await wait(100);

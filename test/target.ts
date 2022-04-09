@@ -6,15 +6,15 @@ import "./shape.test.ts";
 import { setImports, tests, getImports } from "./imports.ts";
 
 function load_node() {
-  // @ts-ignore
+  // @ts-ignore: require is on node only
   const fs = require("fs");
-  // @ts-ignore
+  // @ts-ignore: ..
   const assert = require("assert");
-  // @ts-ignore
+  // @ts-ignore: ..
   const path = require("path");
-  // @ts-ignore
+  // @ts-ignore: ..
   const tmp = require("tmp");
-  // @ts-ignore
+  // @ts-ignore: ..
   const os = require("os");
 
   setImports({

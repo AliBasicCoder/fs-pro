@@ -132,7 +132,7 @@ export class File {
    * ```
    */
   write(
-    data: BufferType | string | obj<any>,
+    data: BufferType | string | obj<unknown>,
     position?: number,
     length?: number,
     offset?: number
@@ -166,7 +166,7 @@ export class File {
     buffer?: BufferType | TypedArray | DataView,
     offset?: number
   ): BufferType {
-    // @ts-ignore
+    // @ts-ignore: Deno is undefined on node
     if (typeof Deno !== "undefined" && (offset || buffer))
       throw new Error("offset and buffer are NOT ALLOWED on Deno");
     return readFileSync(this.path, position, length, buffer, offset);
@@ -267,7 +267,7 @@ export class File {
    * file.json() // => { hello: "world" }
    * ```
    */
-  json<T extends obj<any> | any[]>(): T {
+  json<T extends obj<unknown> | unknown[]>(): T {
     return JSON.parse(this.read().toString());
   }
   /**
@@ -290,13 +290,13 @@ export class File {
    * ```
    */
   watch(
-    listener?: (this: File, e: string, stat?: Stats, path?: string) => any
+    listener?: (this: File, e: string, stat?: Stats, path?: string) => void
   ) {
     const listen = (e: string, path?: string, stats?: Stats) => {
       listener?.call(this, e, stats, path);
     };
     this.watcher = watch(this.path, listen);
-    // @ts-ignore
+    // @ts-ignore: Deno is undefined on node
     if (typeof Deno === "undefined") this.watcher.on("all", listen);
     return this;
   }

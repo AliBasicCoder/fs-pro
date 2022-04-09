@@ -381,7 +381,7 @@ test({
     const block = () => {
       writeSync(fd, Buffer.from("hello world"));
       const result = Buffer.alloc(11);
-      // @ts-ignore
+      // @ts-ignore: no need to type this
       readSync(fd, result, 0, 11, 0);
       assertEquals(result.toString(), "hello world");
     };
@@ -397,7 +397,7 @@ test({
   async fn() {
     const track: string[] = [];
     const file = File.tmpFile();
-    file.watch((e: string, stats: any, path?: string) => {
+    file.watch((e: string, stats: unknown, path?: string) => {
       track.push(e);
       assert(!stats);
       assert(typeof path === "string");
@@ -425,7 +425,7 @@ test({
   async fn() {
     const track: string[] = [];
     const file = File.tmpFile();
-    file.watch((e: string, stats?: any, path?: string) => {
+    file.watch((e: string, stats?: unknown, path?: string) => {
       track.push(e);
       assert(!!stats);
       assert(typeof path === "string");

@@ -155,7 +155,7 @@ function customEquals(
 test({
   name: "Shape.validate() __rest 3",
   fn() {
-    [shape, shape2].forEach((s, i) => {
+    [shape, shape2].forEach((s) => {
       const dir = Dir.tmpDir();
       const file1 = dir.createFile("rest123.txt.some");
       const file2 = dir.createFile("something.any.some");
