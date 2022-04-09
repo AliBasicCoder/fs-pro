@@ -1,4 +1,4 @@
-name: Code Coverage
+name: Linting
 
 on:
   push:
