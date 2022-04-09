@@ -9,10 +9,12 @@ const index = {
   Shape,
 };
 
+// deno-lint-ignore no-explicit-any
 function getStaticMethods(cl: any) {
   return Object.getOwnPropertyNames(cl).slice(0, 2).slice(0, 1);
 }
 
+// deno-lint-ignore no-explicit-any
 function getMethods(cl: any) {
   return Object.getOwnPropertyNames(cl.prototype).slice(1);
 }
@@ -79,15 +81,17 @@ function checkIfOverwrites(element: Plugin["plugin"][0], pluginName: string) {
  */
 export function addPlugin(
   pluginWrapper: Plugin,
-  allowPluginOverwrite: boolean = false
+  allowPluginOverwrite = false,
+  ignoreIfAlreadyLoaded = false
 ) {
   const { requires, plugin } = pluginWrapper;
   if (requires) {
-    requires.forEach((rq) => addPlugin(rq));
+    requires.forEach((rq) => addPlugin(rq, false, true));
   }
   // prevent addPlugin form loading a plugin twice
   if (addedPlugins.includes(pluginWrapper.name)) {
-    throw new Error(`Plugin ${pluginWrapper.name} already loaded`);
+    if (ignoreIfAlreadyLoaded) return;
+    else throw new Error(`Plugin ${pluginWrapper.name} already loaded`);
   }
   for (let i = 0; i < plugin.length; i++) {
     const element = plugin[i];
@@ -97,7 +101,7 @@ export function addPlugin(
           `Plugin "${pluginWrapper.name}" tries to overwrite native methods`
         );
       if (!allowPluginOverwrite) checkIfOverwrites(element, pluginWrapper.name);
-      // @ts-ignore
+      // @ts-ignore: to overwrite methods
       index[element.className][element.methodName] = element.func;
     } else {
       if (native_methods[element.className].inst.includes(element.methodName))
@@ -105,7 +109,7 @@ export function addPlugin(
           `Plugin "${pluginWrapper.name}" tries to overwrite native methods`
         );
       if (!allowPluginOverwrite) checkIfOverwrites(element, pluginWrapper.name);
-      // @ts-ignore
+      // @ts-ignore: to overwrite methods
       index[element.className].prototype[element.methodName] = element.func;
     }
     track.push({
@@ -144,7 +148,7 @@ export function getPluginTrackFormatted(sort?: boolean) {
       methodName: string;
     }[];
   }[] = [];
-  let lastName: string = "";
+  let lastName = "";
   for (const item of track) {
     if (item.pluginName !== lastName) {
       res.push({
