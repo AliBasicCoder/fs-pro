@@ -2,18 +2,18 @@ import type { BufferType } from "../src/types.ts";
 
 interface Test {
   name: string;
-  fn: Function;
+  fn: () => void;
   ignore?: boolean;
 }
 
 export const tests: Test[] = [];
 
 export const platform =
-  // @ts-ignore
+  // @ts-ignore: Deno will be undefined on node
   typeof Deno === "undefined" ? "node" : "deno";
 
 export const operating_system: "darwin" | "linux" | "windows" =
-  // @ts-ignore
+  // @ts-ignore: Deno will be undefined on node
   platform === "deno" ? Deno.build.os : process.platform;
 
 export function test(obj: Test) {
@@ -23,7 +23,7 @@ export function test(obj: Test) {
 let imports: {
   assertEquals(actual: unknown, expected: unknown, msg?: string): void;
   assert(expr: unknown, msg?: string): void;
-  assertThrows(fn: Function): void;
+  assertThrows(fn: () => void): void;
   makeTempDirSync(): string;
   makeTempFileSync(): string;
   parse(path: string): ParsedPath;
