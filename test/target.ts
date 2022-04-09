@@ -6,15 +6,15 @@ import "./shape.test.ts";
 import { setImports, tests, getImports } from "./imports.ts";
 
 function load_node() {
-  // @ts-ignore
+  // @ts-ignore: require is on node only
   const fs = require("fs");
-  // @ts-ignore
+  // @ts-ignore: ..
   const assert = require("assert");
-  // @ts-ignore
+  // @ts-ignore: ..
   const path = require("path");
-  // @ts-ignore
+  // @ts-ignore: ..
   const tmp = require("tmp");
-  // @ts-ignore
+  // @ts-ignore: ..
   const os = require("os");
 
   setImports({
@@ -25,6 +25,7 @@ function load_node() {
     parse: path.parse,
     existsSync: fs.existsSync,
     statSync: fs.statSync,
+    lstatSync: fs.lstatSync,
     makeTempDirSync: () => tmp.dirSync().name,
     makeTempFileSync: () => tmp.fileSync().name,
     readTextFileSync: (path) => fs.readFileSync(path, "utf-8"),

@@ -4,7 +4,11 @@ import "./file.test.ts";
 import "./plugin.test.ts";
 import "./shape.test.ts";
 import { setImports, tests } from "./imports.ts";
-import { existsSync, statSync } from "https://deno.land/std@0.131.0/node/fs.ts";
+import {
+  existsSync,
+  statSync,
+  lstatSync,
+} from "https://deno.land/std@0.131.0/node/fs.ts";
 import { join, parse } from "https://deno.land/std@0.131.0/path/mod.ts";
 import {
   assertEquals,
@@ -23,6 +27,7 @@ function load_deno() {
     parse,
     existsSync,
     statSync,
+    lstatSync,
     makeTempFileSync: Deno.makeTempFileSync,
     makeTempDirSync: Deno.makeTempDirSync,
     readTextFileSync: Deno.readTextFileSync,

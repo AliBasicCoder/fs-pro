@@ -107,7 +107,7 @@ export class Dir {
    * ```
    */
   forEach(
-    callback: (fileOrDir: File | Dir) => any,
+    callback: (fileOrDir: File | Dir) => void,
     options: DirForeachOptions = {}
   ) {
     this.readResolve().forEach((thing) => {
@@ -128,7 +128,7 @@ export class Dir {
    * dir.forEachFile(file => console.log(file.path), { recursive: true });
    * ```
    */
-  forEachFile(callback: (file: File) => any, options: DirForeachOptions = {}) {
+  forEachFile(callback: (file: File) => void, options: DirForeachOptions = {}) {
     this.readResolve().forEach((thing) => {
       if (thing instanceof File) callback(thing);
       if (thing instanceof Dir && options.recursive)
@@ -147,7 +147,7 @@ export class Dir {
    * dir.forEachDir(dir => console.log(dir.path), { recursive: true })
    * ```
    */
-  forEachDir(callback: (dir: Dir) => any, options: DirForeachOptions = {}) {
+  forEachDir(callback: (dir: Dir) => void, options: DirForeachOptions = {}) {
     this.readResolve().forEach((thing) => {
       if (thing instanceof Dir) {
         callback(thing);
@@ -228,7 +228,7 @@ export class Dir {
   watch(listener?: WatchListener) {
     this.watcher = watch(this.path, listener);
     if (listener) {
-      // @ts-ignore
+      // @ts-ignore: Deno is undefined on node
       if (typeof Deno === "undefined") this.watcher.on("all", listener);
     }
     return this.watcher;

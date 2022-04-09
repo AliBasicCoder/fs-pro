@@ -15,6 +15,7 @@ import {
   readSync,
   assertThrows,
   operating_system,
+  lstatSync,
 } from "./imports.ts";
 import { File } from "../src/file.ts";
 import { Dir } from "../src/dir.ts";
@@ -265,10 +266,16 @@ test({
 });
 
 test({
-  name: "File.stat()",
+  name: "File.stat(), .lstat(), .lastAccessed, .lastModified, .lastChanged, .createdAt",
   fn() {
     const file = File.tmpFile();
-    customEqual(file.stat(), statSync(file.path));
+    const expected = statSync(file.path);
+    customEqual(file.stat(), expected);
+    assertEquals(file.lastAccessed, expected.atime);
+    assertEquals(file.lastModified, expected.mtime);
+    assertEquals(file.lastChanged, expected.ctime);
+    assertEquals(file.createdAt, expected.birthtime);
+    customEqual(file.lstat(), lstatSync(file.path));
   },
 });
 
@@ -342,6 +349,11 @@ test({
     file.moveTo(dist_dir.path);
     checkFileData(file, dist_dir.path, file.base);
     assertEquals(existsSync(file.path), true);
+    // isRelative
+    const file2 = File.tmpFile();
+    file2.moveTo(`./${dist_dir.name}`, null, true);
+    checkFileData(file, dist_dir.path, file.base);
+    assertEquals(existsSync(file.path), true);
   },
 });
 
@@ -369,7 +381,7 @@ test({
     const block = () => {
       writeSync(fd, Buffer.from("hello world"));
       const result = Buffer.alloc(11);
-      // @ts-ignore
+      // @ts-ignore: no need to type this
       readSync(fd, result, 0, 11, 0);
       assertEquals(result.toString(), "hello world");
     };
@@ -385,7 +397,7 @@ test({
   async fn() {
     const track: string[] = [];
     const file = File.tmpFile();
-    file.watch((e: string, stats: any, path?: string) => {
+    file.watch((e: string, stats: unknown, path?: string) => {
       track.push(e);
       assert(!stats);
       assert(typeof path === "string");
@@ -413,7 +425,7 @@ test({
   async fn() {
     const track: string[] = [];
     const file = File.tmpFile();
-    file.watch((e: string, stats?: any, path?: string) => {
+    file.watch((e: string, stats?: unknown, path?: string) => {
       track.push(e);
       assert(!!stats);
       assert(typeof path === "string");
@@ -432,3 +444,32 @@ test({
 function wait(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+test({
+  name: "File.size",
+  fn() {
+    const file = File.tmpFile();
+    const Buffer = buffer.getBuffer();
+    const toWrite = Buffer.from("hello world");
+    file.write(toWrite);
+    assertEquals(file.size, toWrite.byteLength);
+  },
+});
+
+test({
+  name: "File: error if path of folder is passed",
+  fn() {
+    const dir = Dir.tmpDir();
+    assertThrows(() => new File(dir.path));
+  },
+});
+
+test({
+  name: "File.chmod()",
+  ignore: platform === "deno" && operating_system === "windows",
+  fn() {
+    const file = File.tmpFile();
+    file.chmod(600);
+    assertThrows(() => file.write("test"));
+  },
+});

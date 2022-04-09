@@ -46,17 +46,20 @@ type OldRest = {
   __rest: ShapeObj | ShapeFile | ShapeDir;
 };
 
+// deno-lint-ignore no-explicit-any
 export const isShapeFile = (obj: any): obj is ShapeFile => obj.type === 0;
 
+// deno-lint-ignore no-explicit-any
 export const isShapeDir = (obj: any): obj is ShapeDir => obj.type === 1;
 
+// deno-lint-ignore no-explicit-any
 export const isShapeFilePattern = (obj: any): obj is ShapeFilePattern =>
   obj.type === 2;
 
 export type createEvents = {
-  onCreate?: (thing: File | Dir) => any;
-  onCreateFile?: (file: File) => any;
-  onCreateDir?: (thing: Dir) => any;
+  onCreate?: (thing: File | Dir) => void;
+  onCreateFile?: (file: File) => void;
+  onCreateDir?: (thing: Dir) => void;
 };
 
 export type errArr = {
@@ -64,6 +67,7 @@ export type errArr = {
   push: (err?: fsProErr | errArr) => void;
 };
 
+// deno-lint-ignore no-explicit-any
 export const isErrArr = (obj?: any): obj is errArr => obj.arr && obj.push;
 
 export class Shape<T extends ShapeObj> {
@@ -385,6 +389,7 @@ function createShapeInst(
   eventsListeners?: createEvents
 ) {
   const parentDir = new Dir(path).create();
+  // deno-lint-ignore no-explicit-any
   const result = {} as any;
   const eventRegister = createEventRegister(eventsListeners);
   eventRegister(parentDir);
@@ -433,7 +438,7 @@ function errArray(crash: boolean): errArr {
 function toFileOrDir(path: string) {
   try {
     return new Dir(path);
-  } catch (error) {
+  } catch (_) {
     return new File(path);
   }
 }
@@ -460,7 +465,7 @@ function validate(path: string, shapeObj: ShapeObj, crash = false) {
     namesChecked.push(name);
   }
   const restFiles = new Dir(path).readResolve().filter((fileOrDir) => {
-    // @ts-ignore
+    // @ts-ignore: i can't access properties optionally
     if (namesChecked.includes(fileOrDir.base || fileOrDir.name)) return false;
     return true;
   });
@@ -468,7 +473,7 @@ function validate(path: string, shapeObj: ShapeObj, crash = false) {
     let rest: ShapeObj | ShapeFile | ShapeDir | ShapeFilePattern =
       shapeObj.__rest || shapeObj[__rest];
     if (isShapeFile(rest)) rest = convertShapeFileToPattern(rest);
-    if (rest) errs.push(check(rest, fileOrDir, crash, true));
+    if (rest) errs.push(check(rest, fileOrDir, crash));
     else
       errs.push(
         new fsProErr(fileOrDir instanceof Dir ? "IDF" : "IFF", fileOrDir.path)
@@ -480,8 +485,7 @@ function validate(path: string, shapeObj: ShapeObj, crash = false) {
 function check(
   currentObj: ShapeObj | ShapeFile | ShapeDir | ShapeFilePattern,
   fileOrDir: File | Dir,
-  crash: boolean,
-  isRest = false
+  crash: boolean
 ) {
   if (isShapeFile(currentObj)) {
     if (fileOrDir instanceof Dir) {

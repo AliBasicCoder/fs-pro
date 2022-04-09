@@ -36,14 +36,15 @@ export function checkDirData(dir: Dir, ...paths: string[]) {
   assertEquals(dir.parentDirectory, actual.dir);
 }
 
+// deno-lint-ignore no-explicit-any
 export function customEqual(actual: any, expected: any) {
   if (Object.keys(actual).length !== Object.keys(expected).length) {
     throw new Error("Assertion Error: properties missing");
   }
   for (const key in expected) {
-    // @ts-ignore
+    // @ts-ignore:
     const expectedKey = expected[key];
-    // @ts-ignore
+    // @ts-ignore:
     const actualKey = actual[key];
     if (typeof expectedKey === "function") continue;
 

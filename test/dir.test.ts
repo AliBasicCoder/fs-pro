@@ -9,6 +9,7 @@ import {
   platform,
   operating_system,
   assert,
+  lstatSync,
 } from "./imports.ts";
 import { Dir } from "../src/dir.ts";
 import { File } from "../src/file.ts";
@@ -159,7 +160,7 @@ test({
     const sub_dir = dir.createDir(randomDir());
     try {
       assertEquals(dir.read(), [sub_file.base, sub_dir.name]);
-    } catch (error) {
+    } catch (_) {
       assertEquals(dir.read(), [sub_dir.name, sub_file.base]);
     }
   },
@@ -173,17 +174,24 @@ test({
     const sub_file = dir.createFile(randomFile());
     try {
       assertEquals(dir.readResolve(), [sub_dir, sub_file]);
-    } catch (error) {
+    } catch (_) {
       assertEquals(dir.readResolve(), [sub_file, sub_dir]);
     }
   },
 });
 
 test({
-  name: "Dir.stat()",
+  name: "Dir.stat(), .lstat(), .lastAccessed, .lastModified, .lastChanged, .createdAt, .size",
   fn() {
     const dir = Dir.tmpDir();
-    customEqual(dir.stat(), statSync(dir.path));
+    const expected = statSync(dir.path);
+    customEqual(dir.stat(), expected);
+    assertEquals(dir.lastAccessed, expected.atime);
+    assertEquals(dir.lastModified, expected.mtime);
+    assertEquals(dir.lastChanged, expected.ctime);
+    assertEquals(dir.createdAt, expected.birthtime);
+    assertEquals(dir.size, expected.size);
+    customEqual(dir.lstat(), lstatSync(dir.path));
   },
 });
 
@@ -357,9 +365,9 @@ test({
     platform === "deno" ||
     (platform === "node" && operating_system === "darwin"),
   async fn() {
-    const track: any[] = [];
+    const track: [string, string][] = [];
     const dir = Dir.tmpDir();
-    dir.watch((...args: any[]) => track.push(args));
+    dir.watch((...args) => track.push(args));
     await wait(100);
     const sub_dir = dir.createDir("hi");
     await wait(100);
@@ -385,9 +393,9 @@ test({
   name: "Dir.watch(), Dir.unwatch() -- deno",
   ignore: platform === "node",
   async fn() {
-    const track: any[] = [];
+    const track: [string, string][] = [];
     const dir = Dir.tmpDir();
-    dir.watch((...args: any[]) => track.push(args));
+    dir.watch((...args) => track.push(args));
     await wait(100);
     const sub_dir = dir.createDir("hi");
     await wait(100);

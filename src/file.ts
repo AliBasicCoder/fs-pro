@@ -132,7 +132,7 @@ export class File {
    * ```
    */
   write(
-    data: BufferType | string | obj<any>,
+    data: BufferType | string | obj<unknown>,
     position?: number,
     length?: number,
     offset?: number
@@ -166,7 +166,7 @@ export class File {
     buffer?: BufferType | TypedArray | DataView,
     offset?: number
   ): BufferType {
-    // @ts-ignore
+    // @ts-ignore: Deno is undefined on node
     if (typeof Deno !== "undefined" && (offset || buffer))
       throw new Error("offset and buffer are NOT ALLOWED on Deno");
     return readFileSync(this.path, position, length, buffer, offset);
@@ -267,7 +267,7 @@ export class File {
    * file.json() // => { hello: "world" }
    * ```
    */
-  json<T extends obj<any> | any[]>(): T {
+  json<T extends obj<unknown> | unknown[]>(): T {
     return JSON.parse(this.read().toString());
   }
   /**
@@ -290,13 +290,13 @@ export class File {
    * ```
    */
   watch(
-    listener?: (this: File, e: string, stat?: Stats, path?: string) => any
+    listener?: (this: File, e: string, stat?: Stats, path?: string) => void
   ) {
     const listen = (e: string, path?: string, stats?: Stats) => {
       listener?.call(this, e, stats, path);
     };
     this.watcher = watch(this.path, listen);
-    // @ts-ignore
+    // @ts-ignore: Deno is undefined on node
     if (typeof Deno === "undefined") this.watcher.on("all", listen);
     return this;
   }
@@ -362,10 +362,10 @@ export class File {
    * // move to absolute path
    * file.moveTo("/home/some_dir");
    * // move to a path relative to file path
-   * file.moveTo("../some_dir", null, true);
+   * file.moveTo("./some_dir", null, true);
    * // move and rename
    * file.moveTo("/home/some_dir", "newName.txt");
-   * file.moveTo("../some_dir", "newName.txt", true);
+   * file.moveTo("./some_dir", "newName.txt", true);
    *
    * file.write("hello world");
    * // ...
@@ -373,7 +373,7 @@ export class File {
    */
   moveTo(destination: string, rename?: null | string, isRelative?: boolean) {
     const dest = isRelative
-      ? join(this.path, destination, rename || "")
+      ? join(this.directory, destination, rename || this.base)
       : join(destination, rename || this.base);
     renameSync(this.path, dest);
     const { base, ext, dir, root, name } = parse(dest);
@@ -406,6 +406,7 @@ export class File {
   }
   /**
    * changes the mode of the file
+   * @WARNING chmod does not work on windows on deno and will produce an error
    * @param mode the mode
    * @example ```js
    * file.chmod(0o400 + 0o200 + 0o100); // gives the owner read, write and execute permissions
