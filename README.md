@@ -10,6 +10,7 @@
 [![npm](https://img.shields.io/npm/dm/fs-pro)](https://npmjs.com/package/fs-pro)
 [![npm bundle size](https://img.shields.io/bundlephobia/minzip/fs-pro)](https://npmjs.com/package/fs-pro)
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/AliBasicCoder/fs-pro/Node.js%20CI)](https://github.com/AliBasicCoder/fs-pro/actions?query=workflow%3A%22Node.js+CI%22)
+[![codecov](https://codecov.io/gh/AliBasicCoder/fs-pro/branch/master/graph/badge.svg?token=70KON9WEKT)](https://codecov.io/gh/AliBasicCoder/fs-pro)
 
 see the API documentation [here](https://alibasiccoder.github.io/fs-pro/)
 

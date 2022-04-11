@@ -123,3 +123,9 @@ a breaking changes version
 
 - #136
 - bug mentioned in #137
+
+## v3.11.0 Apr 11, 2022
+
+**Fixed**
+
+- Bug mentioned in #138

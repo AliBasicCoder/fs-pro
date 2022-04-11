@@ -5,12 +5,12 @@
   "files": ["./src/**/*", "./README.md", "./mod.ts"],
   "repository": "https://github.com/AliBasicCoder/fs-pro",
   "entry": "./mod.ts",
-  "version": "3.10.0",
+  "version": "3.11.0",
   "checkTests": "deno test -A --unstable test/deno_runner.ts",
   "checkFormat": false,
   "checkAll": true,
   "unlisted": false,
   "check": true,
-  "homepage": "https://github.com/AliBasicCoder/fs-pro",
+  "homepage": "https://alibasiccoder.github.io/fs-pro/",
   "ignore": []
 }
