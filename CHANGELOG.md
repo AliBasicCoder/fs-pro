@@ -129,3 +129,9 @@ a breaking changes version
 **Fixed**
 
 - Bug mentioned in #138
+
+## v3.12.0 May 26, 2022
+
+**Fixed**
+
+- correctly name `File.exits()` and `Dir.exits()` to `.exists()`
