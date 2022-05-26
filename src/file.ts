@@ -416,8 +416,16 @@ export class File {
     chmodSync(this.path, mode);
     return this;
   }
-  /** returns true if the file exits */
+  /**
+   * @deprecated
+   * returns true if the file exists
+   * */
   exits() {
+    console.warn("W03: 'exits' is deprecated use 'exists' instead");
+    return existsSync(this.path);
+  }
+  /** returns true if the file exists */
+  exists() {
     return existsSync(this.path);
   }
   /**

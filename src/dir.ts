@@ -328,8 +328,16 @@ export class Dir {
     this.root = root;
     return this;
   }
-  /** returns true if the directory exits */
+  /**
+   * @deprecated
+   * returns true if the directory exists
+   * */
   exits() {
+    console.warn("W03: 'exits' is deprecated use 'exists' instead");
+    return existsSync(this.path);
+  }
+  /** returns true if the directory exists */
+  exists() {
     return existsSync(this.path);
   }
   /**

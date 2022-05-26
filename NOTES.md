@@ -95,3 +95,19 @@ const shape = new Shape({
   [__rest]: Shape.Pattern("*.js"),
 });
 ```
+
+## W03
+
+`W03: 'exits' is deprecated use 'exists' instead`
+
+in version 3.11.0 and before methods 'exists' on File and Dir where named incorrectly to 'exits'
+
+so this fixes it
+
+### Solution
+
+```js
+file.exists();
+// or
+dir.exists();
+```
