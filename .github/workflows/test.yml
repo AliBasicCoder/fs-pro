@@ -22,7 +22,7 @@ jobs:
           CI: true
 
   test_macos_node:
-    runs-on: macos-latest
+    runs-on: macos-12
 
     steps:
       - uses: actions/checkout@v2
