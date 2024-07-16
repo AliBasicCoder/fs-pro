@@ -12,4 +12,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: denolib/setup-deno@v2
-      - run: deno lint src/*.ts test/*.ts --ignore=src/index.ts
+      - run: deno lint src/*.ts test/*.ts --ignore=src/node.ts

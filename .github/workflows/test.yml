@@ -47,7 +47,6 @@ jobs:
           node-version: 12
       - run: yarn install --frozen-lockfile
       - run: yarn build
-      - run: cat dist/fs-pro.d.ts
       - run: yarn test
         env:
           CI: true
