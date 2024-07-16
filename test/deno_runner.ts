@@ -32,6 +32,7 @@ function load_deno() {
     makeTempDirSync: Deno.makeTempDirSync,
     readTextFileSync: Deno.readTextFileSync,
     writeTextFileSync: Deno.writeTextFileSync,
+    // deno-lint-ignore no-deprecated-deno-api
     resources: Deno.resources,
     tempDir: () => tmp_dir,
     writeSync: () => {},

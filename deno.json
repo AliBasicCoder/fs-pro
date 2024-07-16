@@ -1,0 +1,12 @@
+{
+  "lint": {
+    "exclude": [
+      "src/node.ts",
+      "test/node_runner.ts"
+    ],
+    "include": [
+      "src/",
+      "test/"
+    ]
+  }
+}

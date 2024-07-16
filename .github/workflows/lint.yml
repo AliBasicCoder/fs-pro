@@ -7,9 +7,9 @@ on:
     branches: [master]
 
 jobs:
-  coverage:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: denolib/setup-deno@v2
-      - run: deno lint src/*.ts test/*.ts --ignore=src/node.ts
+      - run: deno lint
