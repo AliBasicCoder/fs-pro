@@ -1,6 +1,6 @@
 {
   "name": "fs-pro",
-  "version": "3.12.0",
+  "version": "3.12.1",
   "description": "working with files easily",
   "main": "dist/node.js",
   "types": "dist/node.d.ts",
