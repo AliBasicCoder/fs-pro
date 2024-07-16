@@ -4,5 +4,6 @@
   "deno.lint": true,
   "yaml.schemas": {
     "https://json.schemastore.org/codecov.json": "file:///home/aliahmed/web/fs-pro/.github/workflows/codecov.yml"
-  }
+  },
+  "deno.disablePaths": ["./src/index.ts", "./tools", "./dist", "./src/node.ts", "./test/node_runner.ts"]
 }

@@ -1,14 +1,14 @@
-import { Dir } from "./dir.ts";
-import { File } from "./file.ts";
+import { Dir } from "./dir";
+import { File } from "./file";
 import {
   addPlugin,
   getPluginTrack,
   getPluginTrackFormatted,
-} from "./pluginAdder.ts";
-import { setFs, getFs } from "./fs.ts";
-import { setPath } from "./path.ts";
-import { Shape, __rest } from "./Shape.ts";
-import { buffer } from "./buffer.ts";
+} from "./pluginAdder";
+import { setFs, getFs } from "./fs";
+import { setPath } from "./path";
+import { Shape, __rest } from "./Shape";
+import { buffer } from "./buffer";
 import { watch } from "chokidar";
 import {
   appendFileSync,

@@ -5,7 +5,7 @@
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "types",
+    "outDir": "dist",
     "declaration": true,
     "allowJs": true
   },
